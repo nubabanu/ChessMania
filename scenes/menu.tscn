@@ -41,11 +41,11 @@ text = "Tamarlane"
 layout_mode = 2
 text = "Total War"
 
-[node name="Fisher" type="Button" parent="MarginContainer/VBoxContainer"]
+[node name="Fischer" type="Button" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
-text = "Fisher"
+text = "Fischer"
 
 [connection signal="pressed" from="MarginContainer/VBoxContainer/Standard" to="." method="_on_standard_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/Tamerlane" to="." method="_on_tamerlane_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/TotalWar" to="." method="_on_total_war_pressed"]
-[connection signal="pressed" from="MarginContainer/VBoxContainer/Fisher" to="." method="_on_fisher_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/Fischer" to="." method="_on_fisher_pressed"]
