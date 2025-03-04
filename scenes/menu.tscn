@@ -1,0 +1,51 @@
+[gd_scene load_steps=2 format=3 uid="uid://ceosmbjdkdma"]
+
+[ext_resource type="Script" path="res://MenuScripts/menu.gd" id="1_1wb2e"]
+
+[node name="Menu" type="Control"]
+layout_mode = 3
+anchor_left = 0.004
+anchor_right = 0.082
+anchor_bottom = 0.21
+offset_left = 1235.39
+offset_top = 690.0
+offset_right = 1145.54
+offset_bottom = 553.92
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(4.93197, 4.2297)
+size_flags_horizontal = 4
+tooltip_text = "Welcome to ChessMania"
+script = ExtResource("1_1wb2e")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+offset_left = -198.298
+offset_top = -163.132
+offset_right = -107.298
+offset_bottom = -27.132
+scale = Vector2(1.41378, 1.14842)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="Standard" type="Button" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Standard"
+
+[node name="Tamerlane" type="Button" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Tamarlane"
+
+[node name="TotalWar" type="Button" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Total War"
+
+[node name="Fisher" type="Button" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Fisher"
+
+[connection signal="pressed" from="MarginContainer/VBoxContainer/Standard" to="." method="_on_standard_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/Tamerlane" to="." method="_on_tamerlane_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/TotalWar" to="." method="_on_total_war_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/Fisher" to="." method="_on_fisher_pressed"]
