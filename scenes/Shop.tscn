@@ -1,30 +1,15 @@
-[gd_scene load_steps=14 format=3 uid="uid://bogt5xugvoja7"]
+[gd_scene load_steps=9 format=3 uid="uid://bogt5xugvoja7"]
 
 [ext_resource type="Script" uid="uid://cgteomq2xduj6" path="res://TotalWarScripts/Shop.gd" id="1_fpbbi"]
 [ext_resource type="Texture2D" uid="uid://dl5dp47xg34sb" path="res://ChessTextures/WPawn.svg" id="1_yltc6"]
 [ext_resource type="Texture2D" uid="uid://bal1cx2x7hk7l" path="res://ChessTextures/WBishop.svg" id="2_fpbbi"]
-[ext_resource type="Texture2D" uid="uid://1sql4pmy32c8" path="res://ChessTextures/BPawn.svg" id="3_47hci"]
-[ext_resource type="Script" uid="uid://bvrfrbijroioe" path="res://TotalWarScripts/Button.gd" id="3_ht580"]
+[ext_resource type="Texture2D" uid="uid://7wp4y0hbi1ee" path="res://Assets/ShopBackground.webp" id="2_hd80v"]
 [ext_resource type="Texture2D" uid="uid://dnp45xyp0eesa" path="res://ChessTextures/WKnight.svg" id="3_m0qts"]
 [ext_resource type="Texture2D" uid="uid://qisaumos7b53" path="res://ChessTextures/WRook.svg" id="4_ht580"]
 [ext_resource type="Texture2D" uid="uid://cr1lku07l36wb" path="res://ChessTextures/WQueen.svg" id="5_skkvx"]
-[ext_resource type="Texture2D" uid="uid://ca8t2shoassp2" path="res://ChessTextures/BBishop.svg" id="6_hd80v"]
-[ext_resource type="Texture2D" uid="uid://bjneg3fh7mu2e" path="res://ChessTextures/BKnight.svg" id="8_abjrc"]
-[ext_resource type="Texture2D" uid="uid://2an2oqh0ks1y" path="res://ChessTextures/BRook.svg" id="10_jccym"]
-[ext_resource type="Texture2D" uid="uid://cla2mshxp0elx" path="res://ChessTextures/BQueen.svg" id="12_plhqw"]
+[ext_resource type="FontFile" uid="uid://ccayte7og7sqr" path="res://Assets/I-pixel-u.ttf" id="14_abjrc"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_47hci"]
-bg_color = Color(0, 0, 0, 0.249)
-border_width_left = 3
-border_width_top = 3
-border_width_right = 3
-border_width_bottom = 3
-corner_radius_top_left = 20
-corner_radius_top_right = 20
-corner_radius_bottom_right = 20
-corner_radius_bottom_left = 20
-
-[node name="Store" type="Node2D"]
+[node name="Shop" type="Node2D"]
 
 [node name="Control" type="Control" parent="."]
 layout_mode = 3
@@ -33,121 +18,357 @@ offset_right = 40.0
 offset_bottom = 40.0
 script = ExtResource("1_fpbbi")
 
-[node name="MoneyLabel" type="Label" parent="Control"]
-layout_mode = 2
-offset_left = 524.0
-offset_top = 77.0
-offset_right = 688.0
-offset_bottom = 100.0
-text = "Money: 100"
-vertical_alignment = 1
+[node name="BackgroundTexture" type="TextureRect" parent="Control"]
+layout_mode = 0
+offset_top = -225.0
+offset_right = 1152.0
+offset_bottom = 799.0
+texture = ExtResource("2_hd80v")
+stretch_mode = 6
 
-[node name="MarginContainer" type="MarginContainer" parent="Control"]
+[node name="MoneyContainer" type="HBoxContainer" parent="Control"]
 layout_mode = 1
-offset_right = 1080.0
-offset_bottom = 600.0
+offset_left = 923.0
+offset_right = 1151.0
+offset_bottom = 53.0
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Control/MarginContainer"]
+[node name="Label" type="Label" parent="Control/MoneyContainer"]
 layout_mode = 2
+theme_override_fonts/font = ExtResource("14_abjrc")
+theme_override_font_sizes/font_size = 36
+text = "Money:"
 
-[node name="Label" type="Label" parent="Control/MarginContainer/VBoxContainer"]
+[node name="MoneyAmount" type="Label" parent="Control/MoneyContainer"]
 layout_mode = 2
-text = "SHOP"
-horizontal_alignment = 1
+theme_override_fonts/font = ExtResource("14_abjrc")
+theme_override_font_sizes/font_size = 42
+text = "1000"
 
-[node name="GridContainer" type="GridContainer" parent="Control/MarginContainer/VBoxContainer"]
-layout_mode = 2
+[node name="PiecesContainer" type="GridContainer" parent="Control"]
+layout_mode = 1
+offset_left = -1.0
+offset_top = 76.0
+offset_right = 690.0
+offset_bottom = 250.0
+scale = Vector2(1.65, 1.65)
+theme_override_constants/h_separation = 150
 columns = 5
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Control/MarginContainer/VBoxContainer/GridContainer"]
+[node name="PieceShopItem" type="Control" parent="Control/PiecesContainer"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="Control/MarginContainer/VBoxContainer/GridContainer/VBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/PiecesContainer/PieceShopItem"]
+layout_mode = 0
+offset_right = 92.0
+offset_bottom = 165.0
+
+[node name="NameLabel" type="Label" parent="Control/PiecesContainer/PieceShopItem/VBoxContainer"]
 layout_mode = 2
+theme_override_fonts/font = ExtResource("14_abjrc")
+theme_override_font_sizes/font_size = 24
 text = "PAWN"
 horizontal_alignment = 1
+vertical_alignment = 1
 
-[node name="Pawn" type="TextureButton" parent="Control/MarginContainer/VBoxContainer/GridContainer/VBoxContainer" groups=["shop_buttons"]]
-custom_minimum_size = Vector2(80, 80)
+[node name="Portrait" type="TextureRect" parent="Control/PiecesContainer/PieceShopItem/VBoxContainer"]
 layout_mode = 2
-tooltip_text = "Buy Pawn - 10 Gold"
-texture_normal = ExtResource("1_yltc6")
-texture_pressed = ExtResource("1_yltc6")
-texture_hover = ExtResource("3_47hci")
-stretch_mode = 0
+texture = ExtResource("1_yltc6")
+stretch_mode = 5
 
-[node name="VBoxContainer2" type="VBoxContainer" parent="Control/MarginContainer/VBoxContainer/GridContainer"]
+[node name="Price" type="Label" parent="Control/PiecesContainer/PieceShopItem/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(57.459, 29.834, 0, 1)
+theme_override_fonts/font = ExtResource("14_abjrc")
+theme_override_font_sizes/font_size = 24
+text = "1P"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="QuantityContainer" type="HBoxContainer" parent="Control/PiecesContainer/PieceShopItem/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 10
+alignment = 1
+
+[node name="MinusButton" type="Button" parent="Control/PiecesContainer/PieceShopItem/VBoxContainer/QuantityContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("14_abjrc")
+theme_override_font_sizes/font_size = 32
+text = "-"
+
+[node name="QuantityLabel" type="Label" parent="Control/PiecesContainer/PieceShopItem/VBoxContainer/QuantityContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+theme_override_fonts/font = ExtResource("14_abjrc")
+theme_override_font_sizes/font_size = 32
+text = "0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PlusButton" type="Button" parent="Control/PiecesContainer/PieceShopItem/VBoxContainer/QuantityContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("14_abjrc")
+theme_override_font_sizes/font_size = 32
+text = "+"
+
+[node name="PieceShopItem2" type="Control" parent="Control/PiecesContainer"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="Control/MarginContainer/VBoxContainer/GridContainer/VBoxContainer2"]
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/PiecesContainer/PieceShopItem2"]
+layout_mode = 0
+offset_right = 92.0
+offset_bottom = 165.0
+
+[node name="NameLabel" type="Label" parent="Control/PiecesContainer/PieceShopItem2/VBoxContainer"]
 layout_mode = 2
+theme_override_fonts/font = ExtResource("14_abjrc")
+theme_override_font_sizes/font_size = 24
 text = "BISHOP"
 horizontal_alignment = 1
+vertical_alignment = 1
 
-[node name="Bishop" type="TextureButton" parent="Control/MarginContainer/VBoxContainer/GridContainer/VBoxContainer2" groups=["shop_buttons"]]
-custom_minimum_size = Vector2(80, 80)
+[node name="Portrait" type="TextureRect" parent="Control/PiecesContainer/PieceShopItem2/VBoxContainer"]
 layout_mode = 2
-tooltip_text = "Buy Bishop - 20 Gold"
-texture_normal = ExtResource("2_fpbbi")
-texture_pressed = ExtResource("2_fpbbi")
-texture_hover = ExtResource("6_hd80v")
-stretch_mode = 0
-script = ExtResource("3_ht580")
+texture = ExtResource("2_fpbbi")
+stretch_mode = 5
 
-[node name="VBoxContainer3" type="VBoxContainer" parent="Control/MarginContainer/VBoxContainer/GridContainer"]
+[node name="Price" type="Label" parent="Control/PiecesContainer/PieceShopItem2/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(57.459, 29.834, 0, 1)
+theme_override_fonts/font = ExtResource("14_abjrc")
+theme_override_font_sizes/font_size = 24
+text = "3P"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="QuantityContainer" type="HBoxContainer" parent="Control/PiecesContainer/PieceShopItem2/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 10
+alignment = 1
+
+[node name="MinusButton" type="Button" parent="Control/PiecesContainer/PieceShopItem2/VBoxContainer/QuantityContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("14_abjrc")
+theme_override_font_sizes/font_size = 32
+text = "-"
+
+[node name="QuantityLabel" type="Label" parent="Control/PiecesContainer/PieceShopItem2/VBoxContainer/QuantityContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+theme_override_fonts/font = ExtResource("14_abjrc")
+theme_override_font_sizes/font_size = 32
+text = "0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PlusButton" type="Button" parent="Control/PiecesContainer/PieceShopItem2/VBoxContainer/QuantityContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("14_abjrc")
+theme_override_font_sizes/font_size = 32
+text = "+"
+
+[node name="PieceShopItem3" type="Control" parent="Control/PiecesContainer"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="Control/MarginContainer/VBoxContainer/GridContainer/VBoxContainer3"]
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/PiecesContainer/PieceShopItem3"]
+layout_mode = 0
+offset_right = 92.0
+offset_bottom = 165.0
+
+[node name="NameLabel" type="Label" parent="Control/PiecesContainer/PieceShopItem3/VBoxContainer"]
 layout_mode = 2
+theme_override_fonts/font = ExtResource("14_abjrc")
+theme_override_font_sizes/font_size = 24
 text = "KNIGHT"
 horizontal_alignment = 1
+vertical_alignment = 1
 
-[node name="Knight" type="TextureButton" parent="Control/MarginContainer/VBoxContainer/GridContainer/VBoxContainer3" groups=["shop_buttons"]]
-custom_minimum_size = Vector2(80, 80)
+[node name="Portrait" type="TextureRect" parent="Control/PiecesContainer/PieceShopItem3/VBoxContainer"]
 layout_mode = 2
-tooltip_text = "Buy Knight - 30 Gold"
-texture_normal = ExtResource("3_m0qts")
-texture_pressed = ExtResource("3_m0qts")
-texture_hover = ExtResource("8_abjrc")
-stretch_mode = 0
-script = ExtResource("3_ht580")
+texture = ExtResource("3_m0qts")
+stretch_mode = 5
 
-[node name="VBoxContainer4" type="VBoxContainer" parent="Control/MarginContainer/VBoxContainer/GridContainer"]
+[node name="Price" type="Label" parent="Control/PiecesContainer/PieceShopItem3/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(57.459, 29.834, 0, 1)
+theme_override_fonts/font = ExtResource("14_abjrc")
+theme_override_font_sizes/font_size = 24
+text = "3P"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="QuantityContainer" type="HBoxContainer" parent="Control/PiecesContainer/PieceShopItem3/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 10
+alignment = 1
+
+[node name="MinusButton" type="Button" parent="Control/PiecesContainer/PieceShopItem3/VBoxContainer/QuantityContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("14_abjrc")
+theme_override_font_sizes/font_size = 32
+text = "-"
+
+[node name="QuantityLabel" type="Label" parent="Control/PiecesContainer/PieceShopItem3/VBoxContainer/QuantityContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+theme_override_fonts/font = ExtResource("14_abjrc")
+theme_override_font_sizes/font_size = 32
+text = "0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PlusButton" type="Button" parent="Control/PiecesContainer/PieceShopItem3/VBoxContainer/QuantityContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("14_abjrc")
+theme_override_font_sizes/font_size = 32
+text = "+"
+
+[node name="PieceShopItem4" type="Control" parent="Control/PiecesContainer"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="Control/MarginContainer/VBoxContainer/GridContainer/VBoxContainer4"]
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/PiecesContainer/PieceShopItem4"]
+layout_mode = 0
+offset_right = 92.0
+offset_bottom = 165.0
+
+[node name="NameLabel" type="Label" parent="Control/PiecesContainer/PieceShopItem4/VBoxContainer"]
 layout_mode = 2
+theme_override_fonts/font = ExtResource("14_abjrc")
+theme_override_font_sizes/font_size = 24
 text = "ROOK"
 horizontal_alignment = 1
+vertical_alignment = 1
 
-[node name="Rook" type="TextureButton" parent="Control/MarginContainer/VBoxContainer/GridContainer/VBoxContainer4" groups=["shop_buttons"]]
-custom_minimum_size = Vector2(80, 80)
+[node name="Portrait" type="TextureRect" parent="Control/PiecesContainer/PieceShopItem4/VBoxContainer"]
 layout_mode = 2
-tooltip_text = "Buy Rook - 40 Gold"
-texture_normal = ExtResource("4_ht580")
-texture_pressed = ExtResource("4_ht580")
-texture_hover = ExtResource("10_jccym")
-stretch_mode = 0
-script = ExtResource("3_ht580")
+texture = ExtResource("4_ht580")
+stretch_mode = 5
 
-[node name="VBoxContainer5" type="VBoxContainer" parent="Control/MarginContainer/VBoxContainer/GridContainer"]
+[node name="Price" type="Label" parent="Control/PiecesContainer/PieceShopItem4/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(57.459, 29.834, 0, 1)
+theme_override_fonts/font = ExtResource("14_abjrc")
+theme_override_font_sizes/font_size = 24
+text = "5P"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="QuantityContainer" type="HBoxContainer" parent="Control/PiecesContainer/PieceShopItem4/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 10
+alignment = 1
+
+[node name="MinusButton" type="Button" parent="Control/PiecesContainer/PieceShopItem4/VBoxContainer/QuantityContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("14_abjrc")
+theme_override_font_sizes/font_size = 32
+text = "-"
+
+[node name="QuantityLabel" type="Label" parent="Control/PiecesContainer/PieceShopItem4/VBoxContainer/QuantityContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+theme_override_fonts/font = ExtResource("14_abjrc")
+theme_override_font_sizes/font_size = 32
+text = "0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PlusButton" type="Button" parent="Control/PiecesContainer/PieceShopItem4/VBoxContainer/QuantityContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("14_abjrc")
+theme_override_font_sizes/font_size = 32
+text = "+"
+
+[node name="PieceShopItem5" type="Control" parent="Control/PiecesContainer"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="Control/MarginContainer/VBoxContainer/GridContainer/VBoxContainer5"]
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/PiecesContainer/PieceShopItem5"]
+layout_mode = 0
+offset_right = 92.0
+offset_bottom = 165.0
+
+[node name="NameLabel" type="Label" parent="Control/PiecesContainer/PieceShopItem5/VBoxContainer"]
 layout_mode = 2
+theme_override_fonts/font = ExtResource("14_abjrc")
+theme_override_font_sizes/font_size = 24
 text = "QUEEN"
 horizontal_alignment = 1
+vertical_alignment = 1
 
-[node name="Queen" type="TextureButton" parent="Control/MarginContainer/VBoxContainer/GridContainer/VBoxContainer5" groups=["shop_buttons"]]
-custom_minimum_size = Vector2(80, 80)
+[node name="Portrait" type="TextureRect" parent="Control/PiecesContainer/PieceShopItem5/VBoxContainer"]
 layout_mode = 2
-tooltip_text = "Buy Queen - 50 Gold"
-texture_normal = ExtResource("5_skkvx")
-texture_pressed = ExtResource("5_skkvx")
-texture_hover = ExtResource("12_plhqw")
-stretch_mode = 0
-script = ExtResource("3_ht580")
+texture = ExtResource("5_skkvx")
+stretch_mode = 5
 
-[node name="Panel" type="Panel" parent="Control/MarginContainer"]
+[node name="Price" type="Label" parent="Control/PiecesContainer/PieceShopItem5/VBoxContainer"]
 layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_47hci")
+theme_override_colors/font_color = Color(57.459, 29.834, 0, 1)
+theme_override_fonts/font = ExtResource("14_abjrc")
+theme_override_font_sizes/font_size = 24
+text = "8P"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="QuantityContainer" type="HBoxContainer" parent="Control/PiecesContainer/PieceShopItem5/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 10
+alignment = 1
+
+[node name="MinusButton" type="Button" parent="Control/PiecesContainer/PieceShopItem5/VBoxContainer/QuantityContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("14_abjrc")
+theme_override_font_sizes/font_size = 32
+text = "-"
+
+[node name="QuantityLabel" type="Label" parent="Control/PiecesContainer/PieceShopItem5/VBoxContainer/QuantityContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+theme_override_fonts/font = ExtResource("14_abjrc")
+theme_override_font_sizes/font_size = 32
+text = "0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PlusButton" type="Button" parent="Control/PiecesContainer/PieceShopItem5/VBoxContainer/QuantityContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("14_abjrc")
+theme_override_font_sizes/font_size = 32
+text = "+"
+
+[node name="ButtonsContainer" type="HSplitContainer" parent="Control"]
+layout_mode = 0
+offset_left = 532.0
+offset_top = 533.0
+offset_right = 738.0
+offset_bottom = 566.0
+scale = Vector2(3, 3)
+theme_override_constants/separation = 10
+theme_override_constants/minimum_grab_thickness = 0
+
+[node name="ResetButton" type="Button" parent="Control/ButtonsContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
+theme_override_colors/font_hover_color = Color(0.992794, 0.258832, 0.199953, 1)
+theme_override_colors/font_color = Color(0.849573, 0.0541859, 0.0310228, 1)
+theme_override_constants/outline_size = 5
+theme_override_fonts/font = ExtResource("14_abjrc")
+theme_override_font_sizes/font_size = 20
+text = "RESET"
+flat = true
+
+[node name="ConfirmButton" type="Button" parent="Control/ButtonsContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 4
+theme_override_colors/font_hover_color = Color(0.33458, 0.998899, 0.306519, 1)
+theme_override_colors/font_color = Color(0, 29.282, 0, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 5
+theme_override_fonts/font = ExtResource("14_abjrc")
+theme_override_font_sizes/font_size = 20
+text = "CONFIRM"
