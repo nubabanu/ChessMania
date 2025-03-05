@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://ceosmbjdkdma"]
 
-[ext_resource type="Script" path="res://MenuScripts/menu.gd" id="1_1wb2e"]
+[ext_resource type="Script" path="res://MenuScripts/menu.gd" id="1_3etqq"]
 
 [node name="Menu" type="Control"]
 layout_mode = 3
@@ -16,7 +16,7 @@ grow_vertical = 2
 scale = Vector2(4.93197, 4.2297)
 size_flags_horizontal = 4
 tooltip_text = "Welcome to ChessMania"
-script = ExtResource("1_1wb2e")
+script = ExtResource("1_3etqq")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 1
