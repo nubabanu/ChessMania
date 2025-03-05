@@ -42,38 +42,32 @@ offset_bottom = 100.0
 text = "Money: 100"
 vertical_alignment = 1
 
-[node name="Panel" type="Panel" parent="Control"]
-layout_mode = 2
-offset_right = 1080.0
-offset_bottom = 600.0
-theme_override_styles/panel = SubResource("StyleBoxFlat_47hci")
-
-[node name="MarginContainer" type="MarginContainer" parent="Control/Panel"]
+[node name="MarginContainer" type="MarginContainer" parent="Control"]
 layout_mode = 1
 offset_right = 1080.0
 offset_bottom = 600.0
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Control/Panel/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/MarginContainer"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="Control/Panel/MarginContainer/VBoxContainer"]
+[node name="Label" type="Label" parent="Control/MarginContainer/VBoxContainer"]
 layout_mode = 2
 text = "SHOP"
 horizontal_alignment = 1
 
-[node name="GridContainer" type="GridContainer" parent="Control/Panel/MarginContainer/VBoxContainer"]
+[node name="GridContainer" type="GridContainer" parent="Control/MarginContainer/VBoxContainer"]
 layout_mode = 2
 columns = 5
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Control/Panel/MarginContainer/VBoxContainer/GridContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/MarginContainer/VBoxContainer/GridContainer"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="Control/Panel/MarginContainer/VBoxContainer/GridContainer/VBoxContainer"]
+[node name="Label" type="Label" parent="Control/MarginContainer/VBoxContainer/GridContainer/VBoxContainer"]
 layout_mode = 2
 text = "PAWN"
 horizontal_alignment = 1
 
-[node name="Pawn" type="TextureButton" parent="Control/Panel/MarginContainer/VBoxContainer/GridContainer/VBoxContainer" groups=["shop_buttons"]]
+[node name="Pawn" type="TextureButton" parent="Control/MarginContainer/VBoxContainer/GridContainer/VBoxContainer" groups=["shop_buttons"]]
 custom_minimum_size = Vector2(80, 80)
 layout_mode = 2
 tooltip_text = "Buy Pawn - 10 Gold"
@@ -82,15 +76,15 @@ texture_pressed = ExtResource("1_yltc6")
 texture_hover = ExtResource("3_47hci")
 stretch_mode = 0
 
-[node name="VBoxContainer2" type="VBoxContainer" parent="Control/Panel/MarginContainer/VBoxContainer/GridContainer"]
+[node name="VBoxContainer2" type="VBoxContainer" parent="Control/MarginContainer/VBoxContainer/GridContainer"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="Control/Panel/MarginContainer/VBoxContainer/GridContainer/VBoxContainer2"]
+[node name="Label" type="Label" parent="Control/MarginContainer/VBoxContainer/GridContainer/VBoxContainer2"]
 layout_mode = 2
 text = "BISHOP"
 horizontal_alignment = 1
 
-[node name="Bishop" type="TextureButton" parent="Control/Panel/MarginContainer/VBoxContainer/GridContainer/VBoxContainer2" groups=["shop_buttons"]]
+[node name="Bishop" type="TextureButton" parent="Control/MarginContainer/VBoxContainer/GridContainer/VBoxContainer2" groups=["shop_buttons"]]
 custom_minimum_size = Vector2(80, 80)
 layout_mode = 2
 tooltip_text = "Buy Bishop - 20 Gold"
@@ -100,15 +94,15 @@ texture_hover = ExtResource("6_hd80v")
 stretch_mode = 0
 script = ExtResource("3_ht580")
 
-[node name="VBoxContainer3" type="VBoxContainer" parent="Control/Panel/MarginContainer/VBoxContainer/GridContainer"]
+[node name="VBoxContainer3" type="VBoxContainer" parent="Control/MarginContainer/VBoxContainer/GridContainer"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="Control/Panel/MarginContainer/VBoxContainer/GridContainer/VBoxContainer3"]
+[node name="Label" type="Label" parent="Control/MarginContainer/VBoxContainer/GridContainer/VBoxContainer3"]
 layout_mode = 2
 text = "KNIGHT"
 horizontal_alignment = 1
 
-[node name="Knight" type="TextureButton" parent="Control/Panel/MarginContainer/VBoxContainer/GridContainer/VBoxContainer3" groups=["shop_buttons"]]
+[node name="Knight" type="TextureButton" parent="Control/MarginContainer/VBoxContainer/GridContainer/VBoxContainer3" groups=["shop_buttons"]]
 custom_minimum_size = Vector2(80, 80)
 layout_mode = 2
 tooltip_text = "Buy Knight - 30 Gold"
@@ -118,15 +112,15 @@ texture_hover = ExtResource("8_abjrc")
 stretch_mode = 0
 script = ExtResource("3_ht580")
 
-[node name="VBoxContainer4" type="VBoxContainer" parent="Control/Panel/MarginContainer/VBoxContainer/GridContainer"]
+[node name="VBoxContainer4" type="VBoxContainer" parent="Control/MarginContainer/VBoxContainer/GridContainer"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="Control/Panel/MarginContainer/VBoxContainer/GridContainer/VBoxContainer4"]
+[node name="Label" type="Label" parent="Control/MarginContainer/VBoxContainer/GridContainer/VBoxContainer4"]
 layout_mode = 2
 text = "ROOK"
 horizontal_alignment = 1
 
-[node name="Rook" type="TextureButton" parent="Control/Panel/MarginContainer/VBoxContainer/GridContainer/VBoxContainer4" groups=["shop_buttons"]]
+[node name="Rook" type="TextureButton" parent="Control/MarginContainer/VBoxContainer/GridContainer/VBoxContainer4" groups=["shop_buttons"]]
 custom_minimum_size = Vector2(80, 80)
 layout_mode = 2
 tooltip_text = "Buy Rook - 40 Gold"
@@ -136,15 +130,15 @@ texture_hover = ExtResource("10_jccym")
 stretch_mode = 0
 script = ExtResource("3_ht580")
 
-[node name="VBoxContainer5" type="VBoxContainer" parent="Control/Panel/MarginContainer/VBoxContainer/GridContainer"]
+[node name="VBoxContainer5" type="VBoxContainer" parent="Control/MarginContainer/VBoxContainer/GridContainer"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="Control/Panel/MarginContainer/VBoxContainer/GridContainer/VBoxContainer5"]
+[node name="Label" type="Label" parent="Control/MarginContainer/VBoxContainer/GridContainer/VBoxContainer5"]
 layout_mode = 2
 text = "QUEEN"
 horizontal_alignment = 1
 
-[node name="Queen" type="TextureButton" parent="Control/Panel/MarginContainer/VBoxContainer/GridContainer/VBoxContainer5" groups=["shop_buttons"]]
+[node name="Queen" type="TextureButton" parent="Control/MarginContainer/VBoxContainer/GridContainer/VBoxContainer5" groups=["shop_buttons"]]
 custom_minimum_size = Vector2(80, 80)
 layout_mode = 2
 tooltip_text = "Buy Queen - 50 Gold"
@@ -153,3 +147,7 @@ texture_pressed = ExtResource("5_skkvx")
 texture_hover = ExtResource("12_plhqw")
 stretch_mode = 0
 script = ExtResource("3_ht580")
+
+[node name="Panel" type="Panel" parent="Control/MarginContainer"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_47hci")
