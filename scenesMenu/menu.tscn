@@ -16,7 +16,7 @@ grow_vertical = 2
 scale = Vector2(4.93197, 4.2297)
 size_flags_horizontal = 4
 tooltip_text = "Welcome to ChessMania"
-script = ExtResource("1_3etqq")
+script = ExtResource("1_1wb2e")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 1
