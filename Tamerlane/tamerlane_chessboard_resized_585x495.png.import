@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://p0m4tjdbodhf"
-path="res://.godot/imported/tamerlane_chessboard_corrected-2.png-938888f13cc4eab40a7d4fd9e0d6a114.ctex"
+uid="uid://7klm5vvft283"
+path="res://.godot/imported/tamerlane_chessboard_resized_585x495.png-818559274b6772d4270b416029b2b729.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Tamerlane/LaneScenes/tamerlane_chessboard_corrected-2.png"
-dest_files=["res://.godot/imported/tamerlane_chessboard_corrected-2.png-938888f13cc4eab40a7d4fd9e0d6a114.ctex"]
+source_file="res://Tamerlane/tamerlane_chessboard_resized_585x495.png"
+dest_files=["res://.godot/imported/tamerlane_chessboard_resized_585x495.png-818559274b6772d4270b416029b2b729.ctex"]
 
 [params]
 

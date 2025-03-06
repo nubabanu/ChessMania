@@ -2,26 +2,43 @@ extends Sprite2D
 
 const BOARD_LENGTH = 10
 const BOARD_WIDTH = 13
-const CELL_WIDTH = 16
+const CELL_WIDTH = 90
 
-# -- Textures (same names as your original code) -----------------------
+# -- Standard Chess Textures (same as your original) -------------------
 const TEXTURE_HOLDER = preload("res://Scenes/texture_holder.tscn")
-const BLACK_BISHOP = preload("res://Assets/black_bishop.png")
-const BLACK_KING = preload("res://Assets/black_king.png")
-const BLACK_KNIGHT = preload("res://Assets/black_knight.png")
-const BLACK_PAWN = preload("res://Assets/black_pawn.png")
+const BLACK_BISHOP = preload("res://Tamerlane/LanePieces/Chess_bdl45.svg")
+const BLACK_KING = preload("res://Tamerlane/LanePieces/Chess_kdl44.png")
+const BLACK_KNIGHT = preload("res://Tamerlane/LanePieces/Chess_ndl45.svg")
+const BLACK_PAWN = preload("res://Tamerlane/LanePieces/Chess_pdl44.png")
 const BLACK_QUEEN = preload("res://Assets/black_queen.png")
-const BLACK_ROOK = preload("res://Assets/black_rook.png")
+const BLACK_ROOK = preload("res://Tamerlane/LanePieces/Chess_rdl45.svg")
 const WHITE_BISHOP = preload("res://Assets/white_bishop.png")
-const WHITE_KING = preload("res://Assets/white_king.png")
-const WHITE_KNIGHT = preload("res://Assets/white_knight.png")
-const WHITE_PAWN = preload("res://Assets/white_pawn.png")
+const WHITE_KING = preload("res://Tamerlane/LanePieces/Chess_kll45.svg")
+const WHITE_KNIGHT = preload("res://Tamerlane/LanePieces/Chess_nll45.svg")
+const WHITE_PAWN = preload("res://Tamerlane/LanePieces/Chess_pll45.svg")
 const WHITE_QUEEN = preload("res://Assets/white_queen.png")
-const WHITE_ROOK = preload("res://Assets/white_rook.png")
+const WHITE_ROOK = preload("res://Tamerlane/LanePieces/Chess_rll45.svg")
 
 const TURN_WHITE = preload("res://Assets/turn-white.png")
 const TURN_BLACK = preload("res://Assets/turn-black.png")
 const PIECE_MOVE = preload("res://Assets/Piece_move.png")
+
+# -- Tamerlane Piece Textures (PLACEHOLDERS: update with your actual paths) --
+const WHITE_ELEPHANT = preload("res://Tamerlane/LanePieces/Elephant_white_45x45.png")
+const WHITE_CAMEL = preload("res://Tamerlane/LanePieces/Chess_sll44.png")
+const WHITE_WAR_ENGINE = preload("res://Tamerlane/LanePieces/Chess_mll44.png")
+const WHITE_PICKET = preload("res://Tamerlane/LanePieces/Chess_bll44.png")
+const WHITE_GIRAFFE = preload("res://Tamerlane/LanePieces/Chess_Gll45.svg")
+const WHITE_GENERAL = preload("res://Tamerlane/LanePieces/Chess_qll45.svg")
+const WHITE_VIZIER = preload("res://Tamerlane/LanePieces/Chess_gll44.png")
+
+const BLACK_ELEPHANT = preload("res://Tamerlane/LanePieces/Chess_edl45.svg")
+const BLACK_CAMEL = preload("res://Tamerlane/LanePieces/Chess_sdl44.png")
+const BLACK_WAR_ENGINE = preload("res://Tamerlane/LanePieces/Chess_mdl44.png")
+const BLACK_PICKET = preload("res://Tamerlane/LanePieces/Chess_bdl45.svg")
+const BLACK_GIRAFFE = preload("res://Tamerlane/LanePieces/Chess_Gdl45.svg")
+const BLACK_GENERAL = preload("res://Tamerlane/LanePieces/Chess_qdl44.png")
+const BLACK_VIZIER = preload("res://Tamerlane/LanePieces/Chess_gdl44.png")
 
 @onready var pieces = $Pieces
 @onready var dots = $Dots
@@ -44,31 +61,48 @@ var white_rook_right = false
 var black_rook_left = false
 var black_rook_right = false
 
-var en_passant = null  # Not used now, left in for minimal disruption
+var white_king_pos = Vector2(1, 6)
+var black_king_pos = Vector2(8, 6)
 
-var white_king_pos = Vector2(0, 4)
-var black_king_pos = Vector2(9, 4)
+# Track if each side has used the "king switch places once" special move
+var white_king_switch_used = false
+var black_king_switch_used = false
 
 var fifty_move_rule = 0
 var unique_board_moves : Array = []
 var amount_of_same : Array = []
 
+# Tamerlane piece codes (positive=White, negative=Black):
+#  1  = Pawn
+#  2  = Knight
+#  3  = Bishop
+#  4  = Rook
+#  5  = Queen  (rarely used in Tamerlane, but left for reference)
+#  6  = King
+#  7  = Elephant (alfil-like: 2-square diagonal jump, unobstructed)
+#  8  = Camel   (3x1 "long knight" leap)
+#  9  = War Engine (dabbaba: 2-square orth jump, unobstructed)
+# 10  = Picket  (bishop but must move >=2 squares diagonally)
+# 11  = Giraffe (restricted gryphon: 1 diag + >=3 orth)
+# 12  = General (ferz: 1 square diagonal)
+# 13  = Vizier  (wazir: 1 square orth horizontally/vertically)
+
 func _ready():
-	# -- DO NOT CHANGE THE BOARD, as requested -------------------------
-	board.append([  0,  2,  3,  5,  6,  3,  2,  4,  0,  0,  0,  0,  0 ]) # Row 0
-	board.append([  0,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  0 ]) # Row 1
-	board.append([  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0 ]) # Row 2
-	board.append([  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0 ]) # Row 3
-	board.append([  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0 ]) # Row 4
-	board.append([  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0 ]) # Row 5
-	board.append([  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0 ]) # Row 6
-	board.append([  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0 ]) # Row 7
-	board.append([ 0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,  0 ]) # Row 8
-	board.append([ 0, -2, -3, -5, -6, -3, -2, -4,  0,  0,  0,  0,  0 ]) # Row 9
-	
+	board.clear()
+
+	# Tamerlane layout (10 rows, 13 columns), with citadels at columns 0 & 12:
+	board.append([0,  7,  0,  8,  0,  9,  0,  9,  0,  8,  0,  7,  0]) # row 0
+	board.append([0,  4,  2, 10, 11, 12,  6, 13, 11, 10,  2,  4,  0]) # row 1
+	board.append([0,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  0]) # row 2
+	for _i in range(4):
+		board.append([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])         # rows 3..6
+	board.append([0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 0]) # row 7
+	board.append([0, -4, -2, -10, -11, -12, -6, -13, -11, -10, -2, -4, 0]) # row 8
+	board.append([0, -7,  0, -8,  0, -9,  0, -9,  0, -8,  0, -7,  0]) # row 9
+
 	display_board()
 
-	# Connect button presses for promotion UI
+	# Connect promotion‐button signals (if you have them in your UI)
 	var white_buttons = get_tree().get_nodes_in_group("white_pieces")
 	var black_buttons = get_tree().get_nodes_in_group("black_pieces")
 	for button in white_buttons:
@@ -84,6 +118,8 @@ func _input(event):
 				return
 			var var1 = snapped(get_global_mouse_position().x, 0) / CELL_WIDTH
 			var var2 = abs(snapped(get_global_mouse_position().y, 0)) / CELL_WIDTH
+
+			# Selecting or moving
 			if not state and ((white and board[var2][var1] > 0) or (not white and board[var2][var1] < 0)):
 				selected_piece = Vector2(var2, var1)
 				show_options()
@@ -99,9 +135,11 @@ func is_mouse_out():
 
 
 func display_board():
+	# Clear existing child sprites
 	for child in pieces.get_children():
 		child.queue_free()
-	
+
+	# Loop through board
 	for i in BOARD_LENGTH:
 		for j in BOARD_WIDTH:
 			var holder = TEXTURE_HOLDER.instantiate()
@@ -110,35 +148,42 @@ func display_board():
 				j * CELL_WIDTH + (CELL_WIDTH / 2),
 				-i * CELL_WIDTH - (CELL_WIDTH / 2)
 			)
-			
 			match board[i][j]:
-				-6:
-					holder.texture = BLACK_KING
-				-5:
-					holder.texture = BLACK_QUEEN
-				-4:
-					holder.texture = BLACK_ROOK
-				-3:
-					holder.texture = BLACK_BISHOP
-				-2:
-					holder.texture = BLACK_KNIGHT
-				-1:
-					holder.texture = BLACK_PAWN
+				# Standard
+				-6: holder.texture = BLACK_KING
+				-5: holder.texture = BLACK_QUEEN
+				-4: holder.texture = BLACK_ROOK
+				-3: holder.texture = BLACK_BISHOP
+				-2: holder.texture = BLACK_KNIGHT
+				-1: holder.texture = BLACK_PAWN
+
+				6:  holder.texture = WHITE_KING
+				5:  holder.texture = WHITE_QUEEN
+				4:  holder.texture = WHITE_ROOK
+				3:  holder.texture = WHITE_BISHOP
+				2:  holder.texture = WHITE_KNIGHT
+				1:  holder.texture = WHITE_PAWN
+
+				# Tamerlane codes:
+				-7:  holder.texture = BLACK_ELEPHANT
+				-8:  holder.texture = BLACK_CAMEL
+				-9:  holder.texture = BLACK_WAR_ENGINE
+				-10: holder.texture = BLACK_PICKET
+				-11: holder.texture = BLACK_GIRAFFE
+				-12: holder.texture = BLACK_GENERAL
+				-13: holder.texture = BLACK_VIZIER
+
+				7:   holder.texture = WHITE_ELEPHANT
+				8:   holder.texture = WHITE_CAMEL
+				9:   holder.texture = WHITE_WAR_ENGINE
+				10:  holder.texture = WHITE_PICKET
+				11:  holder.texture = WHITE_GIRAFFE
+				12:  holder.texture = WHITE_GENERAL
+				13:  holder.texture = WHITE_VIZIER
+
 				0:
 					holder.texture = null
-				6:
-					holder.texture = WHITE_KING
-				5:
-					holder.texture = WHITE_QUEEN
-				4:
-					holder.texture = WHITE_ROOK
-				3:
-					holder.texture = WHITE_BISHOP
-				2:
-					holder.texture = WHITE_KNIGHT
-				1:
-					holder.texture = WHITE_PAWN
-				
+
 	if white:
 		turn.texture = TURN_WHITE
 	else:
@@ -170,29 +215,26 @@ func delete_dots():
 
 
 func set_move(var2, var1):
-	var just_now = false
 	for i in moves:
 		if i.x == var2 and i.y == var1:
 			fifty_move_rule += 1
-			# Reset the 50-move counter if capturing a piece
+			# Reset if capturing
 			if is_enemy(Vector2(var2, var1)):
 				fifty_move_rule = 0
 
 			var moving_piece = board[selected_piece.x][selected_piece.y]
-			# Put the piece onto (var2,var1)
+			# Place piece
 			board[var2][var1] = moving_piece
 			board[selected_piece.x][selected_piece.y] = 0
 
-			# Track King positions so is_in_check() works
-			if abs(moving_piece) == 6:  # King
+			# If it's the king, update king pos
+			if abs(moving_piece) == 6:
 				if moving_piece > 0:
 					white_king_pos = Vector2(var2, var1)
 				else:
 					black_king_pos = Vector2(var2, var1)
 
-				# -- CITADEL CHECK (Tamerlane draw rule) --
-				# White King stepping onto black's citadel => row=8,col=0
-				# Black King stepping onto white's citadel => row=1,col=12
+				# If occupying opponent's citadel => "win"
 				if moving_piece > 0 and white_king_pos == Vector2(8, 12):
 					print("Win: White King occupies Black's citadel!")
 				elif moving_piece < 0 and black_king_pos == Vector2(1, 0):
@@ -206,53 +248,55 @@ func set_move(var2, var1):
 	delete_dots()
 	state = false
 
-	# Optional: If we actually moved onto a different square, re-select if it's still ours
+	# Re-select if we just moved onto a square that still belongs to the same color
 	if ((selected_piece.x != var2 or selected_piece.y != var1)
 		and ((white and board[var2][var1] > 0) or (not white and board[var2][var1] < 0))):
 		selected_piece = Vector2(var2, var1)
 		show_options()
 		state = true
-	elif is_stalemate():
-		# Tamerlane chess typically says stalemate is a WIN for the player delivering it.
-		# For minimal changes, we'll just print "DRAW" or "CHECKMATE" as is:
-		if (white and is_in_check(white_king_pos)) or (not white and is_in_check(black_king_pos)):
-			print("CHECKMATE")
-		else:
-			print("DRAW")
+	else:
+		if is_stalemate():
+			# Tamerlane might treat stalemate differently, but let's just say:
+			if (white and is_in_check(white_king_pos)) or (not white and is_in_check(black_king_pos)):
+				print("CHECKMATE")
+			else:
+				print("Win")
 
-	if fifty_move_rule == 50:
-		print("DRAW")
-	elif insuficient_material():
-		print("DRAW")
+		if fifty_move_rule == 50:
+			print("DRAW")
+		elif insuficient_material():
+			print("DRAW")
 
 
 func get_moves(selected: Vector2):
 	var _moves = []
-	match abs(board[selected.x][selected.y]):
-		1: _moves = get_pawn_moves(selected)
-		2: _moves = get_knight_moves(selected)
-		3: _moves = get_bishop_moves(selected)
-		4: _moves = get_rook_moves(selected)
-		5: _moves = get_queen_moves(selected)
-		6: _moves = get_king_moves(selected)
+	var piece = board[selected.x][selected.y]
+	match abs(piece):
+		1:  _moves = get_pawn_moves(selected)
+		2:  _moves = get_knight_moves(selected)
+		3:  _moves = get_bishop_moves(selected)
+		4:  _moves = get_rook_moves(selected)
+		5:  _moves = get_queen_moves(selected)
+		6:  _moves = get_king_moves(selected)
+		7:  _moves = get_elephant_moves(selected)
+		8:  _moves = get_camel_moves(selected)
+		9:  _moves = get_war_engine_moves(selected)
+		10: _moves = get_picket_moves(selected)
+		11: _moves = get_giraffe_moves(selected)
+		12: _moves = get_general_moves(selected)
+		13: _moves = get_vizier_moves(selected)
 	return _moves
 
 
 # ------------------------------- PAWN --------------------------------
-# Tamerlane has no double-step or en passant. Let's remove that logic.
-# Promotion stays, but you can enhance or remove as needed.
 func get_pawn_moves(piece_position: Vector2):
 	var _moves = []
-	var direction
-	if white:
-		direction = Vector2(1, 0)
-	else:
-		direction = Vector2(-1, 0)
-	
-	# Move forward 1 if empty
+	var direction = Vector2(1, 0) if white else Vector2(-1, 0)
+		
+
+	# Forward 1
 	var forward = piece_position + direction
 	if is_valid_position(forward) and is_empty(forward):
-		# Simulate
 		var stored = board[forward.x][forward.y]
 		board[forward.x][forward.y] = board[piece_position.x][piece_position.y]
 		board[piece_position.x][piece_position.y] = 0
@@ -273,7 +317,7 @@ func get_pawn_moves(piece_position: Vector2):
 				_moves.append(diag)
 			board[piece_position.x][piece_position.y] = store_me
 			board[diag.x][diag.y] = captured
-	
+
 	return _moves
 
 
@@ -288,14 +332,15 @@ func get_knight_moves(piece_position: Vector2):
 		var pos = piece_position + dir
 		if is_valid_position(pos):
 			if is_empty(pos) or is_enemy(pos):
-				var t = board[pos.x][pos.y]
+				# simulate
+				var temp = board[pos.x][pos.y]
 				var s = board[piece_position.x][piece_position.y]
 				board[pos.x][pos.y] = s
 				board[piece_position.x][piece_position.y] = 0
 				if (white and not is_in_check(white_king_pos)) or (not white and not is_in_check(black_king_pos)):
 					_moves.append(pos)
 				board[piece_position.x][piece_position.y] = s
-				board[pos.x][pos.y] = t
+				board[pos.x][pos.y] = temp
 	return _moves
 
 
@@ -333,7 +378,7 @@ func get_bishop_moves(piece_position: Vector2):
 # ------------------------------- ROOK --------------------------------
 func get_rook_moves(piece_position: Vector2):
 	var _moves = []
-	var directions = [Vector2(0, 1), Vector2(0, -1), Vector2(1, 0), Vector2(-1, 0)]
+	var directions = [Vector2(0,1), Vector2(0,-1), Vector2(1,0), Vector2(-1,0)]
 	for direction in directions:
 		var pos = piece_position + direction
 		while is_valid_position(pos):
@@ -365,8 +410,8 @@ func get_rook_moves(piece_position: Vector2):
 func get_queen_moves(piece_position: Vector2):
 	var _moves = []
 	var directions = [
-		Vector2(0, 1), Vector2(0, -1), Vector2(1, 0), Vector2(-1, 0),
-		Vector2(1, 1), Vector2(1, -1), Vector2(-1, 1), Vector2(-1, -1)
+		Vector2(0,1), Vector2(0,-1), Vector2(1,0), Vector2(-1,0),
+		Vector2(1,1), Vector2(1,-1), Vector2(-1,1), Vector2(-1,-1)
 	]
 	for direction in directions:
 		var pos = piece_position + direction
@@ -396,25 +441,29 @@ func get_queen_moves(piece_position: Vector2):
 
 
 # ------------------------------- KING --------------------------------
-# Removed castling references. Just 1 step any direction, checking for check.
+# In Tamerlane, the king moves like a normal king. 
+# Additionally, once per game, it may switch places with one of its own pieces 
+# if that prevents check or stalemate.
 func get_king_moves(piece_position: Vector2):
 	var _moves = []
 	var directions = [
-		Vector2(0, 1),  Vector2(0, -1), Vector2(1, 0),  Vector2(-1, 0),
-		Vector2(1, 1),  Vector2(1, -1), Vector2(-1, 1), Vector2(-1, -1)
+		Vector2(0,1), Vector2(0,-1), Vector2(1,0), Vector2(-1,0),
+		Vector2(1,1), Vector2(1,-1), Vector2(-1,1), Vector2(-1,-1)
 	]
-	
+
 	var old_val = board[piece_position.x][piece_position.y]
+	# Temporarily remove king from board so is_in_check sees correct emptiness
 	if white:
 		board[white_king_pos.x][white_king_pos.y] = 0
 	else:
 		board[black_king_pos.x][black_king_pos.y] = 0
-	
+
+	# Normal 1-step moves:
 	for dir in directions:
 		var pos = piece_position + dir
 		if is_valid_position(pos):
 			if is_empty(pos) or is_enemy(pos):
-				# Simulate
+				# simulate
 				var temp = board[pos.x][pos.y]
 				board[pos.x][pos.y] = old_val
 				board[piece_position.x][piece_position.y] = 0
@@ -423,86 +472,325 @@ func get_king_moves(piece_position: Vector2):
 				board[piece_position.x][piece_position.y] = old_val
 				board[pos.x][pos.y] = temp
 
-	# Place king back
+	# "King switch places once" rule:
+	if white and not white_king_switch_used:
+		_moves += get_king_swap_moves(piece_position, true)
+	elif not white and not black_king_switch_used:
+		_moves += get_king_swap_moves(piece_position, false)
+
+	# Restore the king
 	if white:
 		board[white_king_pos.x][white_king_pos.y] = old_val
 	else:
 		board[black_king_pos.x][black_king_pos.y] = old_val
-	
+
+	return _moves
+
+# This helper enumerates swapping the king with any friendly piece on the board.
+# We'll store the "destination" of the king as that friendly piece's position.
+func get_king_swap_moves(king_pos: Vector2, is_white: bool) -> Array:
+	var swap_moves = []
+	var king_val = board[king_pos.x][king_pos.y]
+	for row in range(BOARD_LENGTH):
+		for col in range(BOARD_WIDTH):
+			var p = board[row][col]
+			if is_white and p > 0 and abs(p) != 6:
+				# Friendly piece, not a king
+				var old_here = board[row][col]
+				var old_king_sq = board[king_pos.x][king_pos.y]
+
+				# swap them
+				board[row][col] = king_val
+				board[king_pos.x][king_pos.y] = old_here
+
+				# see if the king is safe at (row,col)
+				if not is_in_check(Vector2(row, col)):
+					swap_moves.append(Vector2(row, col))
+
+				# revert
+				board[king_pos.x][king_pos.y] = old_king_sq
+				board[row][col] = old_here
+
+			elif not is_white and p < 0 and abs(p) != 6:
+				# Friendly piece, not a king
+				var old_here_b = board[row][col]
+				var old_king_sq_b = board[king_pos.x][king_pos.y]
+
+				board[row][col] = king_val
+				board[king_pos.x][king_pos.y] = old_here_b
+
+				if not is_in_check(Vector2(row, col)):
+					swap_moves.append(Vector2(row, col))
+
+				board[king_pos.x][king_pos.y] = old_king_sq_b
+				board[row][col] = old_here_b
+
+	return swap_moves
+
+
+# ------------------------------- ELEPHANT (7) -------------------------
+# Moves two squares diagonally, leaps over the intermediate square (Alfil move).
+func get_elephant_moves(piece_position: Vector2) -> Array:
+	var _moves = []
+	var offsets = [
+		Vector2(2,2),  Vector2(2,-2),
+		Vector2(-2,2), Vector2(-2,-2)
+	]
+	var s = board[piece_position.x][piece_position.y]
+	for off in offsets:
+		var newpos = piece_position + off
+		if is_valid_position(newpos):
+			# Must leap over the square in between; check if that blocks anything
+			# Elephant in historical variants leaps ignoring blocking, but 
+			# Tamerlane states "unobstructed by pieces in between."
+			# The intermediate square:
+			var mid = piece_position + (off / 2)
+			# If there's a piece in 'mid', it's blocked
+			if not is_empty(mid):
+				continue
+			# Now see if we can move/capture
+			if is_empty(newpos) or is_enemy(newpos):
+				var store = board[newpos.x][newpos.y]
+				board[newpos.x][newpos.y] = s
+				board[piece_position.x][piece_position.y] = 0
+				if (white and not is_in_check(white_king_pos)) or (not white and not is_in_check(black_king_pos)):
+					_moves.append(newpos)
+				board[piece_position.x][piece_position.y] = s
+				board[newpos.x][newpos.y] = store
 	return _moves
 
 
-func is_valid_position(pos: Vector2) -> bool:
-	# Unchanged
-	var row = pos.x
-	var col = pos.y
-	if row < 0 or row >= BOARD_LENGTH:
-		return false
-	if col >= 1 and col <= 11:
-		return true
-	if row == 1 and col == 12:
-		return true
-	if row == 8 and col == 0:
-		return true
-#whites citadel
-	if row == 1 and col == 0:
-		return true
-#blacks citadel 
-	if row == 8 and col == 12:
-		return true
-	return false
+# ------------------------------- CAMEL (8) ----------------------------
+# Moves like a (3,1) knight leap, ignoring blocks.
+func get_camel_moves(piece_position: Vector2) -> Array:
+	var _moves = []
+	var offsets = [
+		Vector2(3,1),  Vector2(3,-1),  Vector2(-3,1),  Vector2(-3,-1),
+		Vector2(1,3),  Vector2(1,-3),  Vector2(-1,3),  Vector2(-1,-3),
+	]
+	var s = board[piece_position.x][piece_position.y]
+	for off in offsets:
+		var newpos = piece_position + off
+		if is_valid_position(newpos):
+			if is_empty(newpos) or is_enemy(newpos):
+				# simulate
+				var store = board[newpos.x][newpos.y]
+				board[newpos.x][newpos.y] = s
+				board[piece_position.x][piece_position.y] = 0
+				if (white and not is_in_check(white_king_pos)) or (not white and not is_in_check(black_king_pos)):
+					_moves.append(newpos)
+				board[piece_position.x][piece_position.y] = s
+				board[newpos.x][newpos.y] = store
+	return _moves
 
 
-func is_empty(pos: Vector2) -> bool:
-	return board[pos.x][pos.y] == 0
-func is_enemy(pos: Vector2) -> bool:
-	if (white and board[pos.x][pos.y] < 0) or (not white and board[pos.x][pos.y] > 0):
-		return true
-	return false
+# ------------------------------- WAR ENGINE (9) -----------------------
+# (Dabbaba): leaps exactly 2 squares horizontally or vertically, unobstructed.
+func get_war_engine_moves(piece_position: Vector2) -> Array:
+	var _moves = []
+	var offsets = [
+		Vector2(2,0), Vector2(-2,0),
+		Vector2(0,2), Vector2(0,-2)
+	]
+	var s = board[piece_position.x][piece_position.y]
+	for off in offsets:
+		var newpos = piece_position + off
+		if is_valid_position(newpos):
+			# check the intermediate square
+			var mid = piece_position + (off / 2)
+			if not is_empty(mid):
+				continue
+			if is_empty(newpos) or is_enemy(newpos):
+				# simulate
+				var store = board[newpos.x][newpos.y]
+				board[newpos.x][newpos.y] = s
+				board[piece_position.x][piece_position.y] = 0
+				if (white and not is_in_check(white_king_pos)) or (not white and not is_in_check(black_king_pos)):
+					_moves.append(newpos)
+				board[piece_position.x][piece_position.y] = s
+				board[newpos.x][newpos.y] = store
+	return _moves
 
 
-func promote(_var: Vector2):
-	# Minimal: we keep the old standard-chess style promotion
-	promotion_square = _var
-	white_pieces.visible = white
-	black_pieces.visible = not white
+# ------------------------------- PICKET (10) --------------------------
+# Moves like a bishop, but must move at least 2 squares diagonally.
+func get_picket_moves(piece_position: Vector2) -> Array:
+	var _moves = []
+	var directions = [Vector2(1,1), Vector2(1,-1), Vector2(-1,1), Vector2(-1,-1)]
+	var s = board[piece_position.x][piece_position.y]
+	for dir in directions:
+		var pos = piece_position + dir
+		var steps = 1
+		while is_valid_position(pos):
+			# The Picket must move >= 2 squares, so ignore the very first square:
+			if steps == 1:
+				# just check if blocked, but do NOT allow a move here
+				if not is_empty(pos):
+					# if blocked by any piece (even an enemy), break
+					break
+			else:
+				# steps >= 2
+				if is_empty(pos) or is_enemy(pos):
+					# simulate
+					var store = board[pos.x][pos.y]
+					board[pos.x][pos.y] = s
+					board[piece_position.x][piece_position.y] = 0
+					if (white and not is_in_check(white_king_pos)) or (not white and not is_in_check(black_king_pos)):
+						_moves.append(pos)
+					board[piece_position.x][piece_position.y] = s
+					board[pos.x][pos.y] = store
+					# if enemy piece was here, we can't go further
+					if is_enemy(pos):
+						break
+				else:
+					break
+			steps += 1
+			pos += dir
+	return _moves
 
 
-func _on_button_pressed(button):
-	var num_char = int(button.name.substr(0, 1))
-	board[promotion_square.x][promotion_square.y] = -num_char if white else num_char
-	white_pieces.visible = false
-	black_pieces.visible = false
-	promotion_square = null
-	display_board()
+# ------------------------------- GIRAFFE (11) -------------------------
+# "Restricted gryphon": 1 diagonal step, then a minimum of 3 squares
+# horizontally or vertically, unobstructed.
+func get_giraffe_moves(piece_position: Vector2) -> Array:
+	var _moves = []
+	var s = board[piece_position.x][piece_position.y]
+
+	var diag_dirs = [Vector2(1,1), Vector2(1,-1), Vector2(-1,1), Vector2(-1,-1)]
+	var orth_dirs = [Vector2(0,1), Vector2(0,-1), Vector2(1,0), Vector2(-1,0)]
+
+	for d in diag_dirs:
+		var mid = piece_position + d
+		if not is_valid_position(mid):
+			continue
+		# Giraffe leaps the first diagonal step (check if blocked? - it is typically a leap)
+		# But Tamerlane says "unobstructed by pieces in between"? 
+		# Usually the diagonal step can leap. If there's an allied piece exactly on 'mid', we can't stand on top of them.
+		# So let's say if there's a piece of either color in 'mid', we skip.
+		if not is_empty(mid):
+			continue
+
+		# Now from 'mid', it can move at least 3 squares in one orth direction
+		for od in orth_dirs:
+			var pos = mid + od
+			var distance = 1
+			while is_valid_position(pos):
+				if not is_empty(pos):
+					# If blocked, we cannot go further
+					break
+				distance += 1
+				if distance >= 3:
+					# from 3 squares onward, we can step or capture
+					# Try capturing if there's an enemy piece *on* that square
+					# but we just found it's empty in this check, so keep going
+					# We do actually add the empty position as a valid move
+					# simulate
+					var store = board[pos.x][pos.y]
+					board[pos.x][pos.y] = s
+					board[piece_position.x][piece_position.y] = 0
+					if (white and not is_in_check(white_king_pos)) or (not white and not is_in_check(black_king_pos)):
+						_moves.append(pos)
+					board[piece_position.x][piece_position.y] = s
+					board[pos.x][pos.y] = store
+
+				pos += od
+
+			# Also consider capturing an enemy piece exactly on that path 
+			# once we get to distance >= 3.
+			# Actually, to handle capturing, we can do a second pass: if we encounter an enemy piece,
+			# that might be a valid landing square. But in the code above we skip as soon as we "not is_empty(pos)".
+			# So let's do an extra check: if we first empty-run until we find a piece:
+			var pos2 = mid + od
+			var dist2 = 1
+			while is_valid_position(pos2):
+				if not is_empty(pos2):
+					# if enemy, can we capture? only if dist2 >= 3
+					if dist2 >= 3 and is_enemy(pos2):
+						var store2 = board[pos2.x][pos2.y]
+						board[pos2.x][pos2.y] = s
+						board[piece_position.x][piece_position.y] = 0
+						if (white and not is_in_check(white_king_pos)) or (not white and not is_in_check(black_king_pos)):
+							_moves.append(pos2)
+						board[piece_position.x][piece_position.y] = s
+						board[pos2.x][pos2.y] = store2
+					break
+				dist2 += 1
+				pos2 += od
+
+	return _moves
+
+
+# ------------------------------- GENERAL (12) -------------------------
+# (Ferz): moves exactly 1 square diagonally
+func get_general_moves(piece_position: Vector2) -> Array:
+	var _moves = []
+	var directions = [Vector2(1,1), Vector2(1,-1), Vector2(-1,1), Vector2(-1,-1)]
+	var s = board[piece_position.x][piece_position.y]
+	for dir in directions:
+		var newpos = piece_position + dir
+		if is_valid_position(newpos):
+			if is_empty(newpos) or is_enemy(newpos):
+				# simulate
+				var store = board[newpos.x][newpos.y]
+				board[newpos.x][newpos.y] = s
+				board[piece_position.x][piece_position.y] = 0
+				if (white and not is_in_check(white_king_pos)) or (not white and not is_in_check(black_king_pos)):
+					_moves.append(newpos)
+				board[piece_position.x][piece_position.y] = s
+				board[newpos.x][newpos.y] = store
+	return _moves
+
+
+# ------------------------------- VIZIER (13) --------------------------
+# (Wazir): moves exactly 1 square horizontally or vertically
+func get_vizier_moves(piece_position: Vector2) -> Array:
+	var _moves = []
+	var directions = [Vector2(0,1), Vector2(0,-1), Vector2(1,0), Vector2(-1,0)]
+	var s = board[piece_position.x][piece_position.y]
+	for dir in directions:
+		var newpos = piece_position + dir
+		if is_valid_position(newpos):
+			if is_empty(newpos) or is_enemy(newpos):
+				# simulate
+				var store = board[newpos.x][newpos.y]
+				board[newpos.x][newpos.y] = s
+				board[piece_position.x][piece_position.y] = 0
+				if (white and not is_in_check(white_king_pos)) or (not white and not is_in_check(black_king_pos)):
+					_moves.append(newpos)
+				board[piece_position.x][piece_position.y] = s
+				board[newpos.x][newpos.y] = store
+	return _moves
 
 
 # ---------------------------------------------------------------------
-# Checking if a king is attacked. Minimal changes, uses standard approach.
+# Checking if a king is attacked
 # ---------------------------------------------------------------------
 func is_in_check(king_pos: Vector2) -> bool:
+	# This logic is still mostly standard, so you may want to expand it
+	# to handle Tamerlane pieces threatening the king. 
+	# For now it checks only standard rook/bishop/knight/queen/pawn/king lines.
 	var directions = [
-		Vector2(0, 1),  Vector2(0, -1), Vector2(1, 0),  Vector2(-1, 0),
-		Vector2(1, 1),  Vector2(1, -1), Vector2(-1, 1), Vector2(-1, -1)
+		Vector2(0,1), Vector2(0,-1), Vector2(1,0), Vector2(-1,0),
+		Vector2(1,1), Vector2(1,-1), Vector2(-1,1), Vector2(-1,-1)
 	]
 	var pawn_direction = 1 if white else -1
 	var pawn_attacks = [
-		king_pos + Vector2(pawn_direction, 1),
-		king_pos + Vector2(pawn_direction, -1)
+		king_pos + Vector2(pawn_direction,1),
+		king_pos + Vector2(pawn_direction,-1)
 	]
-	# Pawn attack
+	# Pawn
 	for pa in pawn_attacks:
 		if is_valid_position(pa):
 			if (white and board[pa.x][pa.y] == -1) or (not white and board[pa.x][pa.y] == 1):
 				return true
-	
-	# Enemy king adjacent
+
+	# King adjacent
 	for dir in directions:
 		var pos = king_pos + dir
 		if is_valid_position(pos):
 			if (white and board[pos.x][pos.y] == -6) or (not white and board[pos.x][pos.y] == 6):
 				return true
-			
+
 	# Rook/Queen lines
 	for dir in directions:
 		var pos = king_pos + dir
@@ -519,17 +807,18 @@ func is_in_check(king_pos: Vector2) -> bool:
 						return true
 				break
 			pos += dir
-	
+
 	# Knight positions
 	var knight_directions = [
-		Vector2(2, 1),  Vector2(2, -1),  Vector2(1, 2),  Vector2(1, -2),
-		Vector2(-2, 1), Vector2(-2, -1), Vector2(-1, 2), Vector2(-1, -2)
+		Vector2(2,1),  Vector2(2,-1),  Vector2(1,2),  Vector2(1,-2),
+		Vector2(-2,1), Vector2(-2,-1), Vector2(-1,2), Vector2(-1,-2)
 	]
 	for nd in knight_directions:
 		var pos = king_pos + nd
 		if is_valid_position(pos):
 			if (white and board[pos.x][pos.y] == -2) or (not white and board[pos.x][pos.y] == 2):
 				return true
+
 	return false
 
 
@@ -551,6 +840,7 @@ func is_stalemate() -> bool:
 
 
 func insuficient_material() -> bool:
+	# Extend this if you wish to handle typical Tamerlane "insufficient material"
 	return false
 
 
@@ -563,3 +853,47 @@ func threefold_position(var1: Array):
 			return
 	unique_board_moves.append(var1.duplicate(true))
 	amount_of_same.append(1)
+
+
+func is_valid_position(pos: Vector2) -> bool:
+	var row = pos.x
+	var col = pos.y
+	if row < 0 or row >= BOARD_LENGTH:
+		return false
+	# Tamerlane board widths: columns 1..11 are normal squares
+	# columns 0 and 12 are "citadels" only valid at certain row combos:
+	if col >= 1 and col <= 11:
+		return true
+	# White's citadel (row=1,col=0), (row=1,col=12)
+	if row == 1 and col == 0 :
+		return true
+	# Black's citadel (row=8,col=0), (row=8,col=12)
+	if row == 8 and  col == 12:
+		return true
+	return false
+
+
+func is_empty(pos: Vector2) -> bool:
+	return board[pos.x][pos.y] == 0
+
+
+func is_enemy(pos: Vector2) -> bool:
+	if (white and board[pos.x][pos.y] < 0) or (not white and board[pos.x][pos.y] > 0):
+		return true
+	return false
+
+
+func promote(_var: Vector2):
+	# Basic example, if you choose to keep promotion:
+	promotion_square = _var
+	white_pieces.visible = white
+	black_pieces.visible = not white
+
+
+func _on_button_pressed(button):
+	var num_char = int(button.name.substr(0, 1))
+	board[promotion_square.x][promotion_square.y] = -num_char if white else num_char
+	white_pieces.visible = false
+	black_pieces.visible = false
+	promotion_square = null
+	display_board()

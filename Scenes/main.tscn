@@ -9,7 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://bmmt31nb526bf" path="res://Assets/black_bishop.png" id="6_cavfs"]
 [ext_resource type="Texture2D" uid="uid://bhr8c2pb02smt" path="res://Assets/black_rook.png" id="7_wianj"]
 [ext_resource type="Texture2D" uid="uid://bs6nmydq4udho" path="res://Assets/black_queen.png" id="8_df1ci"]
-[ext_resource type="Texture2D" uid="uid://nvmhspsluchl" path="res://tamerlane_chessboard_resized_corrected.png" id="10_fc8ir"]
+[ext_resource type="Texture2D" uid="uid://7klm5vvft283" path="res://Tamerlane/tamerlane_chessboard_resized_585x495.png" id="10_d4ui2"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_vp5if"]
 
@@ -88,10 +88,11 @@ texture = ExtResource("8_df1ci")
 texture = ExtResource("8_df1ci")
 
 [node name="Main" type="Node2D"]
+position = Vector2(9, 120)
 
 [node name="Camera2D" type="Camera2D" parent="."]
-position = Vector2(72, -72)
-zoom = Vector2(4, 4)
+position = Vector2(198, -216)
+scale = Vector2(8, 8)
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
@@ -212,6 +213,6 @@ theme_override_styles/pressed = SubResource("StyleBoxTexture_etk7k")
 theme_override_styles/normal = SubResource("StyleBoxTexture_vgg4r")
 
 [node name="Board" parent="." instance=ExtResource("1_63gbl")]
-position = Vector2(106, -80)
-scale = Vector2(1.02648, 0.853339)
-texture = ExtResource("10_fc8ir")
+position = Vector2(577.001, -568.313)
+scale = Vector2(2.00684, 1.825)
+texture = ExtResource("10_d4ui2")
