@@ -67,6 +67,14 @@ func on_reset_pressed():
 
 # Handles Confirm button press
 func on_confirm_pressed():
+	# Store selected pieces in a dictionary
+	for piece_item in selected_pieces.keys():
+		var count = selected_pieces[piece_item]["count"]
+		if count > 0:
+			selected_pieces[piece_item.name] = count
+			
+	# Save selection to Global script
+	Global.purchased_pieces = selected_pieces
 	print("Selection Confirmed:", selected_pieces)
 	get_tree().change_scene_to_file(NEXT_SCENE_PATH)  # Switch scene
 

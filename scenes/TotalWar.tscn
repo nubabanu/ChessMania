@@ -1,3 +1,32 @@
-[gd_scene format=3 uid="uid://dqkcrsvnfxadc"]
+[gd_scene load_steps=3 format=3 uid="uid://dqkcrsvnfxadc"]
+
+[ext_resource type="Script" uid="uid://cg1k6252exwty" path="res://TotalWarScripts/TotalWar.gd" id="1_mnq3f"]
+[ext_resource type="Texture2D" uid="uid://cvcov8rqcdqxf" path="res://Assets/Chessboard.jpg" id="2_4ex6v"]
 
 [node name="TotalWar" type="Node2D"]
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("1_mnq3f")
+
+[node name="PieceContainer" type="VBoxContainer" parent="Control"]
+layout_mode = 0
+offset_left = 166.0
+offset_top = 55.0
+offset_right = 206.0
+offset_bottom = 95.0
+
+[node name="ChessBoard" type="Node2D" parent="Control"]
+
+[node name="TileContainer" type="Node2D" parent="Control/ChessBoard"]
+
+[node name="Background" type="TextureRect" parent="Control/ChessBoard"]
+offset_left = 289.0
+offset_right = 937.0
+offset_bottom = 648.0
+texture = ExtResource("2_4ex6v")
+expand_mode = 2
+stretch_mode = 5

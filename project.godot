@@ -18,6 +18,7 @@ config/icon="res://icon.svg"
 [autoload]
 
 ShopManager="*res://TotalWarScripts/ShopManager.gd"
+Global="*res://TotalWarScripts/Global.gd"
 
 [rendering]
 
