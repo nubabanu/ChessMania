@@ -4,7 +4,7 @@ const BOARD_LENGTH = 10
 const BOARD_WIDTH = 13
 const CELL_WIDTH = 90
 
-# -- Standard Chess Textures (same as your original) -------------------
+# -- Standard Chess Textures-------------------
 const TEXTURE_HOLDER = preload("res://Scenes/texture_holder.tscn")
 const BLACK_BISHOP = preload("res://Tamerlane/LanePieces/Chess_bdl45.svg")
 const BLACK_KING = preload("res://Tamerlane/LanePieces/Chess_kdl44.png")
@@ -23,7 +23,7 @@ const TURN_WHITE = preload("res://Assets/turn-white.png")
 const TURN_BLACK = preload("res://Assets/turn-black.png")
 const PIECE_MOVE = preload("res://Assets/Piece_move.png")
 
-# -- Tamerlane Piece Textures (PLACEHOLDERS: update with your actual paths) --
+# -- Tamerlane Piece Textures --
 const WHITE_ELEPHANT = preload("res://Tamerlane/LanePieces/Elephant_white_45x45.png")
 const WHITE_CAMEL = preload("res://Tamerlane/LanePieces/Chess_sll44.png")
 const WHITE_WAR_ENGINE = preload("res://Tamerlane/LanePieces/Chess_mll44.png")
@@ -72,20 +72,6 @@ var fifty_move_rule = 0
 var unique_board_moves : Array = []
 var amount_of_same : Array = []
 
-# Tamerlane piece codes (positive=White, negative=Black):
-#  1  = Pawn
-#  2  = Knight
-#  3  = Bishop
-#  4  = Rook
-#  5  = Queen  (rarely used in Tamerlane, but left for reference)
-#  6  = King
-#  7  = Elephant (alfil-like: 2-square diagonal jump, unobstructed)
-#  8  = Camel   (3x1 "long knight" leap)
-#  9  = War Engine (dabbaba: 2-square orth jump, unobstructed)
-# 10  = Picket  (bishop but must move >=2 squares diagonally)
-# 11  = Giraffe (restricted gryphon: 1 diag + >=3 orth)
-# 12  = General (ferz: 1 square diagonal)
-# 13  = Vizier  (wazir: 1 square orth horizontally/vertically)
 
 func _ready():
 	board.clear()
@@ -102,7 +88,7 @@ func _ready():
 
 	display_board()
 
-	# Connect promotion‐button signals (if you have them in your UI)
+	# Connect promotion‐button signals
 	var white_buttons = get_tree().get_nodes_in_group("white_pieces")
 	var black_buttons = get_tree().get_nodes_in_group("black_pieces")
 	for button in white_buttons:
@@ -256,7 +242,6 @@ func set_move(var2, var1):
 		state = true
 	else:
 		if is_stalemate():
-			# Tamerlane might treat stalemate differently, but let's just say:
 			if (white and is_in_check(white_king_pos)) or (not white and is_in_check(black_king_pos)):
 				print("CHECKMATE")
 			else:
@@ -441,9 +426,6 @@ func get_queen_moves(piece_position: Vector2):
 
 
 # ------------------------------- KING --------------------------------
-# In Tamerlane, the king moves like a normal king. 
-# Additionally, once per game, it may switch places with one of its own pieces 
-# if that prevents check or stalemate.
 func get_king_moves(piece_position: Vector2):
 	var _moves = []
 	var directions = [
@@ -452,7 +434,6 @@ func get_king_moves(piece_position: Vector2):
 	]
 
 	var old_val = board[piece_position.x][piece_position.y]
-	# Temporarily remove king from board so is_in_check sees correct emptiness
 	if white:
 		board[white_king_pos.x][white_king_pos.y] = 0
 	else:
@@ -486,8 +467,6 @@ func get_king_moves(piece_position: Vector2):
 
 	return _moves
 
-# This helper enumerates swapping the king with any friendly piece on the board.
-# We'll store the "destination" of the king as that friendly piece's position.
 func get_king_swap_moves(king_pos: Vector2, is_white: bool) -> Array:
 	var swap_moves = []
 	var king_val = board[king_pos.x][king_pos.y]
@@ -540,15 +519,10 @@ func get_elephant_moves(piece_position: Vector2) -> Array:
 	for off in offsets:
 		var newpos = piece_position + off
 		if is_valid_position(newpos):
-			# Must leap over the square in between; check if that blocks anything
-			# Elephant in historical variants leaps ignoring blocking, but 
-			# Tamerlane states "unobstructed by pieces in between."
-			# The intermediate square:
 			var mid = piece_position + (off / 2)
-			# If there's a piece in 'mid', it's blocked
 			if not is_empty(mid):
 				continue
-			# Now see if we can move/capture
+		
 			if is_empty(newpos) or is_enemy(newpos):
 				var store = board[newpos.x][newpos.y]
 				board[newpos.x][newpos.y] = s
@@ -561,7 +535,6 @@ func get_elephant_moves(piece_position: Vector2) -> Array:
 
 
 # ------------------------------- CAMEL (8) ----------------------------
-# Moves like a (3,1) knight leap, ignoring blocks.
 func get_camel_moves(piece_position: Vector2) -> Array:
 	var _moves = []
 	var offsets = [
@@ -573,7 +546,7 @@ func get_camel_moves(piece_position: Vector2) -> Array:
 		var newpos = piece_position + off
 		if is_valid_position(newpos):
 			if is_empty(newpos) or is_enemy(newpos):
-				# simulate
+				
 				var store = board[newpos.x][newpos.y]
 				board[newpos.x][newpos.y] = s
 				board[piece_position.x][piece_position.y] = 0
@@ -585,7 +558,6 @@ func get_camel_moves(piece_position: Vector2) -> Array:
 
 
 # ------------------------------- WAR ENGINE (9) -----------------------
-# (Dabbaba): leaps exactly 2 squares horizontally or vertically, unobstructed.
 func get_war_engine_moves(piece_position: Vector2) -> Array:
 	var _moves = []
 	var offsets = [
@@ -596,12 +568,11 @@ func get_war_engine_moves(piece_position: Vector2) -> Array:
 	for off in offsets:
 		var newpos = piece_position + off
 		if is_valid_position(newpos):
-			# check the intermediate square
 			var mid = piece_position + (off / 2)
 			if not is_empty(mid):
 				continue
 			if is_empty(newpos) or is_enemy(newpos):
-				# simulate
+			
 				var store = board[newpos.x][newpos.y]
 				board[newpos.x][newpos.y] = s
 				board[piece_position.x][piece_position.y] = 0
@@ -613,7 +584,6 @@ func get_war_engine_moves(piece_position: Vector2) -> Array:
 
 
 # ------------------------------- PICKET (10) --------------------------
-# Moves like a bishop, but must move at least 2 squares diagonally.
 func get_picket_moves(piece_position: Vector2) -> Array:
 	var _moves = []
 	var directions = [Vector2(1,1), Vector2(1,-1), Vector2(-1,1), Vector2(-1,-1)]

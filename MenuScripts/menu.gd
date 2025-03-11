@@ -4,7 +4,7 @@ extends Control
 func _on_standard_pressed() -> void:
 	GameSettings.PlayRegularGame = true
 	GameSettings.PlayFischerRandomGame = false
-	get_tree().change_scene_to_file("res://board.tscn")
+	get_tree().change_scene_to_file("res://Standard/Standard_Scenes/standard_main.tscn")
 
 func _on_tamerlane_pressed() -> void:
 	get_tree().change_scene_to_file("res://Scenes/main.tscn")
