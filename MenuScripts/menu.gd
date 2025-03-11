@@ -7,7 +7,7 @@ func _on_standard_pressed() -> void:
 	get_tree().change_scene_to_file("res://Standard/Standard_Scenes/standard_main.tscn")
 
 func _on_tamerlane_pressed() -> void:
-	get_tree().change_scene_to_file("res://Scenes/main.tscn")
+	get_tree().change_scene_to_file("res://Tamerlane/Scenes/tamerlane_main.tscn")
 
 
 func _on_total_war_pressed() -> void:

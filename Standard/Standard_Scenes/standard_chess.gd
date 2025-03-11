@@ -146,8 +146,6 @@ func _input(event):
 			var var1 = snapped(get_global_mouse_position().x, 0) / CELL_WIDTH
 			var var2 = abs(snapped(get_global_mouse_position().y, 0)) / CELL_WIDTH
 		
-
-			# If we're not mid‐move, and the clicked piece belongs to current side
 			if not state and ((white and board[var2][var1] > 0) or (not white and board[var2][var1] < 0)):
 				selected_piece = Vector2(var2, var1)
 				show_options()

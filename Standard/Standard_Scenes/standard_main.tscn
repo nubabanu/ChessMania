@@ -1,7 +1,7 @@
 [gd_scene load_steps=36 format=3 uid="uid://wumwx2sgq27v"]
 
 [ext_resource type="Texture2D" uid="uid://ctsgdmugmedg5" path="res://Standard/Standard_Assets/white_knight.png" id="1_3khqn"]
-[ext_resource type="PackedScene" uid="uid://c5xblqofcwad0" path="res://Standard/Standard_Scenes/standard_board.tscn" id="1_63gbl"]
+[ext_resource type="PackedScene" uid="uid://c5xblqofcwad0" path="res://Tamerlane/Scenes/board.tscn" id="1_63gbl"]
 [ext_resource type="Texture2D" uid="uid://dn55e0qqy2f8g" path="res://Standard/Standard_Assets/white_bishop.png" id="2_75nc3"]
 [ext_resource type="Texture2D" uid="uid://ctq0j6xxcqikw" path="res://Standard/Standard_Assets/white_rook.png" id="3_a7xec"]
 [ext_resource type="Texture2D" uid="uid://oqqp46qtmwfu" path="res://Standard/Standard_Assets/white_queen.png" id="4_2yafp"]

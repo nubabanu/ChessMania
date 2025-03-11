@@ -5,7 +5,7 @@ const BOARD_WIDTH = 13
 const CELL_WIDTH = 90
 
 # -- Standard Chess Textures-------------------
-const TEXTURE_HOLDER = preload("res://Scenes/texture_holder.tscn")
+const TEXTURE_HOLDER = preload("res://Tamerlane/Scenes/texture_holder.tscn")
 const BLACK_BISHOP = preload("res://Tamerlane/LanePieces/Chess_bdl45.svg")
 const BLACK_KING = preload("res://Tamerlane/LanePieces/Chess_kdl44.png")
 const BLACK_KNIGHT = preload("res://Tamerlane/LanePieces/Chess_ndl45.svg")
