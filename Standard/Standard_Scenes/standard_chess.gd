@@ -33,6 +33,7 @@ const PIECE_MOVE = preload("res://Standard/Standard_Assets/Piece_move.png")
 
 # The AI script
 @onready var chess_ai = preload("res://Standard/standard_chess_ai.gd").new()
+@onready var fischer_gen = preload("res://Fischer/fischer_gen.gd").new()
 
 # Board piece definitions:
 #   -6 = black king
@@ -82,27 +83,59 @@ func _ready():
 	print("okey")
 	chess_ai.set_control(self)
 
-	# Standard initial layout
-	board.append([  4,  2,  3,  5,  6,  3,  2,  4 ])
-	board.append([  1,  1,  1,  1,  1,  1,  1,  1 ])
-	board.append([  0,  0,  0,  0,  0,  0,  0,  0 ])
-	board.append([  0,  0,  0,  0,  0,  0,  0,  0 ])
-	board.append([  0,  0,  0,  0,  0,  0,  0,  0 ])
-	board.append([  0,  0,  0,  0,  0,  0,  0,  0 ])
-	board.append([ -1, -1, -1, -1, -1, -1, -1, -1 ])
-	board.append([ -4, -2, -3, -5, -6, -3, -2, -4 ])
+	board.clear()
+
+	if GameSettings.PlayFischerRandomGame:
+		var white_back_rank = fischer_gen.generate_fischer_random_row()
+		# Mirror for black by multiplying by -1
+		var black_back_rank = []
+		for piece_val in white_back_rank:
+			black_back_rank.append(piece_val * -1)
+
+		# White's back rank is row 0, White's pawns row 1
+		# Black's pawns row 6, Black's back rank row 7
+		board.append(white_back_rank)                     # row 0
+		board.append([ 1, 1, 1, 1, 1, 1, 1, 1 ])           # row 1 (White pawns)
+		board.append([ 0, 0, 0, 0, 0, 0, 0, 0 ])           # row 2
+		board.append([ 0, 0, 0, 0, 0, 0, 0, 0 ])           # row 3
+		board.append([ 0, 0, 0, 0, 0, 0, 0, 0 ])           # row 4
+		board.append([ 0, 0, 0, 0, 0, 0, 0, 0 ])           # row 5
+		board.append([ -1, -1, -1, -1, -1, -1, -1, -1 ])   # row 6 (Black pawns)
+		board.append(black_back_rank)                     # row 7
+	else:
+		# Standard initial layout
+		board.append([  4,  2,  3,  5,  6,  3,  2,  4 ])
+		board.append([  1,  1,  1,  1,  1,  1,  1,  1 ])
+		board.append([  0,  0,  0,  0,  0,  0,  0,  0 ])
+		board.append([  0,  0,  0,  0,  0,  0,  0,  0 ])
+		board.append([  0,  0,  0,  0,  0,  0,  0,  0 ])
+		board.append([  0,  0,  0,  0,  0,  0,  0,  0 ])
+		board.append([ -1, -1, -1, -1, -1, -1, -1, -1 ])
+		board.append([ -4, -2, -3, -5, -6, -3, -2, -4 ])
+
+	# Update your known king positions
+	white_king_pos = find_king_position(true)
+	black_king_pos = find_king_position(false)
 
 	display_board()
 
-	# Connect promotion buttons (UI)
+	# Connect your promotion buttons, etc.
 	var white_buttons = get_tree().get_nodes_in_group("white_pieces")
 	var black_buttons = get_tree().get_nodes_in_group("black_pieces")
-
 	for button in white_buttons:
 		button.pressed.connect(_on_button_pressed.bind(button))
-
 	for button in black_buttons:
 		button.pressed.connect(_on_button_pressed.bind(button))
+		
+func find_king_position(is_white: bool) -> Vector2:
+	for row in range(BOARD_SIZE):
+		for col in range(BOARD_SIZE):
+			if is_white and board[row][col] == 6:
+				return Vector2(row, col)
+			elif not is_white and board[row][col] == -6:
+				return Vector2(row, col)
+	return Vector2()  # Fallback if not found
+		
 
 
 func _input(event):
@@ -938,11 +971,18 @@ func get_moveable_areas_for_all_pieces(is_white: bool) -> Array:
 
 
 func make_ai_move():
-	var best_move = chess_ai.get_best_move(board, false)  # black’s move
+	var best_move = chess_ai.get_best_move(board, false)  
 	if best_move != null:
+		
 		board[best_move.destination.x][best_move.destination.y] = board[best_move.origin.x][best_move.origin.y]
 		board[best_move.origin.x][best_move.origin.y] = 0
 
+		if board[best_move.destination.x][best_move.destination.y] == -1 and best_move.destination.x == 0:
+			board[best_move.destination.x][best_move.destination.y] = -5  
+	
+		if board[best_move.destination.x][best_move.destination.y] == 1 and best_move.destination.x == 7:
+			board[best_move.destination.x][best_move.destination.y] = 5 
+	
 		white = not white
 		state = false
 		selected_piece = Vector2()
@@ -950,14 +990,13 @@ func make_ai_move():
 		display_board()
 
 
+
 func is_game_over(board: Array) -> bool:
 	return is_checkmate(true) or is_checkmate(false) or is_stalemate(true) or is_stalemate(false)
 	
 func is_checkmate(for_white: bool) -> bool:
-	# 1) Are we in check?
 	if not is_in_check(get_king_position(for_white), for_white):
 		return false
-	# 2) Are there any legal moves to get out of check?
 	var possible_moves = get_moveable_areas_for_all_pieces(for_white)
 	return possible_moves.size() == 0
 	

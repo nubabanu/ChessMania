@@ -1,6 +1,6 @@
 extends Node
 
 var PlayFischerRandomGame: bool = false
-var PlayRegularGame: bool = true
+var PlayRegularGame: bool = false
 
-var is_single_player : bool = false
+var is_single_player : bool = true

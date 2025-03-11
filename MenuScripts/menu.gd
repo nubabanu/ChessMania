@@ -17,4 +17,4 @@ func _on_total_war_pressed() -> void:
 func _on_fisher_pressed() -> void:
 	GameSettings.PlayFischerRandomGame = true
 	GameSettings.PlayRegularGame = false
-	get_tree().change_scene_to_file("res://board.tscn")
+	get_tree().change_scene_to_file("res://Standard/Standard_Scenes/standard_main.tscn")
