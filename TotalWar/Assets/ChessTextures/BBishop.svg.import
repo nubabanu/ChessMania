@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://7wp4y0hbi1ee"
-path="res://.godot/imported/ShopBackground.webp-8db72e9795772e0e11b03c5a50b3b424.ctex"
+uid="uid://ca8t2shoassp2"
+path="res://.godot/imported/BBishop.svg-7416cd7eb3095c49d51e4f00728cf7fb.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/ShopBackground.webp"
-dest_files=["res://.godot/imported/ShopBackground.webp-8db72e9795772e0e11b03c5a50b3b424.ctex"]
+source_file="res://TotalWar/Assets/ChessTextures/BBishop.svg"
+dest_files=["res://.godot/imported/BBishop.svg-7416cd7eb3095c49d51e4f00728cf7fb.ctex"]
 
 [params]
 
@@ -32,3 +32,6 @@ process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
 detect_3d/compress_to=1
+svg/scale=1.0
+editor/scale_with_editor_scale=false
+editor/convert_colors_with_editor_theme=false

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cr1lku07l36wb"
-path="res://.godot/imported/WQueen.svg-0bb76d6b190776365484fd4d31df0913.ctex"
+uid="uid://dnp45xyp0eesa"
+path="res://.godot/imported/WKnight.svg-30b68675888f1661d36b21daad8a6cc4.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://ChessTextures/WQueen.svg"
-dest_files=["res://.godot/imported/WQueen.svg-0bb76d6b190776365484fd4d31df0913.ctex"]
+source_file="res://TotalWar/Assets/ChessTextures/WKnight.svg"
+dest_files=["res://.godot/imported/WKnight.svg-30b68675888f1661d36b21daad8a6cc4.ctex"]
 
 [params]
 

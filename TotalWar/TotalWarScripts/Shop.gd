@@ -7,7 +7,7 @@ extends Control
 
 var total_money = 50  # Starting money
 var selected_pieces = {}  # Dictionary to track selected pieces
-const NEXT_SCENE_PATH = "res://TotalWarScenes/TotalWar.tscn"
+const NEXT_SCENE_PATH = "res://TotalWar/Scenes/TotalWar.tscn"
 
 func _ready():
 	# Connect buttons

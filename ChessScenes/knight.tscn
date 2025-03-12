@@ -1,8 +1,8 @@
 [gd_scene load_steps=4 format=3 uid="uid://bgd6ldfcm8hie"]
 
 [ext_resource type="Script" uid="uid://bjew1053bwdkr" path="res://ChessScripts/knight.gd" id="1_7qao2"]
-[ext_resource type="Texture2D" uid="uid://bjneg3fh7mu2e" path="res://ChessTextures/BKnight.svg" id="2_2w5jy"]
-[ext_resource type="Texture2D" uid="uid://dnp45xyp0eesa" path="res://ChessTextures/WKnight.svg" id="3_jfjqj"]
+[ext_resource type="Texture2D" uid="uid://bjneg3fh7mu2e" path="res://TotalWar/Assets/ChessTextures/BKnight.svg" id="2_2w5jy"]
+[ext_resource type="Texture2D" uid="uid://dnp45xyp0eesa" path="res://TotalWar/Assets/ChessTextures/WKnight.svg" id="3_jfjqj"]
 
 [node name="Knight" type="Sprite2D"]
 script = ExtResource("1_7qao2")

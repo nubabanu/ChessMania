@@ -1,13 +1,13 @@
 [gd_scene load_steps=9 format=3 uid="uid://bogt5xugvoja7"]
 
-[ext_resource type="Script" uid="uid://cgteomq2xduj6" path="res://TotalWarScripts/Shop.gd" id="1_w0i75"]
-[ext_resource type="Texture2D" uid="uid://7wp4y0hbi1ee" path="res://Assets/ShopBackground.webp" id="2_bwh7o"]
+[ext_resource type="Script" uid="uid://cgteomq2xduj6" path="res://TotalWar/TotalWarScripts/Shop.gd" id="1_w0i75"]
+[ext_resource type="Texture2D" uid="uid://7wp4y0hbi1ee" path="res://TotalWar/Assets/ShopBackground.webp" id="2_bwh7o"]
 [ext_resource type="FontFile" uid="uid://ccayte7og7sqr" path="res://Assets/I-pixel-u.ttf" id="3_gl7ij"]
-[ext_resource type="Texture2D" uid="uid://dl5dp47xg34sb" path="res://ChessTextures/WPawn.svg" id="4_ltthw"]
-[ext_resource type="Texture2D" uid="uid://bal1cx2x7hk7l" path="res://ChessTextures/WBishop.svg" id="5_yrulp"]
-[ext_resource type="Texture2D" uid="uid://dnp45xyp0eesa" path="res://ChessTextures/WKnight.svg" id="6_t75n7"]
-[ext_resource type="Texture2D" uid="uid://qisaumos7b53" path="res://ChessTextures/WRook.svg" id="7_qk4rh"]
-[ext_resource type="Texture2D" uid="uid://cr1lku07l36wb" path="res://ChessTextures/WQueen.svg" id="8_fx46u"]
+[ext_resource type="Texture2D" uid="uid://dl5dp47xg34sb" path="res://TotalWar/Assets/ChessTextures/WPawn.svg" id="4_ltthw"]
+[ext_resource type="Texture2D" uid="uid://bal1cx2x7hk7l" path="res://TotalWar/Assets/ChessTextures/WBishop.svg" id="5_yrulp"]
+[ext_resource type="Texture2D" uid="uid://dnp45xyp0eesa" path="res://TotalWar/Assets/ChessTextures/WKnight.svg" id="6_t75n7"]
+[ext_resource type="Texture2D" uid="uid://qisaumos7b53" path="res://TotalWar/Assets/ChessTextures/WRook.svg" id="7_qk4rh"]
+[ext_resource type="Texture2D" uid="uid://cr1lku07l36wb" path="res://TotalWar/Assets/ChessTextures/WQueen.svg" id="8_fx46u"]
 
 [node name="Shop" type="Node2D"]
 

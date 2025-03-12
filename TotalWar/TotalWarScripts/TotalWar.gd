@@ -13,11 +13,11 @@ var board_offset = Vector2()       # Computed offset to center the grid
 
 # Mapping of piece names to texture file paths.
 var piece_textures = {
-	"pieceshopitem": "res://ChessTextures/WPawn.svg",
-	"pieceshopitem2": "res://ChessTextures/WBishop.svg",
-	"pieceshopitem3": "res://ChessTextures/WKnight.svg",
-	"pieceshopitem4": "res://ChessTextures/WRook.svg",
-	"pieceshopitem5": "res://ChessTextures/WQueen.svg"
+	"pieceshopitem": "res://TotalWar/Assets/ChessTextures/WPawn.svg",
+	"pieceshopitem2": "res://TotalWar/Assets/ChessTextures/WBishop.svg",
+	"pieceshopitem3": "res://TotalWar/Assets/ChessTextures/WKnight.svg",
+	"pieceshopitem4": "res://TotalWar/Assets/ChessTextures/WRook.svg",
+	"pieceshopitem5": "res://TotalWar/Assets/ChessTextures/WQueen.svg"
 	#"pieceshopitem6": "res://ChessTextures/WKing.svg"
 }
 
@@ -132,7 +132,7 @@ func create_piece(piece_name):
 	piece.pivot_offset = piece.custom_minimum_size / 2
 	# Initialize occupied_tile meta.
 	piece.set_meta("occupied_tile", null)
-	piece.set_script(load("res://TotalWarScripts/DraggablePiece.gd"))
+	piece.set_script(load("res://TotalWar/TotalWarScripts/DraggablePiece.gd"))
 	piece_container.add_child(piece)
 	print("Created piece:", piece_name, "at", piece.position)
 

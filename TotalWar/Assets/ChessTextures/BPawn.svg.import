@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://2an2oqh0ks1y"
-path="res://.godot/imported/BRook.svg-6b13852aba3b5f99b355465e2aa624fd.ctex"
+uid="uid://1sql4pmy32c8"
+path="res://.godot/imported/BPawn.svg-a8bef7b4821325784b7cfafd860478c7.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://ChessTextures/BRook.svg"
-dest_files=["res://.godot/imported/BRook.svg-6b13852aba3b5f99b355465e2aa624fd.ctex"]
+source_file="res://TotalWar/Assets/ChessTextures/BPawn.svg"
+dest_files=["res://.godot/imported/BPawn.svg-a8bef7b4821325784b7cfafd860478c7.ctex"]
 
 [params]
 

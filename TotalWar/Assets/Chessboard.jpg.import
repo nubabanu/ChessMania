@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://cvcov8rqcdqxf"
-path="res://.godot/imported/Chessboard.jpg-3359709b12e9e5beb7ff9300431210ef.ctex"
+path="res://.godot/imported/Chessboard.jpg-07d0bcfda0514e7b54ddf2a91050fc95.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Chessboard.jpg"
-dest_files=["res://.godot/imported/Chessboard.jpg-3359709b12e9e5beb7ff9300431210ef.ctex"]
+source_file="res://TotalWar/Assets/Chessboard.jpg"
+dest_files=["res://.godot/imported/Chessboard.jpg-07d0bcfda0514e7b54ddf2a91050fc95.ctex"]
 
 [params]
 
