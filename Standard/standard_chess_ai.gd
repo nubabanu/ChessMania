@@ -177,14 +177,32 @@ func evaluate_board(board: Array) -> float:
 		if is_white_piece(piece_data):
 			bonus = piece_offsets[piece_type][y][x]
 			score += base_value + bonus
+			if(control.is_checkmate(false)):
+				score = score + 1000000
 		else:
 			y = 7 - y
 			bonus = piece_offsets[piece_type][y][x]
 			score -= (base_value + bonus)
+			if(control.is_checkmate(true)):
+				score = score - 1000000
 	return score
 
+
 func get_all_legal_moves(board: Array, is_white: bool) -> Array:
-	return control.get_moveable_areas_for_all_pieces(is_white)
+	var pseudo_moves = control.get_moveable_areas_for_all_pieces(is_white)
+	var legal_moves = []
+
+	for move in pseudo_moves:
+		var captured_piece = apply_move(board, move)
+		
+		# Check if we are in check after this move
+		if not control.is_in_check(control.find_king_position(is_white), is_white):
+			legal_moves.append(move)
+		
+		revert_move(board, move, captured_piece)
+	
+	return legal_moves
+	
 
 func is_white_piece(piece_data: Dictionary) -> bool:
 	if piece_data.has("is_white"):

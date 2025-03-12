@@ -225,8 +225,8 @@ func delete_dots():
 func set_move(var2: int, var1: int) -> void:
 	var game_over = false
 	var move_found = false
-	var just_now = false  # flag for moves like en passant that postpone resetting en_passant
-	var did_promote = false  # NEW: indicates whether a promotion occurred
+	var just_now = false  
+	var did_promote = false  
 
 	# Loop over possible moves to see if the clicked square is valid
 	for mv in moves:
@@ -456,7 +456,7 @@ func get_rook_moves(piece_position: Vector2, for_white: bool) -> Array:
 				board[pos.x][pos.y] = rook_value
 				board[piece_position.x][piece_position.y] = 0
 
-				if not is_in_check(get_king_position(for_white), for_white):
+				if not is_in_check(find_king_position(for_white), for_white):
 					results.append(pos)
 
 				board[pos.x][pos.y] = old_dest
@@ -469,7 +469,7 @@ func get_rook_moves(piece_position: Vector2, for_white: bool) -> Array:
 				board[pos.x][pos.y] = rook_value
 				board[piece_position.x][piece_position.y] = 0
 
-				if not is_in_check(get_king_position(for_white), for_white):
+				if not is_in_check(find_king_position(for_white), for_white):
 					results.append(pos)
 
 				board[pos.x][pos.y] = captured
@@ -505,7 +505,7 @@ func get_bishop_moves(piece_position: Vector2, for_white: bool) -> Array:
 				board[pos.x][pos.y] = bishop_value
 				board[piece_position.x][piece_position.y] = 0
 
-				if not is_in_check(get_king_position(for_white), for_white):
+				if not is_in_check(find_king_position(for_white), for_white):
 					results.append(pos)
 
 				board[pos.x][pos.y] = old_dest
@@ -517,7 +517,7 @@ func get_bishop_moves(piece_position: Vector2, for_white: bool) -> Array:
 				board[pos.x][pos.y] = bishop_value
 				board[piece_position.x][piece_position.y] = 0
 
-				if not is_in_check(get_king_position(for_white), for_white):
+				if not is_in_check(find_king_position(for_white), for_white):
 					results.append(pos)
 
 				board[pos.x][pos.y] = captured
@@ -556,7 +556,7 @@ func get_queen_moves(piece_position: Vector2, for_white: bool) -> Array:
 				board[pos.x][pos.y] = queen_value
 				board[piece_position.x][piece_position.y] = 0
 
-				if not is_in_check(get_king_position(for_white), for_white):
+				if not is_in_check(find_king_position(for_white), for_white):
 					results.append(pos)
 
 				board[pos.x][pos.y] = old_dest
@@ -568,7 +568,7 @@ func get_queen_moves(piece_position: Vector2, for_white: bool) -> Array:
 				board[pos.x][pos.y] = queen_value
 				board[piece_position.x][piece_position.y] = 0
 
-				if not is_in_check(get_king_position(for_white), for_white):
+				if not is_in_check(find_king_position(for_white), for_white):
 					results.append(pos)
 
 				board[pos.x][pos.y] = captured
@@ -583,45 +583,31 @@ func get_queen_moves(piece_position: Vector2, for_white: bool) -> Array:
 
 func get_king_moves(piece_position: Vector2, for_white: bool) -> Array:
 	var results = []
-
 	var directions = [
 		Vector2(1, 0), Vector2(1, 1), Vector2(0, 1),
 		Vector2(-1, 1), Vector2(-1, 0), Vector2(-1, -1),
 		Vector2(0, -1), Vector2(1, -1)
 	]
 
-	var king_value 
-	if(for_white):
-		king_value = 6
-	else:
-		king_value = -6	
+	var king_value = 6 if for_white else -6
 
 	for dir in directions:
 		var pos = piece_position + dir
 		if is_valid_position(pos):
-			var occupant = board[pos.x][pos.y]
+			if is_empty(pos) or is_enemy(pos, for_white):
+				var old_dest = board[pos.x][pos.y]
+				var old_orig = board[piece_position.x][piece_position.y]
 
-			# 1) Skip if occupant is same color as King
-			if (for_white and occupant > 0) or (not for_white and occupant < 0):
-				continue
+				board[pos.x][pos.y] = king_value
+				board[piece_position.x][piece_position.y] = 0
 
-			# 2) Temporarily move/capture
-			var old_dest = board[pos.x][pos.y]
-			board[pos.x][pos.y] = king_value
-			board[piece_position.x][piece_position.y] = 0
+				if not is_in_check(pos, for_white):
+					results.append(pos)
 
-			# 3) Check for check
-			if not is_in_check(pos, for_white):
-				results.append(pos)
-
-			# 4) Revert
-			board[pos.x][pos.y] = old_dest
-			board[piece_position.x][piece_position.y] = king_value
-
+				board[pos.x][pos.y] = old_dest
+				board[piece_position.x][piece_position.y] = old_orig
+	
 	return results
-
-
-
 
 
 func get_knight_moves(piece_position: Vector2, for_white: bool) -> Array:
@@ -654,7 +640,7 @@ func get_knight_moves(piece_position: Vector2, for_white: bool) -> Array:
 				board[piece_position.x][piece_position.y] = 0
 
 				# Verify that our king is not in check after making this move
-				if not is_in_check(get_king_position(for_white), for_white):
+				if not is_in_check(find_king_position(for_white), for_white):
 					results.append(pos)
 
 				# Revert the board
@@ -670,7 +656,7 @@ func get_knight_moves(piece_position: Vector2, for_white: bool) -> Array:
 				board[piece_position.x][piece_position.y] = 0
 
 				# Verify that our king is not in check after capturing
-				if not is_in_check(get_king_position(for_white), for_white):
+				if not is_in_check(find_king_position(for_white), for_white):
 					results.append(pos)
 
 				# Revert the board
@@ -719,7 +705,7 @@ func get_pawn_moves(piece_position: Vector2, for_white: bool) -> Array:
 				board[pos.x][pos.y] = pawn_value
 				board[row][col]     = 0
 
-				if not is_in_check(get_king_position(for_white), for_white):
+				if not is_in_check(find_king_position(for_white), for_white):
 					results.append(pos)
 
 				# undo
@@ -738,7 +724,7 @@ func get_pawn_moves(piece_position: Vector2, for_white: bool) -> Array:
 				board[pos2.x][pos2.y]            = pawn_value
 				board[row][col]                  = 0
 
-				if not is_in_check(get_king_position(for_white), for_white):
+				if not is_in_check(find_king_position(for_white), for_white):
 					results.append(pos2)
 
 				board[en_passant.x][en_passant.y] = old_ep2
@@ -753,7 +739,7 @@ func get_pawn_moves(piece_position: Vector2, for_white: bool) -> Array:
 		board[forward1.x][forward1.y] = pawn_value
 		board[row][col]               = 0
 
-		if not is_in_check(get_king_position(for_white), for_white):
+		if not is_in_check(find_king_position(for_white), for_white):
 			results.append(forward1)
 
 		board[forward1.x][forward1.y] = old_dest3
@@ -769,7 +755,7 @@ func get_pawn_moves(piece_position: Vector2, for_white: bool) -> Array:
 			board[diag_pos.x][diag_pos.y] = pawn_value
 			board[row][col]              = 0
 
-			if not is_in_check(get_king_position(for_white), for_white):
+			if not is_in_check(find_king_position(for_white), for_white):
 				results.append(diag_pos)
 
 			board[diag_pos.x][diag_pos.y] = old_dest4
@@ -786,7 +772,7 @@ func get_pawn_moves(piece_position: Vector2, for_white: bool) -> Array:
 			board[forward2.x][forward2.y] = pawn_value
 			board[row][col]               = 0
 
-			if not is_in_check(get_king_position(for_white), for_white):
+			if not is_in_check(find_king_position(for_white), for_white):
 				results.append(forward2)
 
 			board[forward2.x][forward2.y] = old_dest5
@@ -908,7 +894,7 @@ func is_in_check(king_pos: Vector2, for_white: bool) -> bool:
 
 func is_stalemate(for_white: bool) -> bool:
 	# 1) Are we NOT in check?
-	if is_in_check(get_king_position(for_white), for_white):
+	if is_in_check(find_king_position(for_white), for_white):
 		return false
 	# 2) No legal moves
 	var possible_moves = get_moveable_areas_for_all_pieces(for_white)
@@ -975,6 +961,7 @@ func make_ai_move():
 		board[best_move.destination.x][best_move.destination.y] = board[best_move.origin.x][best_move.origin.y]
 		board[best_move.origin.x][best_move.origin.y] = 0
 
+		#AI Promotion
 		if board[best_move.destination.x][best_move.destination.y] == -1 and best_move.destination.x == 0:
 			board[best_move.destination.x][best_move.destination.y] = -5  
 	
@@ -993,7 +980,7 @@ func is_game_over(board: Array) -> bool:
 	return is_checkmate(true) or is_checkmate(false) or is_stalemate(true) or is_stalemate(false)
 	
 func is_checkmate(for_white: bool) -> bool:
-	if not is_in_check(get_king_position(for_white), for_white):
+	if not is_in_check(find_king_position(for_white), for_white):
 		return false
 	var possible_moves = get_moveable_areas_for_all_pieces(for_white)
 	return possible_moves.size() == 0
