@@ -14,3 +14,7 @@ const SHOP = "res://TotalWar/Scenes/Shop.tscn"
 const BLACK_SHOP = "res://TotalWar/Scenes/BlackShop.tscn"
 const TOTAL_WAR = "res://TotalWar/Scenes/TotalWar.tscn"
 const OPTIONS = "res://TotalWar/Scenes/Options.tscn"
+
+func switch_turn():
+	turn = (turn + 1) % 2
+	print("Turn switched! Current turn:", turn)

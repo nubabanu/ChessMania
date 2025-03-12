@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://dqkcrsvnfxadc"]
+[gd_scene load_steps=4 format=3 uid="uid://dqkcrsvnfxadc"]
 
 [ext_resource type="Script" uid="uid://cg1k6252exwty" path="res://TotalWar/TotalWarScripts/TotalWar.gd" id="1_mnq3f"]
 [ext_resource type="Texture2D" uid="uid://cvcov8rqcdqxf" path="res://TotalWar/Assets/Chessboard.jpg" id="2_4ex6v"]
+[ext_resource type="FontFile" uid="uid://ccayte7og7sqr" path="res://Assets/I-pixel-u.ttf" id="3_auoaj"]
 
 [node name="TotalWar" type="Node2D"]
 
@@ -19,6 +20,13 @@ offset_top = 55.0
 offset_right = 206.0
 offset_bottom = 95.0
 
+[node name="BlackPieceContainer" type="VBoxContainer" parent="Control"]
+layout_mode = 0
+offset_left = 954.0
+offset_top = 36.0
+offset_right = 994.0
+offset_bottom = 76.0
+
 [node name="ChessBoard" type="Node2D" parent="Control"]
 
 [node name="TileContainer" type="Node2D" parent="Control/ChessBoard"]
@@ -30,3 +38,18 @@ offset_bottom = 648.0
 texture = ExtResource("2_4ex6v")
 expand_mode = 2
 stretch_mode = 5
+
+[node name="TurnLabel" type="Label" parent="Control"]
+layout_mode = 0
+offset_left = 289.0
+offset_top = 3.0
+offset_right = 933.0
+offset_bottom = 56.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("3_auoaj")
+theme_override_font_sizes/font_size = 35
+text = "TURN"
+horizontal_alignment = 1
+vertical_alignment = 1

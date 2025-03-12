@@ -79,11 +79,12 @@ func on_confirm_pressed():
 		Global.white_purchased_pieces = selected_pieces
 		print("Selection Confirmed:", selected_pieces)
 		get_tree().change_scene_to_file(Global.BLACK_SHOP)  # Switch scene
-		Global.turn += 1
+		Global.switch_turn()
 	else:
 		Global.black_purchased_pieces = selected_pieces
 		print("Selection Confirmed:", selected_pieces)
 		get_tree().change_scene_to_file(Global.TOTAL_WAR)  # Switch scene
+		Global.switch_turn()
 
 # Updates the money UI
 func update_money_display():

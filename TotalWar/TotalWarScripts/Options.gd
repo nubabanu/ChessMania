@@ -21,7 +21,7 @@ func on_confirm_pressed():
 
 	# Get selected option for playable lines
 	if(line_option.get_selected_id() != -1):
-		Global.playable_lines = line_option.get_selected_id()  # Ensures it matches the chosen option
+		Global.playable_lines = line_option.get_selected_id() + 1  # Ensures it matches the chosen option
 
 	print("Selected Lines:", Global.playable_lines)
 	print("Total Balance:", Global.TOTAL_BALANCE)
