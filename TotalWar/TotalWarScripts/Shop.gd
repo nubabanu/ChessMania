@@ -4,15 +4,16 @@ extends Control
 @onready var money_label = $MoneyContainer/MoneyAmount
 @onready var confirm_button = $ButtonsContainer/ConfirmButton
 @onready var reset_button = $ButtonsContainer/ResetButton
+@onready var back_button = $ButtonsContainer/BackButton
 
-var total_money = 50  # Starting money
+var total_money = Global.TOTAL_BALANCE  # Starting money
 var selected_pieces = {}  # Dictionary to track selected pieces
-const NEXT_SCENE_PATH = "res://TotalWar/Scenes/TotalWar.tscn"
 
 func _ready():
 	# Connect buttons
 	confirm_button.pressed.connect(on_confirm_pressed)
 	reset_button.pressed.connect(on_reset_pressed)
+	back_button.pressed.connect(on_back_pressed)
 
 	# Initialize each PieceShopItem inside PiecesContainer
 	for piece_item in pieces_container.get_children():
@@ -74,10 +75,20 @@ func on_confirm_pressed():
 			selected_pieces[piece_item.name] = count
 			
 	# Save selection to Global script
-	Global.purchased_pieces = selected_pieces
-	print("Selection Confirmed:", selected_pieces)
-	get_tree().change_scene_to_file(NEXT_SCENE_PATH)  # Switch scene
+	if(Global.turn == Global.Player.WHITE):
+		Global.white_purchased_pieces = selected_pieces
+		print("Selection Confirmed:", selected_pieces)
+		get_tree().change_scene_to_file(Global.BLACK_SHOP)  # Switch scene
+		Global.turn += 1
+	else:
+		Global.black_purchased_pieces = selected_pieces
+		print("Selection Confirmed:", selected_pieces)
+		get_tree().change_scene_to_file(Global.TOTAL_WAR)  # Switch scene
 
 # Updates the money UI
 func update_money_display():
 	money_label.text = str(total_money)
+	
+# Handles Back button press
+func on_back_pressed():
+	get_tree().change_scene_to_file(Global.OPTIONS)  # Switch scene

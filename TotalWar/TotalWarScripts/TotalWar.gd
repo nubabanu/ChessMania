@@ -5,7 +5,8 @@ extends Control
 @onready var tile_container = $ChessBoard/TileContainer    # Container holding the grid tiles
 @onready var chessboard_texture = $ChessBoard/Background  # Chessboard background
 
-var available_pieces = {}
+var white_available_pieces = {}
+var black_available_pieces = {}
 var tiles = []                     # Array of tile nodes
 var tile_size = Vector2(60, 60)    # Each tile is 60x60 pixels
 var tile_spacing = Vector2(5, 5)   # Gap between tiles (adjust as needed)
@@ -13,11 +14,16 @@ var board_offset = Vector2()       # Computed offset to center the grid
 
 # Mapping of piece names to texture file paths.
 var piece_textures = {
-	"pieceshopitem": "res://TotalWar/Assets/ChessTextures/WPawn.svg",
-	"pieceshopitem2": "res://TotalWar/Assets/ChessTextures/WBishop.svg",
-	"pieceshopitem3": "res://TotalWar/Assets/ChessTextures/WKnight.svg",
-	"pieceshopitem4": "res://TotalWar/Assets/ChessTextures/WRook.svg",
-	"pieceshopitem5": "res://TotalWar/Assets/ChessTextures/WQueen.svg"
+	"WPawn": "res://TotalWar/Assets/ChessTextures/WPawn.svg",
+	"WBishop": "res://TotalWar/Assets/ChessTextures/WBishop.svg",
+	"WKnight": "res://TotalWar/Assets/ChessTextures/WKnight.svg",
+	"WRook": "res://TotalWar/Assets/ChessTextures/WRook.svg",
+	"WQueen": "res://TotalWar/Assets/ChessTextures/WQueen.svg",
+	"BPawn": "res://TotalWar/Assets/ChessTextures/BPawn.svg",
+	"BBishop": "res://TotalWar/Assets/ChessTextures/BBishop.svg",
+	"BKnight": "res://TotalWar/Assets/ChessTextures/BKnight.svg",
+	"BRook": "res://TotalWar/Assets/ChessTextures/BRook.svg",
+	"BQueen": "res://TotalWar/Assets/ChessTextures/BQueen.svg"
 	#"pieceshopitem6": "res://ChessTextures/WKing.svg"
 }
 
@@ -103,12 +109,26 @@ func reset_tile_highlights():
 			hl.visible = false
 
 func load_purchased_pieces():
-	available_pieces = Global.purchased_pieces  # Retrieve saved pieces.
-	if available_pieces.is_empty():
-		print("No purchased pieces found!")
+	white_available_pieces = Global.white_purchased_pieces  # Retrieve saved pieces.
+	black_available_pieces = Global.black_purchased_pieces
+	
+	if white_available_pieces.is_empty():
+		print("No purchased white pieces found!")
 		return
-	for piece_name in available_pieces.keys():
-		var count = available_pieces[piece_name]
+	if black_available_pieces.is_empty():
+		print("No purchased black pieces found!")
+		return
+		
+	for piece_name in white_available_pieces.keys():
+		var count = white_available_pieces[piece_name]
+		if typeof(count) != TYPE_INT:
+			print("Warning: Piece count for", piece_name, "is not an integer:", count)
+			continue
+		for i in range(count):
+			create_piece(piece_name)
+			
+	for piece_name in black_available_pieces.keys():
+		var count = black_available_pieces[piece_name]
 		if typeof(count) != TYPE_INT:
 			print("Warning: Piece count for", piece_name, "is not an integer:", count)
 			continue
@@ -117,7 +137,7 @@ func load_purchased_pieces():
 
 func create_piece(piece_name):
 	var piece = TextureRect.new()
-	var texture_path = piece_textures.get(piece_name.to_lower(), null)
+	var texture_path = piece_textures.get(piece_name, null)
 	if texture_path and FileAccess.file_exists(texture_path):
 		piece.texture = load(texture_path)
 	else:

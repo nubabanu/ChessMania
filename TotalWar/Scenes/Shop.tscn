@@ -54,15 +54,15 @@ scale = Vector2(1.65, 1.65)
 theme_override_constants/h_separation = 150
 columns = 5
 
-[node name="PieceShopItem" type="Control" parent="Control/PiecesContainer"]
+[node name="WPawn" type="Control" parent="Control/PiecesContainer"]
 layout_mode = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Control/PiecesContainer/PieceShopItem"]
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/PiecesContainer/WPawn"]
 layout_mode = 0
 offset_right = 92.0
 offset_bottom = 165.0
 
-[node name="NameLabel" type="Label" parent="Control/PiecesContainer/PieceShopItem/VBoxContainer"]
+[node name="NameLabel" type="Label" parent="Control/PiecesContainer/WPawn/VBoxContainer"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_gl7ij")
 theme_override_font_sizes/font_size = 24
@@ -70,12 +70,12 @@ text = "PAWN"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Portrait" type="TextureRect" parent="Control/PiecesContainer/PieceShopItem/VBoxContainer"]
+[node name="Portrait" type="TextureRect" parent="Control/PiecesContainer/WPawn/VBoxContainer"]
 layout_mode = 2
 texture = ExtResource("4_ltthw")
 stretch_mode = 5
 
-[node name="Price" type="Label" parent="Control/PiecesContainer/PieceShopItem/VBoxContainer"]
+[node name="Price" type="Label" parent="Control/PiecesContainer/WPawn/VBoxContainer"]
 layout_mode = 2
 theme_override_colors/font_color = Color(57.459, 29.834, 0, 1)
 theme_override_fonts/font = ExtResource("3_gl7ij")
@@ -84,18 +84,18 @@ text = "1P"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="QuantityContainer" type="HBoxContainer" parent="Control/PiecesContainer/PieceShopItem/VBoxContainer"]
+[node name="QuantityContainer" type="HBoxContainer" parent="Control/PiecesContainer/WPawn/VBoxContainer"]
 layout_mode = 2
 theme_override_constants/separation = 10
 alignment = 1
 
-[node name="MinusButton" type="Button" parent="Control/PiecesContainer/PieceShopItem/VBoxContainer/QuantityContainer"]
+[node name="MinusButton" type="Button" parent="Control/PiecesContainer/WPawn/VBoxContainer/QuantityContainer"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_gl7ij")
 theme_override_font_sizes/font_size = 32
 text = "-"
 
-[node name="QuantityLabel" type="Label" parent="Control/PiecesContainer/PieceShopItem/VBoxContainer/QuantityContainer"]
+[node name="QuantityLabel" type="Label" parent="Control/PiecesContainer/WPawn/VBoxContainer/QuantityContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 1
@@ -105,21 +105,21 @@ text = "0"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="PlusButton" type="Button" parent="Control/PiecesContainer/PieceShopItem/VBoxContainer/QuantityContainer"]
+[node name="PlusButton" type="Button" parent="Control/PiecesContainer/WPawn/VBoxContainer/QuantityContainer"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_gl7ij")
 theme_override_font_sizes/font_size = 32
 text = "+"
 
-[node name="PieceShopItem2" type="Control" parent="Control/PiecesContainer"]
+[node name="WBishop" type="Control" parent="Control/PiecesContainer"]
 layout_mode = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Control/PiecesContainer/PieceShopItem2"]
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/PiecesContainer/WBishop"]
 layout_mode = 0
 offset_right = 92.0
 offset_bottom = 165.0
 
-[node name="NameLabel" type="Label" parent="Control/PiecesContainer/PieceShopItem2/VBoxContainer"]
+[node name="NameLabel" type="Label" parent="Control/PiecesContainer/WBishop/VBoxContainer"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_gl7ij")
 theme_override_font_sizes/font_size = 24
@@ -127,12 +127,12 @@ text = "BISHOP"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Portrait" type="TextureRect" parent="Control/PiecesContainer/PieceShopItem2/VBoxContainer"]
+[node name="Portrait" type="TextureRect" parent="Control/PiecesContainer/WBishop/VBoxContainer"]
 layout_mode = 2
 texture = ExtResource("5_yrulp")
 stretch_mode = 5
 
-[node name="Price" type="Label" parent="Control/PiecesContainer/PieceShopItem2/VBoxContainer"]
+[node name="Price" type="Label" parent="Control/PiecesContainer/WBishop/VBoxContainer"]
 layout_mode = 2
 theme_override_colors/font_color = Color(57.459, 29.834, 0, 1)
 theme_override_fonts/font = ExtResource("3_gl7ij")
@@ -141,18 +141,18 @@ text = "3P"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="QuantityContainer" type="HBoxContainer" parent="Control/PiecesContainer/PieceShopItem2/VBoxContainer"]
+[node name="QuantityContainer" type="HBoxContainer" parent="Control/PiecesContainer/WBishop/VBoxContainer"]
 layout_mode = 2
 theme_override_constants/separation = 10
 alignment = 1
 
-[node name="MinusButton" type="Button" parent="Control/PiecesContainer/PieceShopItem2/VBoxContainer/QuantityContainer"]
+[node name="MinusButton" type="Button" parent="Control/PiecesContainer/WBishop/VBoxContainer/QuantityContainer"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_gl7ij")
 theme_override_font_sizes/font_size = 32
 text = "-"
 
-[node name="QuantityLabel" type="Label" parent="Control/PiecesContainer/PieceShopItem2/VBoxContainer/QuantityContainer"]
+[node name="QuantityLabel" type="Label" parent="Control/PiecesContainer/WBishop/VBoxContainer/QuantityContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 1
@@ -162,21 +162,21 @@ text = "0"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="PlusButton" type="Button" parent="Control/PiecesContainer/PieceShopItem2/VBoxContainer/QuantityContainer"]
+[node name="PlusButton" type="Button" parent="Control/PiecesContainer/WBishop/VBoxContainer/QuantityContainer"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_gl7ij")
 theme_override_font_sizes/font_size = 32
 text = "+"
 
-[node name="PieceShopItem3" type="Control" parent="Control/PiecesContainer"]
+[node name="WKnight" type="Control" parent="Control/PiecesContainer"]
 layout_mode = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Control/PiecesContainer/PieceShopItem3"]
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/PiecesContainer/WKnight"]
 layout_mode = 0
 offset_right = 92.0
 offset_bottom = 165.0
 
-[node name="NameLabel" type="Label" parent="Control/PiecesContainer/PieceShopItem3/VBoxContainer"]
+[node name="NameLabel" type="Label" parent="Control/PiecesContainer/WKnight/VBoxContainer"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_gl7ij")
 theme_override_font_sizes/font_size = 24
@@ -184,12 +184,12 @@ text = "KNIGHT"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Portrait" type="TextureRect" parent="Control/PiecesContainer/PieceShopItem3/VBoxContainer"]
+[node name="Portrait" type="TextureRect" parent="Control/PiecesContainer/WKnight/VBoxContainer"]
 layout_mode = 2
 texture = ExtResource("6_t75n7")
 stretch_mode = 5
 
-[node name="Price" type="Label" parent="Control/PiecesContainer/PieceShopItem3/VBoxContainer"]
+[node name="Price" type="Label" parent="Control/PiecesContainer/WKnight/VBoxContainer"]
 layout_mode = 2
 theme_override_colors/font_color = Color(57.459, 29.834, 0, 1)
 theme_override_fonts/font = ExtResource("3_gl7ij")
@@ -198,18 +198,18 @@ text = "3P"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="QuantityContainer" type="HBoxContainer" parent="Control/PiecesContainer/PieceShopItem3/VBoxContainer"]
+[node name="QuantityContainer" type="HBoxContainer" parent="Control/PiecesContainer/WKnight/VBoxContainer"]
 layout_mode = 2
 theme_override_constants/separation = 10
 alignment = 1
 
-[node name="MinusButton" type="Button" parent="Control/PiecesContainer/PieceShopItem3/VBoxContainer/QuantityContainer"]
+[node name="MinusButton" type="Button" parent="Control/PiecesContainer/WKnight/VBoxContainer/QuantityContainer"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_gl7ij")
 theme_override_font_sizes/font_size = 32
 text = "-"
 
-[node name="QuantityLabel" type="Label" parent="Control/PiecesContainer/PieceShopItem3/VBoxContainer/QuantityContainer"]
+[node name="QuantityLabel" type="Label" parent="Control/PiecesContainer/WKnight/VBoxContainer/QuantityContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 1
@@ -219,21 +219,21 @@ text = "0"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="PlusButton" type="Button" parent="Control/PiecesContainer/PieceShopItem3/VBoxContainer/QuantityContainer"]
+[node name="PlusButton" type="Button" parent="Control/PiecesContainer/WKnight/VBoxContainer/QuantityContainer"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_gl7ij")
 theme_override_font_sizes/font_size = 32
 text = "+"
 
-[node name="PieceShopItem4" type="Control" parent="Control/PiecesContainer"]
+[node name="WRook" type="Control" parent="Control/PiecesContainer"]
 layout_mode = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Control/PiecesContainer/PieceShopItem4"]
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/PiecesContainer/WRook"]
 layout_mode = 0
 offset_right = 92.0
 offset_bottom = 165.0
 
-[node name="NameLabel" type="Label" parent="Control/PiecesContainer/PieceShopItem4/VBoxContainer"]
+[node name="NameLabel" type="Label" parent="Control/PiecesContainer/WRook/VBoxContainer"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_gl7ij")
 theme_override_font_sizes/font_size = 24
@@ -241,12 +241,12 @@ text = "ROOK"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Portrait" type="TextureRect" parent="Control/PiecesContainer/PieceShopItem4/VBoxContainer"]
+[node name="Portrait" type="TextureRect" parent="Control/PiecesContainer/WRook/VBoxContainer"]
 layout_mode = 2
 texture = ExtResource("7_qk4rh")
 stretch_mode = 5
 
-[node name="Price" type="Label" parent="Control/PiecesContainer/PieceShopItem4/VBoxContainer"]
+[node name="Price" type="Label" parent="Control/PiecesContainer/WRook/VBoxContainer"]
 layout_mode = 2
 theme_override_colors/font_color = Color(57.459, 29.834, 0, 1)
 theme_override_fonts/font = ExtResource("3_gl7ij")
@@ -255,18 +255,18 @@ text = "5P"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="QuantityContainer" type="HBoxContainer" parent="Control/PiecesContainer/PieceShopItem4/VBoxContainer"]
+[node name="QuantityContainer" type="HBoxContainer" parent="Control/PiecesContainer/WRook/VBoxContainer"]
 layout_mode = 2
 theme_override_constants/separation = 10
 alignment = 1
 
-[node name="MinusButton" type="Button" parent="Control/PiecesContainer/PieceShopItem4/VBoxContainer/QuantityContainer"]
+[node name="MinusButton" type="Button" parent="Control/PiecesContainer/WRook/VBoxContainer/QuantityContainer"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_gl7ij")
 theme_override_font_sizes/font_size = 32
 text = "-"
 
-[node name="QuantityLabel" type="Label" parent="Control/PiecesContainer/PieceShopItem4/VBoxContainer/QuantityContainer"]
+[node name="QuantityLabel" type="Label" parent="Control/PiecesContainer/WRook/VBoxContainer/QuantityContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 1
@@ -276,21 +276,21 @@ text = "0"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="PlusButton" type="Button" parent="Control/PiecesContainer/PieceShopItem4/VBoxContainer/QuantityContainer"]
+[node name="PlusButton" type="Button" parent="Control/PiecesContainer/WRook/VBoxContainer/QuantityContainer"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_gl7ij")
 theme_override_font_sizes/font_size = 32
 text = "+"
 
-[node name="PieceShopItem5" type="Control" parent="Control/PiecesContainer"]
+[node name="WQueen" type="Control" parent="Control/PiecesContainer"]
 layout_mode = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Control/PiecesContainer/PieceShopItem5"]
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/PiecesContainer/WQueen"]
 layout_mode = 0
 offset_right = 92.0
 offset_bottom = 165.0
 
-[node name="NameLabel" type="Label" parent="Control/PiecesContainer/PieceShopItem5/VBoxContainer"]
+[node name="NameLabel" type="Label" parent="Control/PiecesContainer/WQueen/VBoxContainer"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_gl7ij")
 theme_override_font_sizes/font_size = 24
@@ -298,12 +298,12 @@ text = "QUEEN"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Portrait" type="TextureRect" parent="Control/PiecesContainer/PieceShopItem5/VBoxContainer"]
+[node name="Portrait" type="TextureRect" parent="Control/PiecesContainer/WQueen/VBoxContainer"]
 layout_mode = 2
 texture = ExtResource("8_fx46u")
 stretch_mode = 5
 
-[node name="Price" type="Label" parent="Control/PiecesContainer/PieceShopItem5/VBoxContainer"]
+[node name="Price" type="Label" parent="Control/PiecesContainer/WQueen/VBoxContainer"]
 layout_mode = 2
 theme_override_colors/font_color = Color(57.459, 29.834, 0, 1)
 theme_override_fonts/font = ExtResource("3_gl7ij")
@@ -312,18 +312,18 @@ text = "8P"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="QuantityContainer" type="HBoxContainer" parent="Control/PiecesContainer/PieceShopItem5/VBoxContainer"]
+[node name="QuantityContainer" type="HBoxContainer" parent="Control/PiecesContainer/WQueen/VBoxContainer"]
 layout_mode = 2
 theme_override_constants/separation = 10
 alignment = 1
 
-[node name="MinusButton" type="Button" parent="Control/PiecesContainer/PieceShopItem5/VBoxContainer/QuantityContainer"]
+[node name="MinusButton" type="Button" parent="Control/PiecesContainer/WQueen/VBoxContainer/QuantityContainer"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_gl7ij")
 theme_override_font_sizes/font_size = 32
 text = "-"
 
-[node name="QuantityLabel" type="Label" parent="Control/PiecesContainer/PieceShopItem5/VBoxContainer/QuantityContainer"]
+[node name="QuantityLabel" type="Label" parent="Control/PiecesContainer/WQueen/VBoxContainer/QuantityContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 1
@@ -333,21 +333,32 @@ text = "0"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="PlusButton" type="Button" parent="Control/PiecesContainer/PieceShopItem5/VBoxContainer/QuantityContainer"]
+[node name="PlusButton" type="Button" parent="Control/PiecesContainer/WQueen/VBoxContainer/QuantityContainer"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_gl7ij")
 theme_override_font_sizes/font_size = 32
 text = "+"
 
-[node name="ButtonsContainer" type="HSplitContainer" parent="Control"]
+[node name="ButtonsContainer" type="HBoxContainer" parent="Control"]
 layout_mode = 0
-offset_left = 532.0
-offset_top = 533.0
-offset_right = 738.0
-offset_bottom = 566.0
+offset_left = 13.0
+offset_top = 531.0
+offset_right = 388.0
+offset_bottom = 564.0
 scale = Vector2(3, 3)
 theme_override_constants/separation = 10
-theme_override_constants/minimum_grab_thickness = 0
+
+[node name="BackButton" type="Button" parent="Control/ButtonsContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
+theme_override_colors/font_hover_color = Color(0.939418, 0.823905, 0, 1)
+theme_override_colors/font_color = Color(0.758192, 0.758192, 0.758192, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 5
+theme_override_fonts/font = ExtResource("3_gl7ij")
+theme_override_font_sizes/font_size = 20
+text = "BACK"
 
 [node name="ResetButton" type="Button" parent="Control/ButtonsContainer"]
 layout_mode = 2
@@ -363,7 +374,7 @@ flat = true
 
 [node name="ConfirmButton" type="Button" parent="Control/ButtonsContainer"]
 layout_mode = 2
-size_flags_horizontal = 8
+size_flags_horizontal = 10
 size_flags_vertical = 4
 theme_override_colors/font_hover_color = Color(0.33458, 0.998899, 0.306519, 1)
 theme_override_colors/font_color = Color(0, 29.282, 0, 1)
