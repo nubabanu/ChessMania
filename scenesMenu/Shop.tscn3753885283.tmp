@@ -1,0 +1,129 @@
+[gd_scene load_steps=13 format=3 uid="uid://bogt5xugvoja7"]
+
+[ext_resource type="Script" uid="uid://cgteomq2xduj6" path="res://TotalWarScripts/Shop.gd" id="1_fpbbi"]
+[ext_resource type="Texture2D" uid="uid://dl5dp47xg34sb" path="res://ChessTextures/WPawn.svg" id="1_yltc6"]
+[ext_resource type="Texture2D" uid="uid://bal1cx2x7hk7l" path="res://ChessTextures/WBishop.svg" id="2_fpbbi"]
+[ext_resource type="Texture2D" uid="uid://1sql4pmy32c8" path="res://ChessTextures/BPawn.svg" id="3_47hci"]
+[ext_resource type="Script" uid="uid://bvrfrbijroioe" path="res://TotalWarScripts/Button.gd" id="3_ht580"]
+[ext_resource type="Texture2D" uid="uid://dnp45xyp0eesa" path="res://ChessTextures/WKnight.svg" id="3_m0qts"]
+[ext_resource type="Texture2D" uid="uid://qisaumos7b53" path="res://ChessTextures/WRook.svg" id="4_ht580"]
+[ext_resource type="Texture2D" uid="uid://cr1lku07l36wb" path="res://ChessTextures/WQueen.svg" id="5_skkvx"]
+[ext_resource type="Texture2D" uid="uid://ca8t2shoassp2" path="res://ChessTextures/BBishop.svg" id="6_hd80v"]
+[ext_resource type="Texture2D" uid="uid://bjneg3fh7mu2e" path="res://ChessTextures/BKnight.svg" id="8_abjrc"]
+[ext_resource type="Texture2D" uid="uid://2an2oqh0ks1y" path="res://ChessTextures/BRook.svg" id="10_jccym"]
+[ext_resource type="Texture2D" uid="uid://cla2mshxp0elx" path="res://ChessTextures/BQueen.svg" id="12_plhqw"]
+
+[node name="Store" type="Node2D"]
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("1_fpbbi")
+
+[node name="MoneyLabel" type="Label" parent="Control"]
+layout_mode = 2
+offset_left = 5.0
+offset_top = 120.0
+offset_right = 169.0
+offset_bottom = 143.0
+text = "Money: 100"
+
+[node name="MarginContainer" type="MarginContainer" parent="Control"]
+offset_right = 297.0
+offset_bottom = 107.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/MarginContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Control/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "SHOP"
+
+[node name="GridContainer" type="GridContainer" parent="Control/MarginContainer/VBoxContainer"]
+layout_mode = 2
+columns = 5
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/MarginContainer/VBoxContainer/GridContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Control/MarginContainer/VBoxContainer/GridContainer/VBoxContainer"]
+layout_mode = 2
+text = "PAWN"
+horizontal_alignment = 1
+
+[node name="Button" type="TextureButton" parent="Control/MarginContainer/VBoxContainer/GridContainer/VBoxContainer"]
+layout_mode = 2
+tooltip_text = "Buy Pawn - 10 Gold"
+texture_normal = ExtResource("1_yltc6")
+texture_pressed = ExtResource("1_yltc6")
+texture_hover = ExtResource("3_47hci")
+script = ExtResource("3_ht580")
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="Control/MarginContainer/VBoxContainer/GridContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Control/MarginContainer/VBoxContainer/GridContainer/VBoxContainer2"]
+layout_mode = 2
+text = "BISHOP"
+horizontal_alignment = 1
+
+[node name="Button" type="TextureButton" parent="Control/MarginContainer/VBoxContainer/GridContainer/VBoxContainer2"]
+layout_mode = 2
+tooltip_text = "Buy Bishop - 20 Gold"
+texture_normal = ExtResource("2_fpbbi")
+texture_pressed = ExtResource("2_fpbbi")
+texture_hover = ExtResource("6_hd80v")
+script = ExtResource("3_ht580")
+
+[node name="VBoxContainer3" type="VBoxContainer" parent="Control/MarginContainer/VBoxContainer/GridContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Control/MarginContainer/VBoxContainer/GridContainer/VBoxContainer3"]
+layout_mode = 2
+text = "KNIGHT"
+horizontal_alignment = 1
+
+[node name="Button" type="TextureButton" parent="Control/MarginContainer/VBoxContainer/GridContainer/VBoxContainer3"]
+layout_mode = 2
+tooltip_text = "Buy Knight - 30 Gold"
+texture_normal = ExtResource("3_m0qts")
+texture_pressed = ExtResource("3_m0qts")
+texture_hover = ExtResource("8_abjrc")
+script = ExtResource("3_ht580")
+
+[node name="VBoxContainer4" type="VBoxContainer" parent="Control/MarginContainer/VBoxContainer/GridContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Control/MarginContainer/VBoxContainer/GridContainer/VBoxContainer4"]
+layout_mode = 2
+text = "ROOK"
+horizontal_alignment = 1
+
+[node name="Button" type="TextureButton" parent="Control/MarginContainer/VBoxContainer/GridContainer/VBoxContainer4"]
+layout_mode = 2
+tooltip_text = "Buy Rook - 40 Gold"
+texture_normal = ExtResource("4_ht580")
+texture_pressed = ExtResource("4_ht580")
+texture_hover = ExtResource("10_jccym")
+script = ExtResource("3_ht580")
+
+[node name="VBoxContainer5" type="VBoxContainer" parent="Control/MarginContainer/VBoxContainer/GridContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Control/MarginContainer/VBoxContainer/GridContainer/VBoxContainer5"]
+layout_mode = 2
+text = "QUEEN"
+horizontal_alignment = 1
+
+[node name="Button" type="TextureButton" parent="Control/MarginContainer/VBoxContainer/GridContainer/VBoxContainer5"]
+layout_mode = 2
+tooltip_text = "Buy Queen - 50 Gold"
+texture_normal = ExtResource("5_skkvx")
+texture_pressed = ExtResource("5_skkvx")
+texture_hover = ExtResource("12_plhqw")
+script = ExtResource("3_ht580")
+
+[node name="Panel" type="Panel" parent="Control/MarginContainer"]
+layout_mode = 2
