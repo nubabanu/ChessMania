@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3 uid="uid://dq5trjfyli6yy"]
+
+[ext_resource type="Script" uid="uid://7lglya2amml2" path="res://Tamerlane/Scenes/tamerlane_chess.gd" id="1_55rc1"]
+[ext_resource type="Texture2D" uid="uid://7klm5vvft283" path="res://Tamerlane/LanePieces/tamerlane_chessboard_resized_585x495.png" id="2_bhlab"]
+
+[node name="Tamerlane_Board" type="Sprite2D"]
+texture = ExtResource("2_bhlab")
+script = ExtResource("1_55rc1")
+
+[node name="Pieces" type="Node2D" parent="."]
+
+[node name="Dots" type="Node2D" parent="."]
+
+[node name="Turn" type="Sprite2D" parent="."]
+texture = ExtResource("2_bhlab")

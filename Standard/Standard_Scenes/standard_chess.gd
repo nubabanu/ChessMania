@@ -7,29 +7,29 @@ const CELL_WIDTH   = 18
 # Preloaded textures for pieces
 const TEXTURE_HOLDER = preload("res://Standard/Standard_Scenes/standard_texture_holder.tscn")
 
-const BLACK_BISHOP  = preload("res://Standard/Standard_Assets/black_bishop.png")
-const BLACK_KING    = preload("res://Standard/Standard_Assets/black_king.png")
-const BLACK_KNIGHT  = preload("res://Standard/Standard_Assets/black_knight.png")
-const BLACK_PAWN    = preload("res://Standard/Standard_Assets/black_pawn.png")
-const BLACK_QUEEN   = preload("res://Standard/Standard_Assets/black_queen.png")
-const BLACK_ROOK    = preload("res://Standard/Standard_Assets/black_rook.png")
-const WHITE_BISHOP  = preload("res://Standard/Standard_Assets/white_bishop.png")
-const WHITE_KING    = preload("res://Standard/Standard_Assets/white_king.png")
-const WHITE_KNIGHT  = preload("res://Standard/Standard_Assets/white_knight.png")
-const WHITE_PAWN    = preload("res://Standard/Standard_Assets/white_pawn.png")
-const WHITE_QUEEN   = preload("res://Standard/Standard_Assets/white_queen.png")
-const WHITE_ROOK    = preload("res://Standard/Standard_Assets/white_rook.png")
+const BLACK_BISHOP  = preload("res://Assets/black_bishop.png")
+const BLACK_KING    = preload("res://Assets/black_king.png")
+const BLACK_KNIGHT  = preload("res://Assets/black_knight.png")
+const BLACK_PAWN    = preload("res://Assets/black_pawn.png")
+const BLACK_QUEEN   = preload("res://Assets/black_queen.png")
+const BLACK_ROOK    = preload("res://Assets/black_rook.png")
+const WHITE_BISHOP  = preload("res://Assets/white_bishop.png")
+const WHITE_KING    = preload("res://Assets/white_king.png")
+const WHITE_KNIGHT  = preload("res://Assets/white_knight.png")
+const WHITE_PAWN    = preload("res://Assets/white_pawn.png")
+const WHITE_QUEEN   = preload("res://Assets/white_queen.png")
+const WHITE_ROOK    = preload("res://Assets/white_rook.png")
 
-const TURN_WHITE = preload("res://Standard/Standard_Assets/turn-white.png")
-const TURN_BLACK = preload("res://Standard/Standard_Assets/turn-black.png")
+const TURN_WHITE = preload("res://Assets/turn-white.png")
+const TURN_BLACK = preload("res://Assets/turn-black.png")
 
-const PIECE_MOVE = preload("res://Standard/Standard_Assets/Piece_move.png")
+const PIECE_MOVE = preload("res://Assets/Piece_move.png")
 
 @onready var pieces        = $Pieces
 @onready var dots          = $Dots
 @onready var turn          = $Turn
-@onready var white_pieces  = $"../CanvasLayer/white_pieces"
-@onready var black_pieces  = $"../CanvasLayer/black_pieces"
+@onready var white_pieces  = $"../Standard_CanvasLayer/Standard_white_pieces"
+@onready var black_pieces  = $"../Standard_CanvasLayer/Standard_black_pieces"
 
 # The AI script
 @onready var chess_ai = preload("res://Standard/standard_chess_ai.gd").new()

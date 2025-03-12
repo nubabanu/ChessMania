@@ -43,12 +43,12 @@ const BLACK_VIZIER = preload("res://Tamerlane/LanePieces/Chess_gdl44.png")
 @onready var pieces = $Pieces
 @onready var dots = $Dots
 @onready var turn = $Turn
-@onready var white_pieces = $"../CanvasLayer/white_pieces"
-@onready var black_pieces = $"../CanvasLayer/black_pieces"
+@onready var white_pieces = $"../Tamerlane_CanvasLayer/Tamerlane_white_pieces"
+@onready var black_pieces = $"../Tamerlane_CanvasLayer/Tamerlane_black_pieces"
 
 var board : Array = []
-var white : bool = true
-var state : bool = false
+var white : bool = true   
+var state : bool = false 
 var moves = []
 var selected_piece : Vector2
 
@@ -74,6 +74,8 @@ var amount_of_same : Array = []
 
 
 func _ready():
+	
+	print("pieces is:", pieces) 
 	board.clear()
 
 	# Tamerlane layout (10 rows, 13 columns), with citadels at columns 0 & 12:
@@ -123,7 +125,7 @@ func is_mouse_out():
 func display_board():
 	# Clear existing child sprites
 	for child in pieces.get_children():
-		child.queue_free()
+		child.queue_free() 
 
 	# Loop through board
 	for i in BOARD_LENGTH:
