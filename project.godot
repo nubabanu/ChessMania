@@ -18,7 +18,6 @@ config/icon="res://icon.svg"
 [autoload]
 
 GameSettings="*res://game_settings.gd"
-ShopManager="*res://TotalWar/TotalWarScripts/ShopManager.gd"
 Global="*res://TotalWar/TotalWarScripts/Global.gd"
 
 [rendering]

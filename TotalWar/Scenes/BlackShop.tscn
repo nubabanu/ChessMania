@@ -340,6 +340,7 @@ theme_override_font_sizes/font_size = 32
 text = "+"
 
 [node name="ButtonsContainer" type="HBoxContainer" parent="Control"]
+layout_mode = 0
 offset_left = 13.0
 offset_top = 531.0
 offset_right = 388.0
