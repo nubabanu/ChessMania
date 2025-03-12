@@ -11,7 +11,7 @@ func _on_tamerlane_pressed() -> void:
 
 
 func _on_total_war_pressed() -> void:
-	pass # Replace with function body.
+	get_tree().change_scene_to_file("res://TotalWarScenes/Shop.tscn")
 
 
 func _on_fisher_pressed() -> void:
