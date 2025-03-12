@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://1sql4pmy32c8"
-path="res://.godot/imported/BPawn.svg-89a4238a9f63fa634c3ae4588a7dfe4b.ctex"
+uid="uid://cla2mshxp0elx"
+path="res://.godot/imported/BQueen.svg-f72560fedc166fb50cdd64dea9544981.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://ChessTextures/BPawn.svg"
-dest_files=["res://.godot/imported/BPawn.svg-89a4238a9f63fa634c3ae4588a7dfe4b.ctex"]
+source_file="res://TotalWar/Assets/ChessTextures/BQueen.svg"
+dest_files=["res://.godot/imported/BQueen.svg-f72560fedc166fb50cdd64dea9544981.ctex"]
 
 [params]
 
