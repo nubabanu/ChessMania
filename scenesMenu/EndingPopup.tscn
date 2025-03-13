@@ -1,8 +1,7 @@
-[gd_scene load_steps=4 format=3 uid="uid://4sua22g0kvhw"]
+[gd_scene load_steps=3 format=3 uid="uid://4sua22g0kvhw"]
 
 [ext_resource type="Script" uid="uid://b34jt7cwp7cb1" path="res://MenuScripts/EndingPopup.gd" id="1_l4vt0"]
 [ext_resource type="FontFile" uid="uid://ccayte7og7sqr" path="res://Assets/I-pixel-u.ttf" id="2_slgkw"]
-[ext_resource type="Script" uid="uid://yve4g7odvw3l" path="res://MenuScripts/menu.gd" id="3_v5pxk"]
 
 [node name="EndingPopup" type="Control"]
 layout_mode = 3
@@ -61,4 +60,3 @@ theme_override_constants/h_separation = 12
 theme_override_fonts/font = ExtResource("2_slgkw")
 theme_override_font_sizes/font_size = 37
 text = "BACK"
-script = ExtResource("3_v5pxk")
