@@ -5,6 +5,7 @@
 
 [node name="Tamerlane_Board" type="Sprite2D"]
 texture = ExtResource("2_bhlab")
+centered = false
 script = ExtResource("1_55rc1")
 
 [node name="Pieces" type="Node2D" parent="."]
@@ -13,3 +14,4 @@ script = ExtResource("1_55rc1")
 
 [node name="Turn" type="Sprite2D" parent="."]
 texture = ExtResource("2_bhlab")
+centered = false
