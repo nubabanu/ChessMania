@@ -1,8 +1,92 @@
-[gd_scene load_steps=4 format=3 uid="uid://wumwx2sgq27v"]
+[gd_scene load_steps=38 format=3 uid="uid://wumwx2sgq27v"]
 
+[ext_resource type="Texture2D" uid="uid://ctsgdmugmedg5" path="res://Assets/white_knight.png" id="1_ko4g7"]
+[ext_resource type="Texture2D" uid="uid://dn55e0qqy2f8g" path="res://Assets/white_bishop.png" id="2_lgpus"]
+[ext_resource type="Texture2D" uid="uid://ctq0j6xxcqikw" path="res://Assets/white_rook.png" id="3_brpdi"]
+[ext_resource type="Texture2D" uid="uid://oqqp46qtmwfu" path="res://Assets/white_queen.png" id="4_djcqj"]
+[ext_resource type="Texture2D" uid="uid://bftid8e6hwnna" path="res://Assets/black_knight.png" id="5_33t74"]
+[ext_resource type="Texture2D" uid="uid://bmmt31nb526bf" path="res://Assets/black_bishop.png" id="6_851pa"]
+[ext_resource type="Texture2D" uid="uid://bhr8c2pb02smt" path="res://Assets/black_rook.png" id="7_odtqy"]
+[ext_resource type="Texture2D" uid="uid://bs6nmydq4udho" path="res://Assets/black_queen.png" id="8_3i57q"]
 [ext_resource type="PackedScene" uid="uid://c5xblqofcwad0" path="res://Standard/Standard_Scenes/standard_board.tscn" id="9_teo5j"]
 [ext_resource type="Texture2D" uid="uid://7klm5vvft283" path="res://Tamerlane/LanePieces/tamerlane_chessboard_resized_585x495.png" id="10_77oo4"]
 [ext_resource type="Script" uid="uid://7lglya2amml2" path="res://Tamerlane/Scenes/tamerlane_chess.gd" id="12_brpdi"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_vp5if"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_s8r64"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_djh8o"]
+texture = ExtResource("1_ko4g7")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_xu268"]
+texture = ExtResource("1_ko4g7")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_kgqrv"]
+texture = ExtResource("1_ko4g7")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_r62nm"]
+texture = ExtResource("2_lgpus")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_dj85t"]
+texture = ExtResource("2_lgpus")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_rn6hk"]
+texture = ExtResource("2_lgpus")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_xahkn"]
+texture = ExtResource("3_brpdi")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_oeqcr"]
+texture = ExtResource("3_brpdi")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_6730i"]
+texture = ExtResource("3_brpdi")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_jh1bq"]
+texture = ExtResource("4_djcqj")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_mj4nn"]
+texture = ExtResource("4_djcqj")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_fj2iu"]
+texture = ExtResource("4_djcqj")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_0e7vx"]
+texture = ExtResource("5_33t74")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_krrsb"]
+texture = ExtResource("5_33t74")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_5lcsg"]
+texture = ExtResource("5_33t74")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_cgwqf"]
+texture = ExtResource("6_851pa")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_lj782"]
+texture = ExtResource("6_851pa")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_cnoic"]
+texture = ExtResource("6_851pa")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_6mk8i"]
+texture = ExtResource("7_odtqy")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_cavm8"]
+texture = ExtResource("7_odtqy")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_peht4"]
+texture = ExtResource("7_odtqy")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_uj42o"]
+texture = ExtResource("8_3i57q")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_etk7k"]
+texture = ExtResource("8_3i57q")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_vgg4r"]
+texture = ExtResource("8_3i57q")
 
 [node name="Tamerlane_Main" type="Node2D"]
 position = Vector2(9, 120)
@@ -13,6 +97,122 @@ scale = Vector2(8, 8)
 offset = Vector2(500, -400)
 
 [node name="Tamerlane_CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Tamerlane_white_pieces" type="Control" parent="Tamerlane_CanvasLayer"]
+visible = false
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -200.0
+offset_top = -50.0
+offset_right = 200.0
+offset_bottom = 50.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="2" type="Button" parent="Tamerlane_CanvasLayer/Tamerlane_white_pieces" groups=["white_pieces"]]
+layout_mode = 0
+offset_right = 100.0
+offset_bottom = 100.0
+theme_override_styles/focus = SubResource("StyleBoxEmpty_vp5if")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_s8r64")
+theme_override_styles/hover = SubResource("StyleBoxTexture_djh8o")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_xu268")
+theme_override_styles/normal = SubResource("StyleBoxTexture_kgqrv")
+
+[node name="3" type="Button" parent="Tamerlane_CanvasLayer/Tamerlane_white_pieces" groups=["white_pieces"]]
+layout_mode = 0
+offset_left = 100.0
+offset_right = 200.0
+offset_bottom = 100.0
+theme_override_styles/focus = SubResource("StyleBoxEmpty_vp5if")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_s8r64")
+theme_override_styles/hover = SubResource("StyleBoxTexture_r62nm")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_dj85t")
+theme_override_styles/normal = SubResource("StyleBoxTexture_rn6hk")
+
+[node name="4" type="Button" parent="Tamerlane_CanvasLayer/Tamerlane_white_pieces" groups=["white_pieces"]]
+layout_mode = 0
+offset_left = 200.0
+offset_right = 300.0
+offset_bottom = 100.0
+theme_override_styles/focus = SubResource("StyleBoxEmpty_vp5if")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_s8r64")
+theme_override_styles/hover = SubResource("StyleBoxTexture_xahkn")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_oeqcr")
+theme_override_styles/normal = SubResource("StyleBoxTexture_6730i")
+
+[node name="5" type="Button" parent="Tamerlane_CanvasLayer/Tamerlane_white_pieces" groups=["white_pieces"]]
+layout_mode = 0
+offset_left = 300.0
+offset_right = 400.0
+offset_bottom = 100.0
+theme_override_styles/focus = SubResource("StyleBoxEmpty_vp5if")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_s8r64")
+theme_override_styles/hover = SubResource("StyleBoxTexture_jh1bq")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_mj4nn")
+theme_override_styles/normal = SubResource("StyleBoxTexture_fj2iu")
+
+[node name="Tamerlane_black_pieces" type="Control" parent="Tamerlane_CanvasLayer"]
+visible = false
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -200.0
+offset_top = -50.0
+offset_right = 200.0
+offset_bottom = 50.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="2" type="Button" parent="Tamerlane_CanvasLayer/Tamerlane_black_pieces" groups=["black_pieces"]]
+layout_mode = 0
+offset_right = 100.0
+offset_bottom = 100.0
+theme_override_styles/focus = SubResource("StyleBoxEmpty_vp5if")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_s8r64")
+theme_override_styles/hover = SubResource("StyleBoxTexture_0e7vx")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_krrsb")
+theme_override_styles/normal = SubResource("StyleBoxTexture_5lcsg")
+
+[node name="3" type="Button" parent="Tamerlane_CanvasLayer/Tamerlane_black_pieces" groups=["black_pieces"]]
+layout_mode = 0
+offset_left = 100.0
+offset_right = 200.0
+offset_bottom = 100.0
+theme_override_styles/focus = SubResource("StyleBoxEmpty_vp5if")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_s8r64")
+theme_override_styles/hover = SubResource("StyleBoxTexture_cgwqf")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_lj782")
+theme_override_styles/normal = SubResource("StyleBoxTexture_cnoic")
+
+[node name="4" type="Button" parent="Tamerlane_CanvasLayer/Tamerlane_black_pieces" groups=["black_pieces"]]
+layout_mode = 0
+offset_left = 200.0
+offset_right = 300.0
+offset_bottom = 100.0
+theme_override_styles/focus = SubResource("StyleBoxEmpty_vp5if")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_s8r64")
+theme_override_styles/hover = SubResource("StyleBoxTexture_6mk8i")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_cavm8")
+theme_override_styles/normal = SubResource("StyleBoxTexture_peht4")
+
+[node name="5" type="Button" parent="Tamerlane_CanvasLayer/Tamerlane_black_pieces" groups=["black_pieces"]]
+layout_mode = 0
+offset_left = 300.0
+offset_right = 400.0
+offset_bottom = 100.0
+theme_override_styles/focus = SubResource("StyleBoxEmpty_vp5if")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_s8r64")
+theme_override_styles/hover = SubResource("StyleBoxTexture_uj42o")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_etk7k")
+theme_override_styles/normal = SubResource("StyleBoxTexture_vgg4r")
 
 [node name="Tamerlane_Board" parent="." instance=ExtResource("9_teo5j")]
 position = Vector2(577.001, -568.313)

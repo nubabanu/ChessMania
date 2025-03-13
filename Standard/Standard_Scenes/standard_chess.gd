@@ -973,6 +973,8 @@ func make_ai_move():
 		selected_piece = Vector2()
 
 		display_board()
+	else:
+		print("Game Over, White Wins")	
 
 
 

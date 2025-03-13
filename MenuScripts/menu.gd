@@ -19,9 +19,14 @@ func _on_tamerlane_pressed() -> void:
 
 
 func _on_total_war_pressed() -> void:
-	get_tree().change_scene_to_file("res://TotalWar/Scenes/Options.tscn")
+	pass # Replace with function body.
 
 
 func _on_fisher_pressed() -> void:
 	GameSettings.PlayFischerRandomGame = true
 	get_tree().change_scene_to_file("res://Standard/Standard_Scenes/standard_main.tscn")
+
+
+
+func _on_toggled(toggled_on: bool) -> void:
+	GameSettings.is_single_player = not GameSettings.is_single_player

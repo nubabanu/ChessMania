@@ -1,10 +1,11 @@
-[gd_scene load_steps=36 format=3 uid="uid://wumwx2sgq27v"]
+[gd_scene load_steps=37 format=3 uid="uid://wumwx2sgq27v"]
 
 [ext_resource type="Texture2D" uid="uid://ctsgdmugmedg5" path="res://Assets/white_knight.png" id="1_3khqn"]
 [ext_resource type="PackedScene" uid="uid://c5xblqofcwad0" path="res://Standard/Standard_Scenes/standard_board.tscn" id="1_63gbl"]
 [ext_resource type="Texture2D" uid="uid://dn55e0qqy2f8g" path="res://Assets/white_bishop.png" id="2_75nc3"]
 [ext_resource type="Texture2D" uid="uid://ctq0j6xxcqikw" path="res://Assets/white_rook.png" id="3_a7xec"]
 [ext_resource type="Texture2D" uid="uid://oqqp46qtmwfu" path="res://Assets/white_queen.png" id="4_2yafp"]
+[ext_resource type="Script" uid="uid://yve4g7odvw3l" path="res://MenuScripts/menu.gd" id="5_ygxfw"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_vp5if"]
 
@@ -218,4 +219,12 @@ theme_override_styles/hover = SubResource("StyleBoxTexture_uj42o")
 theme_override_styles/pressed = SubResource("StyleBoxTexture_etk7k")
 theme_override_styles/normal = SubResource("StyleBoxTexture_vgg4r")
 
+[node name="ToggleAI" type="CheckButton" parent="Standard_CanvasLayer"]
+offset_right = 44.0
+offset_bottom = 24.0
+text = "AI"
+script = ExtResource("5_ygxfw")
+
 [node name="Standard_Board" parent="." instance=ExtResource("1_63gbl")]
+
+[connection signal="toggled" from="Standard_CanvasLayer/ToggleAI" to="Standard_CanvasLayer/ToggleAI" method="_on_toggled"]
