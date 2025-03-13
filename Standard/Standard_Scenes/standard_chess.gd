@@ -25,6 +25,9 @@ const TURN_BLACK = preload("res://Assets/turn-black.png")
 
 const PIECE_MOVE = preload("res://Assets/Piece_move.png")
 
+var ending_popup_scene = preload("res://scenesMenu/EndingPopup.tscn")
+var ending_popup_instance
+
 @onready var pieces        = $Pieces
 @onready var dots          = $Dots
 @onready var turn          = $Turn
@@ -81,6 +84,9 @@ var amount_of_same     : Array = []
 
 func _ready():
 	print("okey")
+	# Instance the pop-up once at the start
+	ending_popup_instance = ending_popup_scene.instantiate()
+	add_child(ending_popup_instance)
 	chess_ai.set_control(self)
 
 	board.clear()
@@ -358,15 +364,19 @@ func set_move(var2: int, var1: int) -> void:
 	if game_over:
 		if white:
 			print("Checkmate! Black wins.")
+			ending_popup_instance.show_popup(Global.Player.WHITE, false)
 		else:
 			print("Checkmate! White wins.")
+			ending_popup_instance.show_popup(Global.Player.BLACK, false)
 
 	# Finally, check for draw conditions if no promotion
 	if not did_promote:
 		if fifty_move_rule == 50:
 			print("DRAW")
+			ending_popup_instance.show_popup(Global.Player.BLACK, true)
 		elif insuficient_material():
 			print("DRAW")
+			ending_popup_instance.show_popup(Global.Player.BLACK, true)
 
 
 # 3) Modified promote():

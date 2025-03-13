@@ -18,3 +18,7 @@ const OPTIONS = "res://TotalWar/Scenes/Options.tscn"
 func switch_turn():
 	turn = (turn + 1) % 2
 	print("Turn switched! Current turn:", turn)
+
+# Handles Back button press
+func on_back_pressed():
+	get_tree().change_scene_to_file(MAIN_MENU)  # Switch scene
