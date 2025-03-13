@@ -225,6 +225,17 @@ offset_bottom = 24.0
 text = "AI"
 script = ExtResource("5_ygxfw")
 
+[node name="BackButton" type="Button" parent="Standard_CanvasLayer"]
+offset_left = 31.0
+offset_top = 537.0
+offset_right = 86.0
+offset_bottom = 638.0
+text = "BACK"
+alignment = 2
+icon_alignment = 2
+script = ExtResource("5_ygxfw")
+
 [node name="Standard_Board" parent="." instance=ExtResource("1_63gbl")]
 
 [connection signal="toggled" from="Standard_CanvasLayer/ToggleAI" to="Standard_CanvasLayer/ToggleAI" method="_on_toggled"]
+[connection signal="pressed" from="Standard_CanvasLayer/BackButton" to="Standard_CanvasLayer/ToggleAI" method="_on_back_button_pressed"]
