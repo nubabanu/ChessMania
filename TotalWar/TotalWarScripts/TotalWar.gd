@@ -6,6 +6,10 @@ extends Control
 @onready var chessboard_texture = $ChessBoard/Background
 @onready var black_piece_container = $BlackPieceContainer
 @onready var turn_label = $TurnLabel
+@onready var back_button = $BackButton
+
+var ending_popup_scene = preload("res://scenesMenu/EndingPopup.tscn")
+var ending_popup_instance
 
 var white_available_pieces = {}
 var black_available_pieces = {}
@@ -59,6 +63,10 @@ func _ready():
 	align_chessboard_background()
 	generate_tiles()
 	initialize_board_state()
+	# Instance the pop-up once at the start
+	ending_popup_instance = ending_popup_scene.instantiate()
+	add_child(ending_popup_instance)
+	back_button.pressed.connect(Global.on_back_pressed)
 
 	create_piece("WKing", Global.Player.WHITE)
 	create_piece("BKing", Global.Player.BLACK)
@@ -601,10 +609,13 @@ func get_king_moves_nocheck(r: int, c: int, color) -> Array:
 func check_for_checkmate_stalemate(current_player):
 	if not is_king_in_check(current_player):
 		if not any_legal_move_exists(current_player):
-			print("♟️ Stalemate! It's a draw.")
+			show_game_end_popup(current_player, true)
 	else:
 		if not any_legal_move_exists(current_player):
-			print("‼️ Checkmate! Player", current_player, "lost!")
+			if(current_player == Global.Player.WHITE):
+				show_game_end_popup(current_player, false)
+			else:
+				show_game_end_popup(current_player, false)
 		else:
 			print("‼️ Check!")
 
@@ -858,3 +869,6 @@ func update_turn_label():
 func show_all_pieces():
 	for piece in board.get_children():
 		piece.visible = true
+
+func show_game_end_popup(loser, isdraw: bool):
+	ending_popup_instance.show_popup(loser, isdraw)  # Call function from EndingPopup

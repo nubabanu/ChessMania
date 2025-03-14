@@ -70,7 +70,7 @@ theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_fonts/font = ExtResource("3_d85td")
 theme_override_font_sizes/font_size = 24
-text = "NUMBER OF PLAYABLE LINES:"
+text = "NUMBER OF PLACABLE LINES:"
 
 [node name="LineOption" type="OptionButton" parent="Control/OptionButtons"]
 layout_mode = 2
@@ -88,6 +88,7 @@ popup/item_4/text = "5"
 popup/item_4/id = 4
 
 [node name="BalanceOption" type="TextEdit" parent="Control/OptionButtons"]
-custom_minimum_size = Vector2(0, 50)
+custom_minimum_size = Vector2(0, 80)
 layout_mode = 2
-placeholder_text = "TOTAL MONEY"
+placeholder_text = "ENTER THE AMOUNT OF STARTING MONEY
+Default = 50"

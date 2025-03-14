@@ -1,51 +1,70 @@
-[gd_scene load_steps=2 format=3 uid="uid://ceosmbjdkdma"]
+[gd_scene load_steps=3 format=3 uid="uid://ceosmbjdkdma"]
 
 [ext_resource type="Script" uid="uid://yve4g7odvw3l" path="res://MenuScripts/menu.gd" id="1_1wb2e"]
+[ext_resource type="Texture2D" uid="uid://bg6cxgtlq627d" path="res://Assets/Menu_Background.webp" id="2_cucwa"]
 
 [node name="Menu" type="Control"]
 layout_mode = 3
-anchor_left = 0.004
-anchor_right = 0.082
-anchor_bottom = 0.21
-offset_left = 1235.39
-offset_top = 690.0
-offset_right = 1145.54
-offset_bottom = 553.92
-grow_horizontal = 2
-grow_vertical = 2
+anchors_preset = 0
 scale = Vector2(4.93197, 4.2297)
 size_flags_horizontal = 4
 tooltip_text = "Welcome to ChessMania"
 script = ExtResource("1_1wb2e")
 
-[node name="MarginContainer" type="MarginContainer" parent="."]
-layout_mode = 1
-offset_left = -198.298
-offset_top = -163.132
-offset_right = -107.298
-offset_bottom = -27.132
-scale = Vector2(1.41378, 1.14842)
+[node name="Background" type="TextureRect" parent="."]
+layout_mode = 0
+offset_right = 236.0
+offset_bottom = 155.0
+texture = ExtResource("2_cucwa")
+expand_mode = 1
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
-layout_mode = 2
+[node name="CenterContainer" type="CenterContainer" parent="."]
+layout_mode = 0
+offset_left = 60.4221
+offset_top = 7.32912
+offset_right = 180.422
+offset_bottom = 146.329
 
-[node name="Standard" type="Button" parent="MarginContainer/VBoxContainer"]
+[node name="MenuContainer" type="VBoxContainer" parent="CenterContainer"]
 layout_mode = 2
+alignment = 1
+
+[node name="Standard" type="Button" parent="CenterContainer/MenuContainer"]
+layout_mode = 2
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/font_color = Color(0.906426, 0.901029, 0.0713944, 1)
+theme_override_constants/outline_size = 8
+theme_override_constants/h_separation = 15
 text = "Standard"
 
-[node name="Tamerlane" type="Button" parent="MarginContainer/VBoxContainer"]
+[node name="Tamerlane" type="Button" parent="CenterContainer/MenuContainer"]
 layout_mode = 2
+size_flags_vertical = 3
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/font_color = Color(0.905882, 0.901961, 0.0705882, 1)
+theme_override_constants/outline_size = 8
+theme_override_constants/h_separation = 15
 text = "Tamarlane"
 
-[node name="TotalWar" type="Button" parent="MarginContainer/VBoxContainer"]
+[node name="TotalWar" type="Button" parent="CenterContainer/MenuContainer"]
 layout_mode = 2
+size_flags_vertical = 3
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/font_color = Color(0.905882, 0.901961, 0.0705882, 1)
+theme_override_constants/outline_size = 8
+theme_override_constants/h_separation = 15
 text = "Total War"
 
-[node name="Fischer" type="Button" parent="MarginContainer/VBoxContainer"]
+[node name="Fischer" type="Button" parent="CenterContainer/MenuContainer"]
 layout_mode = 2
+size_flags_vertical = 3
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/font_color = Color(0.905882, 0.901961, 0.0705882, 1)
+theme_override_constants/outline_size = 8
+theme_override_constants/h_separation = 15
 text = "Fischer"
 
-[connection signal="pressed" from="MarginContainer/VBoxContainer/Standard" to="." method="_on_standard_pressed"]
-[connection signal="pressed" from="MarginContainer/VBoxContainer/Tamerlane" to="." method="_on_tamerlane_pressed"]
-[connection signal="pressed" from="MarginContainer/VBoxContainer/TotalWar" to="." method="_on_total_war_pressed"]
-[connection signal="pressed" from="MarginContainer/VBoxContainer/Fischer" to="." method="_on_fisher_pressed"]
+[connection signal="pressed" from="CenterContainer/MenuContainer/Standard" to="." method="_on_standard_pressed"]
+[connection signal="pressed" from="CenterContainer/MenuContainer/Tamerlane" to="." method="_on_tamerlane_pressed"]
+[connection signal="pressed" from="CenterContainer/MenuContainer/TotalWar" to="." method="_on_total_war_pressed"]
+[connection signal="pressed" from="CenterContainer/MenuContainer/Fischer" to="." method="_on_fisher_pressed"]
