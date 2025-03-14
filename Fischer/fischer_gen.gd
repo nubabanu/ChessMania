@@ -1,11 +1,4 @@
 extends Node
-
-
-# Called when the node enters the scene tree for the first time.
-func _ready() -> void:
-	pass # Replace with function body.
-
-
 func generate_fischer_random_row() -> Array:
 	# We’ll generate permutations of indices [0..7] that map to pieces:
 	# [ R, N, B, Q, K, B, N, R ] => [4,2,3,5,6,3,2,4]
@@ -25,7 +18,6 @@ func generate_fischer_random_row() -> Array:
 		var idx = randi() % valid_setups.size()
 		return valid_setups[idx]
 	else:
-		# Fallback: in theory should never happen if coded correctly
 		return base_pieces
 
 
@@ -56,8 +48,6 @@ func is_valid_chess960(arr: Array) -> bool:
 			bishop_positions.append(i)
 	if bishop_positions.size() != 2:
 		return false
-	# Are these on opposite color squares?
-	# One must be even index, the other odd index
 	if bishop_positions[0] % 2 == bishop_positions[1] % 2:
 		return false
 	

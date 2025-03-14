@@ -43,8 +43,7 @@ const BLACK_VIZIER = preload("res://Tamerlane/LanePieces/Chess_gdl44.png")
 @onready var pieces = $Pieces
 @onready var dots = $Dots
 @onready var turn = $Turn
-@onready var white_pieces = $"../Tamerlane_CanvasLayer/Tamerlane_white_pieces"
-@onready var black_pieces = $"../Tamerlane_CanvasLayer/Tamerlane_black_pieces"
+
 
 var board : Array = []
 var white : bool = true   
@@ -64,7 +63,6 @@ var black_rook_right = false
 var white_king_pos = Vector2(1, 6)
 var black_king_pos = Vector2(8, 6)
 
-# Track if each side has used the "king switch places once" special move
 var white_king_switch_used = false
 var black_king_switch_used = false
 
@@ -666,12 +664,6 @@ func get_giraffe_moves(piece_position: Vector2) -> Array:
 					board[pos.x][pos.y] = store
 
 				pos += od
-
-			# Also consider capturing an enemy piece exactly on that path 
-			# once we get to distance >= 3.
-			# Actually, to handle capturing, we can do a second pass: if we encounter an enemy piece,
-			# that might be a valid landing square. But in the code above we skip as soon as we "not is_empty(pos)".
-			# So let's do an extra check: if we first empty-run until we find a piece:
 			var pos2 = mid + od
 			var dist2 = 1
 			while is_valid_position(pos2):
@@ -738,9 +730,6 @@ func get_vizier_moves(piece_position: Vector2) -> Array:
 # Checking if a king is attacked
 # ---------------------------------------------------------------------
 func is_in_check(king_pos: Vector2) -> bool:
-	# This logic is still mostly standard, so you may want to expand it
-	# to handle Tamerlane pieces threatening the king. 
-	# For now it checks only standard rook/bishop/knight/queen/pawn/king lines.
 	var directions = [
 		Vector2(0,1), Vector2(0,-1), Vector2(1,0), Vector2(-1,0),
 		Vector2(1,1), Vector2(1,-1), Vector2(-1,1), Vector2(-1,-1)
@@ -812,7 +801,6 @@ func is_stalemate() -> bool:
 
 
 func insuficient_material() -> bool:
-	# Extend this if you wish to handle typical Tamerlane "insufficient material"
 	return false
 
 
@@ -853,19 +841,8 @@ func is_enemy(pos: Vector2) -> bool:
 	if (white and board[pos.x][pos.y] < 0) or (not white and board[pos.x][pos.y] > 0):
 		return true
 	return false
-
-
-func promote(_var: Vector2):
-	# Basic example, if you choose to keep promotion:
-	promotion_square = _var
-	white_pieces.visible = white
-	black_pieces.visible = not white
-
-
 func _on_button_pressed(button):
 	var num_char = int(button.name.substr(0, 1))
 	board[promotion_square.x][promotion_square.y] = -num_char if white else num_char
-	white_pieces.visible = false
-	black_pieces.visible = false
 	promotion_square = null
 	display_board()

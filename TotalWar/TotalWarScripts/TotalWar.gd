@@ -845,9 +845,7 @@ func switch_turn():
 		Global.switch_turn()
 		hide_white_pieces()
 	else:
-		# 1) Switch turn
 		Global.switch_turn()
-		# 2) Now check the NEW current player
 		check_for_checkmate_stalemate(Global.turn)
 
 	update_turn_label()

@@ -5,9 +5,6 @@ var drag_offset = Vector2.ZERO
 var total_war
 
 func _ready():
-	# Locate your TotalWar or Board node – adapt the find call as needed.
-	# If your board node is named something else or in a different place,
-	# adjust accordingly.
 	total_war = get_tree().get_root().find_child("Control", true, false)
 
 func _gui_input(event):
