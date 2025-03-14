@@ -28,18 +28,18 @@ var game_phase = GamePhase.PLACEMENT
 
 # Chess piece textures
 var piece_textures = {
-	"WPawn": "res://TotalWar/Assets/ChessTextures/WPawn.svg",
-	"WBishop": "res://TotalWar/Assets/ChessTextures/WBishop.svg",
-	"WKnight": "res://TotalWar/Assets/ChessTextures/WKnight.svg",
-	"WRook": "res://TotalWar/Assets/ChessTextures/WRook.svg",
-	"WQueen": "res://TotalWar/Assets/ChessTextures/WQueen.svg",
-	"WKing": "res://TotalWar/Assets/ChessTextures/WKing.svg",
-	"BPawn": "res://TotalWar/Assets/ChessTextures/BPawn.svg",
-	"BBishop": "res://TotalWar/Assets/ChessTextures/BBishop.svg",
-	"BKnight": "res://TotalWar/Assets/ChessTextures/BKnight.svg",
-	"BRook": "res://TotalWar/Assets/ChessTextures/BRook.svg",
-	"BQueen": "res://TotalWar/Assets/ChessTextures/BQueen.svg",
-	"BKing": "res://TotalWar/Assets/ChessTextures/BKing.svg",
+	"WPawn": preload("res://TotalWar/Assets/ChessTextures/WPawn.svg"),
+	"WBishop": preload("res://TotalWar/Assets/ChessTextures/WBishop.svg"),
+	"WKnight": preload("res://TotalWar/Assets/ChessTextures/WKnight.svg"),
+	"WRook": preload("res://TotalWar/Assets/ChessTextures/WRook.svg"),
+	"WQueen": preload("res://TotalWar/Assets/ChessTextures/WQueen.svg"),
+	"WKing": preload("res://TotalWar/Assets/ChessTextures/WKing.svg"),
+	"BPawn": preload("res://TotalWar/Assets/ChessTextures/BPawn.svg"),
+	"BBishop": preload("res://TotalWar/Assets/ChessTextures/BBishop.svg"),
+	"BKnight": preload("res://TotalWar/Assets/ChessTextures/BKnight.svg"),
+	"BRook": preload("res://TotalWar/Assets/ChessTextures/BRook.svg"),
+	"BQueen": preload("res://TotalWar/Assets/ChessTextures/BQueen.svg"),
+	"BKing": preload("res://TotalWar/Assets/ChessTextures/BKing.svg"),
 }
 
 # ---------------------------------------------------------------

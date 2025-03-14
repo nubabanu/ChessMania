@@ -92,4 +92,4 @@ func update_money_display():
 	
 # Handles Back button press
 func on_back_pressed():
-	get_tree().change_scene_to_file(Global.OPTIONS)  # Switch scene
+	get_tree().change_scene_to_file("res://TotalWar/Scenes/Options.tscn")  # Switch scene

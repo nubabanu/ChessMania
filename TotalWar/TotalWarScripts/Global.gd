@@ -21,4 +21,4 @@ func switch_turn():
 
 # Handles Back button press
 func on_back_pressed():
-	get_tree().change_scene_to_file(MAIN_MENU)  # Switch scene
+	get_tree().change_scene_to_file("res://scenesMenu/menu.tscn")  # Switch scene
