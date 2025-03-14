@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://c5xblqofcwad0"]
 
-[ext_resource type="Texture2D" uid="uid://cvtyb4gj5y33x" path="res://Assets/Chess_board.png" id="1_ltlo3"]
+[ext_resource type="Texture2D" uid="uid://wt6qwutjt7kt" path="res://Assets/output-onlinepngtools.png" id="1_ltlo3"]
 [ext_resource type="Script" uid="uid://boybhuc6vg1wn" path="res://Standard/Standard_Scenes/standard_chess.gd" id="2_3ilqf"]
 
 [node name="Standard_Board" type="Sprite2D"]
