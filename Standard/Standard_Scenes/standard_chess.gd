@@ -24,7 +24,6 @@ const TURN_WHITE = preload("res://Assets/turn-white.png")
 const TURN_BLACK = preload("res://Assets/turn-black.png")
 
 const PIECE_MOVE = preload("res://Assets/Piece_move.png")
-
 var ending_popup_scene = preload("res://scenesMenu/EndingPopup.tscn")
 var ending_popup_instance
 

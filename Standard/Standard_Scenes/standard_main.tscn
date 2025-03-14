@@ -49,7 +49,6 @@ texture = ExtResource("4_2yafp")
 texture = ExtResource("4_2yafp")
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_eiik8"]
-load_path = "res://.godot/imported/black_knight.png-fae7b0ed2286690f3df3923165da557c.ctex"
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_0e7vx"]
 texture = SubResource("CompressedTexture2D_eiik8")
@@ -61,7 +60,6 @@ texture = SubResource("CompressedTexture2D_eiik8")
 texture = SubResource("CompressedTexture2D_eiik8")
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_ygxfw"]
-load_path = "res://.godot/imported/black_bishop.png-3172a07808b7a44773139d92131acb8e.ctex"
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_cgwqf"]
 texture = SubResource("CompressedTexture2D_ygxfw")
@@ -73,7 +71,6 @@ texture = SubResource("CompressedTexture2D_ygxfw")
 texture = SubResource("CompressedTexture2D_ygxfw")
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_2a1kt"]
-load_path = "res://.godot/imported/black_rook.png-29c68de3cc771e7165f85f3e022d1043.ctex"
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_6mk8i"]
 texture = SubResource("CompressedTexture2D_2a1kt")
@@ -85,7 +82,6 @@ texture = SubResource("CompressedTexture2D_2a1kt")
 texture = SubResource("CompressedTexture2D_2a1kt")
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_vs3my"]
-load_path = "res://.godot/imported/black_queen.png-db6e26b7601d8b6c914d3f350a86eaca.ctex"
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_uj42o"]
 texture = SubResource("CompressedTexture2D_vs3my")
@@ -246,6 +242,10 @@ theme_override_fonts/font = ExtResource("5_2a1kt")
 theme_override_font_sizes/font_size = 37
 text = "BACK"
 script = ExtResource("5_ygxfw")
+
+[node name="Label" type="Label" parent="Standard_CanvasLayer"]
+offset_right = 40.0
+offset_bottom = 23.0
 
 [node name="Standard_Board" parent="." instance=ExtResource("1_63gbl")]
 
