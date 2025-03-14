@@ -28,18 +28,19 @@ var game_phase = GamePhase.PLACEMENT
 
 # Chess piece textures
 var piece_textures = {
-	"WPawn": preload("res://TotalWar/Assets/ChessTextures/WPawn.svg"),
-	"WBishop": preload("res://TotalWar/Assets/ChessTextures/WBishop.svg"),
-	"WKnight": preload("res://TotalWar/Assets/ChessTextures/WKnight.svg"),
-	"WRook": preload("res://TotalWar/Assets/ChessTextures/WRook.svg"),
-	"WQueen": preload("res://TotalWar/Assets/ChessTextures/WQueen.svg"),
-	"WKing": preload("res://TotalWar/Assets/ChessTextures/WKing.svg"),
-	"BPawn": preload("res://TotalWar/Assets/ChessTextures/BPawn.svg"),
-	"BBishop": preload("res://TotalWar/Assets/ChessTextures/BBishop.svg"),
-	"BKnight": preload("res://TotalWar/Assets/ChessTextures/BKnight.svg"),
-	"BRook": preload("res://TotalWar/Assets/ChessTextures/BRook.svg"),
-	"BQueen": preload("res://TotalWar/Assets/ChessTextures/BQueen.svg"),
-	"BKing": preload("res://TotalWar/Assets/ChessTextures/BKing.svg"),
+
+	"WPawn": preload("res://TotalWar/Assets/ChessTextures/WPawn.png"),
+	"WBishop": preload("res://TotalWar/Assets/ChessTextures/WBishop.png"),
+	"WKnight": preload("res://TotalWar/Assets/ChessTextures/WKnight.png"),
+	"WRook": preload("res://TotalWar/Assets/ChessTextures/WRook.png"),
+	"WQueen": preload("res://TotalWar/Assets/ChessTextures/WQueen.png"),
+	"WKing": preload("res://TotalWar/Assets/ChessTextures/WKing.png"),
+	"BPawn": preload("res://TotalWar/Assets/ChessTextures/BPawn.png"),
+	"BBishop": preload("res://TotalWar/Assets/ChessTextures/BBishop.png"),
+	"BKnight": preload("res://TotalWar/Assets/ChessTextures/BKnight.png"),
+	"BRook": preload("res://TotalWar/Assets/ChessTextures/BRook.png"),
+	"BQueen": preload("res://TotalWar/Assets/ChessTextures/BQueen.png"),
+	"BKing": preload("res://TotalWar/Assets/ChessTextures/BKing.png"),
 }
 
 # ---------------------------------------------------------------
@@ -164,14 +165,13 @@ func load_purchased_pieces():
 			create_piece(piece_name, Global.Player.BLACK)
 			total_black_pieces += 1
 
-func create_piece(piece_name, player_color):
-	var piece = TextureRect.new()
-	var texture_path = piece_textures.get(piece_name, null)
-	if texture_path and FileAccess.file_exists(texture_path):
-		piece.texture = load(texture_path)
-	else:
-		print("Warning: Texture not found for", piece_name, "Expected:", texture_path)
+func create_piece(piece_name: String, player_color: int):
+	if not piece_textures.has(piece_name):
+		print("⚠️ Error: Missing preloaded texture for", piece_name)
 		return
+
+	var piece = TextureRect.new()
+	piece.texture = piece_textures[piece_name]  # Directly assign preloaded texture
 	piece.mouse_filter = Control.MOUSE_FILTER_STOP
 	piece.position = Vector2(50, 850)
 	piece.z_index = 2
@@ -182,7 +182,7 @@ func create_piece(piece_name, player_color):
 	piece.set_script(load("res://TotalWar/TotalWarScripts/DraggablePiece.gd"))
 	piece.set_meta("player", player_color)
 
-	# e.g. WKing => piece_type = "King"
+	# Extract the piece type (e.g., "WKing" → "King")
 	var piece_type = piece_name.substr(1, piece_name.length() - 1)
 	piece.set_meta("piece_type", piece_type)
 
@@ -191,7 +191,7 @@ func create_piece(piece_name, player_color):
 	else:
 		black_piece_container.add_child(piece)
 
-	print("Created piece:", piece_name, "at", piece.position)
+	print("✅ Created piece:", piece_name, "at", piece.position)
 
 
 # ------------------------------------------------
