@@ -33,4 +33,13 @@ func _on_toggled(toggled_on: bool) -> void:
 
 
 func _on_back_button_pressed() -> void:
+	GameSettings.PlayFischerRandomGame = false
+	GameSettings.PlayRegularGame = false
+	GameSettings.PlayTamerlaneGame = false
+	get_tree().change_scene_to_file("res://scenesMenu/menu.tscn")
+
+func _on_pressed() -> void:
+	GameSettings.PlayFischerRandomGame = false
+	GameSettings.PlayRegularGame = false
+	GameSettings.PlayTamerlaneGame = false
 	get_tree().change_scene_to_file("res://scenesMenu/menu.tscn")
