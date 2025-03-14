@@ -21,7 +21,7 @@ const WHITE_ROOK = preload("res://Tamerlane/LanePieces/Chess_rll45.svg")
 
 const TURN_WHITE = preload("res://Assets/turn-white.png")
 const TURN_BLACK = preload("res://Assets/turn-black.png")
-const PIECE_MOVE = preload("res://Assets/Piece_move.png")
+const PIECE_MOVE = preload("res://Tamerlane/LanePieces/Piece_move_purple.png")
 
 # -- Tamerlane Piece Textures --
 const WHITE_ELEPHANT = preload("res://Tamerlane/LanePieces/Elephant_white_45x45.png")

@@ -243,10 +243,6 @@ theme_override_font_sizes/font_size = 37
 text = "BACK"
 script = ExtResource("5_ygxfw")
 
-[node name="Label" type="Label" parent="Standard_CanvasLayer"]
-offset_right = 40.0
-offset_bottom = 23.0
-
 [node name="Standard_Board" parent="." instance=ExtResource("1_63gbl")]
 
 [connection signal="toggled" from="Standard_CanvasLayer/VSplitContainer/ToggleAI" to="Standard_CanvasLayer/VSplitContainer/ToggleAI" method="_on_toggled"]
