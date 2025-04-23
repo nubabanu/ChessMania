@@ -7,9 +7,15 @@ extends Control
 @onready var black_piece_container = $BlackPieceContainer
 @onready var turn_label = $TurnLabel
 @onready var back_button = $BackButton
+@onready var ai_toggle_button = $AIToggleButton  # Add this button to your scene
 
 var ending_popup_scene = preload("res://scenesMenu/EndingPopup.tscn")
 var ending_popup_instance
+
+# AI variables
+var ai_enabled = false
+var ai_is_thinking = false
+var ai_difficulty = 1  # 1 = easy, 2 = medium, 3 = hard
 
 var white_available_pieces = {}
 var black_available_pieces = {}
@@ -68,13 +74,531 @@ func _ready():
 	ending_popup_instance = ending_popup_scene.instantiate()
 	add_child(ending_popup_instance)
 	back_button.pressed.connect(Global.on_back_pressed)
-
+	
+	# Connect AI toggle button
+	ai_toggle_button = get_node_or_null("AIToggleButton")
+	if ai_toggle_button:
+		ai_toggle_button.toggled.connect(_on_ai_toggle_button_toggled)
+	else:
+		# Create AI toggle button if it doesn't exist in the scene
+		create_ai_toggle_button()
+	
 	create_piece("WKing", Global.Player.WHITE)
 	create_piece("BKing", Global.Player.BLACK)
 	load_purchased_pieces()
 	update_turn_label()
 
 	black_piece_container.visible = false
+
+# Create AI toggle button if it's not already in the scene
+func create_ai_toggle_button():
+	ai_toggle_button = CheckButton.new()
+	ai_toggle_button.text = "AI"
+	ai_toggle_button.position = Vector2(20, 100)  # Position higher on screen to be visible
+	ai_toggle_button.custom_minimum_size = Vector2(120, 50)  # Make it bigger
+	
+	# Create a new theme for the button
+	var button_theme = Theme.new()
+	
+	# Create font
+	var font = load("res://Assets/I-pixel-u.ttf")
+	if font:
+		var font_size = 35
+		ai_toggle_button.add_theme_font_override("font", font)
+		ai_toggle_button.add_theme_font_size_override("font_size", font_size)
+	
+	# Set colors
+	ai_toggle_button.add_theme_color_override("font_color", Color(1, 1, 1, 1))
+	ai_toggle_button.add_theme_color_override("font_pressed_color", Color(0.8, 0.8, 1, 1))
+	
+	# Connect signal and add to scene
+	ai_toggle_button.toggled.connect(_on_ai_toggle_button_toggled)
+	add_child(ai_toggle_button)
+	
+	# Ensure it's at the top of other elements
+	ai_toggle_button.z_index = 10
+	print("AI Toggle Button created and added to scene")
+
+# Updated AI toggle function
+func _on_ai_toggle_button_toggled(button_pressed):
+	ai_enabled = button_pressed
+	
+	# If it's AI's turn after enabling, start AI processing
+	if ai_enabled and Global.turn == Global.Player.BLACK:
+		process_ai_turn()
+
+# AI Functions
+func process_ai_turn():
+	if not ai_enabled or ai_is_thinking:
+		return
+		
+	if game_phase == GamePhase.PLACEMENT:
+		if Global.turn == Global.Player.BLACK:
+			ai_is_thinking = true
+			await get_tree().create_timer(0.5).timeout # Small delay to simulate thinking
+			ai_make_placement()
+			ai_is_thinking = false
+	else: # Play phase
+		if Global.turn == Global.Player.BLACK:
+			ai_is_thinking = true
+			await get_tree().create_timer(1.0).timeout # Slightly longer delay for moves
+			ai_make_move()
+			ai_is_thinking = false
+
+func ai_make_placement():
+	# If AI hasn't purchased pieces yet, do that first
+	if black_available_pieces.is_empty() or black_available_pieces.size() <= 1:
+		ai_purchase_pieces()
+		load_purchased_pieces() # Reload pieces after AI purchases them
+	
+	# Find an available piece to place
+	var available_piece = null
+	for piece in black_piece_container.get_children():
+		if piece.get_meta("occupied_tile") == null:
+			available_piece = piece
+			break
+	
+	if available_piece:
+		var valid_tiles = []
+		
+		# Strategic placement based on piece type
+		var piece_type = available_piece.get_meta("piece_type")
+		
+		for tile in tiles:
+			var row = tile.get_meta("row")
+			var col = tile.get_meta("col")
+			if row < Global.playable_lines and board_state[row][col] == null:
+				# Calculate a strategic score for this position
+				var position_score = calculate_position_score(piece_type, row, col)
+				valid_tiles.append({"tile": tile, "score": position_score})
+		
+		if valid_tiles.size() > 0:
+			# Sort by score if medium or hard difficulty
+			if ai_difficulty >= 2:
+				valid_tiles.sort_custom(func(a, b): return a["score"] > b["score"])
+				var chosen_tile = valid_tiles[0]["tile"]
+				place_piece(available_piece, chosen_tile)
+			else:
+				# On easy, just pick a random tile
+				var chosen_tile = valid_tiles[randi() % valid_tiles.size()]["tile"]
+				place_piece(available_piece, chosen_tile)
+				
+			black_pieces_placed += 1
+			check_black_placement_done()
+
+# Calculate a strategic positioning score for placement
+func calculate_position_score(piece_type: String, row: int, col: int) -> float:
+	var score = 0.0
+	
+	# Center control is generally good
+	var center_distance = abs(col - 3.5)
+	score -= center_distance * 0.5
+	
+	# Pawns are better in front
+	if piece_type == "Pawn":
+		score += row * 0.8
+	
+	# Knights are better toward center
+	elif piece_type == "Knight":
+		score += (4.0 - center_distance) * 1.2
+	
+	# Bishops want diagonals
+	elif piece_type == "Bishop":
+		if (row + col) % 2 == 0:  # Light square bishop
+			score += 1.0
+		else:  # Dark square bishop
+			score += 1.0
+	
+	# Rooks toward the edges or back ranks
+	elif piece_type == "Rook":
+		if col == 0 or col == 7:
+			score += 1.5
+	
+	# Queen centralized but protected
+	elif piece_type == "Queen":
+		score += (3.0 - center_distance) * 0.8
+	
+	# King safety - preferably in corners during placement
+	elif piece_type == "King":
+		if (col <= 1 or col >= 6) and row <= 1:
+			score += 3.0
+	
+	return score
+
+func ai_purchase_pieces():
+	# Strategic AI logic to buy pieces based on available money and difficulty
+	var ai_money = Global.player_money 
+	var piece_costs = {
+		"BPawn": 100,
+		"BRook": 500,
+		"BKnight": 300,
+		"BBishop": 300,
+		"BQueen": 900
+	}
+	
+	# Reset AI purchases
+	Global.black_purchased_pieces = {
+		"BPawn": 0,
+		"BRook": 0, 
+		"BKnight": 0,
+		"BBishop": 0,
+		"BQueen": 0
+	}
+	
+	# Purchase strategy based on difficulty
+	match ai_difficulty:
+		1: # Easy - simple random approach
+			while ai_money >= 100:
+				var rand_choice = randi() % 100
+				if rand_choice < 70 and ai_money >= 100:
+					Global.black_purchased_pieces["BPawn"] += 1
+					ai_money -= 100
+				elif rand_choice < 85 and ai_money >= 300:
+					var piece = ["BKnight", "BBishop"][randi() % 2]
+					Global.black_purchased_pieces[piece] += 1
+					ai_money -= 300
+				elif ai_money >= 500:
+					Global.black_purchased_pieces["BRook"] += 1
+					ai_money -= 500
+		
+		2: # Medium - more balanced approach
+			# Always try to get a queen first on medium difficulty
+			if ai_money >= 900:
+				Global.black_purchased_pieces["BQueen"] += 1
+				ai_money -= 900
+			
+			# Then get some key pieces
+			for piece_type in ["BRook", "BKnight", "BBishop"]:
+				if ai_money >= piece_costs[piece_type]:
+					Global.black_purchased_pieces[piece_type] += 1
+					ai_money -= piece_costs[piece_type]
+			
+			# Spend remaining money on a mixture of pieces
+			while ai_money >= 300:
+				if ai_money >= 500 and randi() % 2 == 0:
+					Global.black_purchased_pieces["BRook"] += 1
+					ai_money -= 500
+				else:
+					var piece = ["BKnight", "BBishop"][randi() % 2]
+					Global.black_purchased_pieces[piece] += 1
+					ai_money -= 300
+			
+			# Use remaining money for pawns
+			while ai_money >= 100:
+				Global.black_purchased_pieces["BPawn"] += 1
+				ai_money -= 100
+				
+		3: # Hard - optimal strategic approach
+			# Always get queen and rook on hard difficulty
+			if ai_money >= 900:
+				Global.black_purchased_pieces["BQueen"] += 1
+				ai_money -= 900
+			
+			if ai_money >= 500:
+				Global.black_purchased_pieces["BRook"] += 1
+				ai_money -= 500
+			
+			# Get knights and bishops for mobility
+			while ai_money >= 300 and (Global.black_purchased_pieces["BKnight"] < 2 or Global.black_purchased_pieces["BBishop"] < 2):
+				if Global.black_purchased_pieces["BKnight"] < Global.black_purchased_pieces["BBishop"]:
+					Global.black_purchased_pieces["BKnight"] += 1
+				else:
+					Global.black_purchased_pieces["BBishop"] += 1
+				ai_money -= 300
+			
+			# Get another rook if possible
+			if ai_money >= 500:
+				Global.black_purchased_pieces["BRook"] += 1
+				ai_money -= 500
+			
+			# Use the rest for pawns for defense
+			while ai_money >= 100:
+				Global.black_purchased_pieces["BPawn"] += 1
+				ai_money -= 100
+	
+	print("AI purchased: ", Global.black_purchased_pieces)
+
+func ai_make_move():
+	# Find all AI pieces that can make valid moves
+	var movable_pieces = []
+	for row in range(8):
+		for col in range(8):
+			var occupant = board_state[row][col]
+			if occupant and occupant["color"] == Global.Player.BLACK:
+				var piece_node = occupant["node"]
+				var legal_moves = get_legal_moves(piece_node)
+				if legal_moves.size() > 0:
+					movable_pieces.append({
+						"piece": piece_node,
+						"moves": legal_moves,
+						"value": get_piece_value(occupant["type"]),
+						"position": [row, col]
+					})
+	
+	if movable_pieces.size() > 0:
+		var piece_info
+		var target_move
+		
+		# Check for check first
+		var king_in_check = is_king_in_check(Global.Player.BLACK)
+		
+		if king_in_check:
+			# Find moves that get us out of check
+			var escape_moves = []
+			for p_info in movable_pieces:
+				for move in p_info["moves"]:
+					escape_moves.append({
+						"piece_info": p_info,
+						"move": move,
+						"score": 1000  # High base score for escaping check
+					})
+			
+			if escape_moves.size() > 0:
+				# If in check, escape is highest priority
+				var best_escape = escape_moves[randi() % escape_moves.size()]
+				piece_info = best_escape["piece_info"]
+				target_move = best_escape["move"]
+			else:
+				# No escape - just make a random move (we're losing)
+				piece_info = movable_pieces[randi() % movable_pieces.size()]
+				target_move = piece_info["moves"][randi() % piece_info["moves"].size()]
+		else:
+			# Not in check, evaluate moves normally
+			if ai_difficulty == 1:  # Easy - random moves
+				piece_info = movable_pieces[randi() % movable_pieces.size()]
+				target_move = piece_info["moves"][randi() % piece_info["moves"].size()]
+			else:  # Medium/Hard - evaluate positions
+				var all_moves = []
+				
+				for p_info in movable_pieces:
+					var piece = p_info["piece"]
+					var piece_type = piece.get_meta("piece_type")
+					
+					for move in p_info["moves"]:
+						var r = move[0]
+						var c = move[1]
+						var move_score = 0.0
+						
+						# Check if capture
+						var target_occupant = get_occupant(r, c)
+						if target_occupant and target_occupant["color"] == Global.Player.WHITE:
+							move_score += get_piece_value(target_occupant["type"]) * 10.0
+						
+						# Positional evaluation based on piece type
+						move_score += evaluate_position(piece_type, r, c)
+						
+						# King safety for hard difficulty
+						if ai_difficulty == 3 and piece_type == "King":
+							move_score += evaluate_king_safety(r, c)
+						
+						all_moves.append({
+							"piece_info": p_info,
+							"move": move,
+							"score": move_score
+						})
+				
+				# Sort by score
+				all_moves.sort_custom(func(a, b): return a["score"] > b["score"])
+				
+				# Pick the best move or a random good move
+				if ai_difficulty == 3 or randf() < 0.7:
+					piece_info = all_moves[0]["piece_info"]
+					target_move = all_moves[0]["move"]
+				else:
+					# Sometimes pick a random move from the top 3 for medium difficulty
+					var index = randi() % min(3, all_moves.size())
+					piece_info = all_moves[index]["piece_info"]
+					target_move = all_moves[index]["move"]
+		
+		# Execute the selected move
+		var piece = piece_info["piece"]
+		var target_row = target_move[0]
+		var target_col = target_move[1]
+		
+		# Find the target tile
+		var target_tile = null
+		for tile in tiles:
+			if tile.get_meta("row") == target_row and tile.get_meta("col") == target_col:
+				target_tile = tile
+				break
+		
+		if target_tile:
+			# Handle capture
+			var occupant = get_occupant(target_row, target_col)
+			if occupant and occupant["color"] != Global.Player.BLACK:
+				var enemy_node = occupant["node"]
+				if enemy_node:
+					enemy_node.queue_free()
+				clear_occupant(target_row, target_col)
+			
+			# Special moves handling
+			var piece_type = piece.get_meta("piece_type")
+			var from_tile = piece.get_meta("occupied_tile")
+			var old_row = from_tile.get_meta("row")
+			var old_col = from_tile.get_meta("col")
+			
+			# Handle castling
+			if piece_type == "King" and abs(target_col - old_col) > 1:
+				handle_ai_castling(old_row, old_col, target_row, target_col)
+			
+			# Handle en passant
+			if piece_type == "Pawn" and abs(target_col - old_col) == 1 and get_occupant(target_row, target_col) == null:
+				var ep_row = old_row
+				var ep_col = target_col
+				var ep_occupant = get_occupant(ep_row, ep_col)
+				if ep_occupant:
+					var ep_node = ep_occupant["node"]
+					if ep_node:
+						ep_node.queue_free()
+					clear_occupant(ep_row, ep_col)
+			
+			move_piece_on_board(piece, target_tile)
+			
+			# Update last move info
+			last_move["from"] = [old_row, old_col]
+			last_move["to"] = [target_row, target_col]
+			last_move["piece"] = get_occupant(target_row, target_col)
+			last_move["two_step"] = false
+			if piece_type == "Pawn" and abs(target_row - old_row) == 2:
+				last_move["two_step"] = true
+			
+			switch_turn()
+
+# Position evaluation function for AI move selection
+func evaluate_position(piece_type: String, row: int, col: int) -> float:
+	var score = 0.0
+	
+	# General positional preferences
+	var center_distance = abs(col - 3.5) + abs(row - 3.5)
+	
+	match piece_type:
+		"Pawn":
+			# Pawns like to advance
+			score += (7 - row) * 0.5
+			# Central pawns are better
+			score -= center_distance * 0.2
+			# Promotion is valuable
+			if row <= 1:
+				score += 8.0
+				
+		"Knight":
+			# Knights prefer central positions
+			score -= center_distance * 0.8
+			# Knights like outposts
+			if row <= 4:
+				score += 0.5
+				
+		"Bishop":
+			# Bishops like diagonals and open positions
+			score -= center_distance * 0.5
+			# Bishops dislike edges
+			if col == 0 or col == 7 or row == 0 or row == 7:
+				score -= 0.8
+				
+		"Rook":
+			# Rooks like open files
+			var open_file = true
+			for r in range(8):
+				if r != row and board_state[r][col] != null:
+					open_file = false
+					break
+			if open_file:
+				score += 1.5
+			# Rooks on 7th rank are strong
+			if row == 1:
+				score += 2.0
+				
+		"Queen":
+			# Queens like mobility
+			score -= center_distance * 0.3
+			# Queens avoid early development
+			if ai_difficulty == 3 and center_distance < 2:
+				score -= 1.0
+				
+		"King":
+			# King safety in early/mid game
+			if row >= 5:
+				score += 1.0
+			# Kings like corners
+			if (col <= 1 or col >= 6) and row >= 6:
+				score += 0.5
+	
+	return score
+
+# Evaluate king safety for the AI
+func evaluate_king_safety(row: int, col: int) -> float:
+	var safety_score = 0.0
+	
+	# Kings are safer near corners
+	if (col <= 1 or col >= 6) and row >= 6:
+		safety_score += 1.5
+	
+	# Count defending pieces around the king
+	var defenders = 0
+	for r in range(max(0, row-1), min(8, row+2)):
+		for c in range(max(0, col-1), min(8, col+2)):
+			if r == row and c == col:
+				continue
+			var occupant = get_occupant(r, c)
+			if occupant and occupant["color"] == Global.Player.BLACK:
+				defenders += 1
+	
+	safety_score += defenders * 0.5
+	
+	return safety_score
+
+# Get the standard value of a chess piece
+func get_piece_value(piece_type: String) -> int:
+	match piece_type:
+		"Pawn": return 1
+		"Knight": return 3
+		"Bishop": return 3
+		"Rook": return 5
+		"Queen": return 9
+		"King": return 100
+		_: return 0
+
+# Handle castling for AI moves
+func handle_ai_castling(old_row, old_col, new_row, new_col):
+	if new_col > old_col: # Kingside
+		var rook = get_occupant(old_row, 7)
+		if rook:
+			clear_occupant(old_row, 7)
+			set_occupant(old_row, 5, rook)
+			var rook_node = rook["node"]
+			if rook_node:
+				var tile_center = tile_container.position
+				tile_center += Vector2(5 * (tile_size.x + tile_spacing.x), old_row * (tile_size.y + tile_spacing.y))
+				tile_center += tile_size / 2
+				rook_node.position = tile_center - rook_node.pivot_offset
+			rook["moved"] = true
+	else: # Queenside
+		var rook = get_occupant(old_row, 0)
+		if rook:
+			clear_occupant(old_row, 0)
+			set_occupant(old_row, 3, rook)
+			var rook_node = rook["node"]
+			if rook_node:
+				var tile_center = tile_container.position
+				tile_center += Vector2(3 * (tile_size.x + tile_spacing.x), old_row * (tile_size.y + tile_spacing.y))
+				tile_center += tile_size / 2
+				rook_node.position = tile_center - rook_node.pivot_offset
+			rook["moved"] = true
+
+# Update existing functions to work with AI
+func switch_turn():
+	if game_phase == GamePhase.PLACEMENT:
+		Global.switch_turn()
+		hide_white_pieces()
+	else:
+		Global.switch_turn()
+		check_for_checkmate_stalemate(Global.turn)
+
+	update_turn_label()
+	
+	# If AI is enabled and it's black's turn, trigger AI processing
+	if ai_enabled and Global.turn == Global.Player.BLACK:
+		process_ai_turn()
 
 # ------------------------------------------------
 # --- BOARD SETUP & UTILITIES --------------------
@@ -839,16 +1363,6 @@ func check_black_placement_done():
 		show_all_pieces()
 		switch_turn()
 		update_turn_label()
-
-func switch_turn():
-	if game_phase == GamePhase.PLACEMENT:
-		Global.switch_turn()
-		hide_white_pieces()
-	else:
-		Global.switch_turn()
-		check_for_checkmate_stalemate(Global.turn)
-
-	update_turn_label()
 
 func update_turn_label():
 	if game_phase == GamePhase.PLACEMENT:
