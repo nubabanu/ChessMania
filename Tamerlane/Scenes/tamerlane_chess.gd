@@ -72,7 +72,6 @@ var amount_of_same : Array = []
 
 
 func _ready():
-        print("pieces is:", pieces) 
         board.clear()
 
         # Tamerlane layout (10 rows, 13 columns), with citadels at columns 0 & 12:
@@ -120,11 +119,9 @@ func is_mouse_out():
 
 
 func display_board():
-        # Clear existing child sprites
         for child in pieces.get_children():
                 child.queue_free() 
 
-        # Loop through board
         for i in BOARD_LENGTH:
                 for j in BOARD_WIDTH:
                         var holder = TEXTURE_HOLDER.instantiate()
@@ -134,7 +131,6 @@ func display_board():
                                 -i * CELL_WIDTH - (CELL_WIDTH / 2)
                         )
                         match board[i][j]:
-                                # Standard
                                 -6: holder.texture = BLACK_KING
                                 -5: holder.texture = BLACK_QUEEN
                                 -4: holder.texture = BLACK_ROOK
@@ -149,7 +145,6 @@ func display_board():
                                 2:  holder.texture = WHITE_KNIGHT
                                 1:  holder.texture = WHITE_PAWN
 
-                                # Tamerlane codes:
                                 -7:  holder.texture = BLACK_ELEPHANT
                                 -8:  holder.texture = BLACK_CAMEL
                                 -9:  holder.texture = BLACK_WAR_ENGINE
@@ -166,8 +161,7 @@ func display_board():
                                 12:  holder.texture = WHITE_GENERAL
                                 13:  holder.texture = WHITE_VIZIER
 
-                                0:
-                                        holder.texture = null
+                                0:   holder.texture = null
 
         if white:
                 turn.texture = TURN_WHITE
@@ -203,23 +197,19 @@ func set_move(var2, var1):
         for i in moves:
                 if i.x == var2 and i.y == var1:
                         fifty_move_rule += 1
-                        # Reset if capturing
                         if is_enemy(Vector2(var2, var1)):
                                 fifty_move_rule = 0
 
                         var moving_piece = board[selected_piece.x][selected_piece.y]
-                        # Place piece
                         board[var2][var1] = moving_piece
                         board[selected_piece.x][selected_piece.y] = 0
 
-                        # If it's the king, update king pos
                         if abs(moving_piece) == 6:
                                 if moving_piece > 0:
                                         white_king_pos = Vector2(var2, var1)
                                 else:
                                         black_king_pos = Vector2(var2, var1)
 
-                                # If occupying opponent's citadel => "win"
                                 if moving_piece > 0 and white_king_pos == Vector2(8, 12):
                                         print("Win: White King occupies Black's citadel!")
                                 elif moving_piece < 0 and black_king_pos == Vector2(1, 0):
@@ -233,7 +223,6 @@ func set_move(var2, var1):
         delete_dots()
         state = false
 
-        # Re-select if we just moved onto a square that still belongs to the same color
         if ((selected_piece.x != var2 or selected_piece.y != var1)
                 and ((white and board[var2][var1] > 0) or (not white and board[var2][var1] < 0))):
                 selected_piece = Vector2(var2, var1)
@@ -244,12 +233,12 @@ func set_move(var2, var1):
                         if (white and is_in_check(white_king_pos)) or (not white and is_in_check(black_king_pos)):
                                 print("CHECKMATE")
                         else:
-                                print("Win")
+                                print("STALEMATE / DRAW")
 
                 if fifty_move_rule == 50:
                         print("DRAW")
-                elif insufficient_material(): # FIXED TYPO HERE
-                        print("DRAW")
+                elif insufficient_material(): 
+                        print("DRAW - Insufficient Material")
 
 
 func get_moves(selected: Vector2):
@@ -277,8 +266,6 @@ func get_pawn_moves(piece_position: Vector2):
         var _moves = []
         var direction = Vector2(1, 0) if white else Vector2(-1, 0)
 
-
-        # Forward 1
         var forward = piece_position + direction
         if is_valid_position(forward) and is_empty(forward):
                 var stored = board[forward.x][forward.y]
@@ -289,7 +276,6 @@ func get_pawn_moves(piece_position: Vector2):
                 board[piece_position.x][piece_position.y] = board[forward.x][forward.y]
                 board[forward.x][forward.y] = stored
 
-        # Capture diagonally
         for side in [1, -1]:
                 var diag = piece_position + Vector2(direction.x, side)
                 if is_valid_position(diag) and is_enemy(diag):
@@ -301,9 +287,7 @@ func get_pawn_moves(piece_position: Vector2):
                                 _moves.append(diag)
                         board[piece_position.x][piece_position.y] = store_me
                         board[diag.x][diag.y] = captured
-
         return _moves
-
 
 # ------------------------------- KNIGHT ------------------------------
 func get_knight_moves(piece_position: Vector2):
@@ -316,7 +300,6 @@ func get_knight_moves(piece_position: Vector2):
                 var pos = piece_position + dir
                 if is_valid_position(pos):
                         if is_empty(pos) or is_enemy(pos):
-                                # simulate
                                 var temp = board[pos.x][pos.y]
                                 var s = board[piece_position.x][piece_position.y]
                                 board[pos.x][pos.y] = s
@@ -326,7 +309,6 @@ func get_knight_moves(piece_position: Vector2):
                                 board[piece_position.x][piece_position.y] = s
                                 board[pos.x][pos.y] = temp
         return _moves
-
 
 # ------------------------------- BISHOP ------------------------------
 func get_bishop_moves(piece_position: Vector2):
@@ -358,7 +340,6 @@ func get_bishop_moves(piece_position: Vector2):
                         pos += direction
         return _moves
 
-
 # ------------------------------- ROOK --------------------------------
 func get_rook_moves(piece_position: Vector2):
         var _moves = []
@@ -389,7 +370,6 @@ func get_rook_moves(piece_position: Vector2):
                         pos += direction
         return _moves
 
-
 # ------------------------------- QUEEN -------------------------------
 func get_queen_moves(piece_position: Vector2):
         var _moves = []
@@ -416,13 +396,12 @@ func get_queen_moves(piece_position: Vector2):
                                 if (white and not is_in_check(white_king_pos)) or (not white and not is_in_check(black_king_pos)):
                                         _moves.append(pos)
                                 board[piece_position.x][piece_position.y] = self_piece
-                                board[pos.x][pos.y] = temp # FIXED: Restored captured piece
+                                board[pos.x][pos.y] = temp 
                                 break
                         else:
                                 break
                         pos += direction
         return _moves
-
 
 # ------------------------------- KING --------------------------------
 func get_king_moves(piece_position: Vector2):
@@ -440,7 +419,6 @@ func get_king_moves(piece_position: Vector2):
                                 board[pos.x][pos.y] = s
                                 board[piece_position.x][piece_position.y] = 0
                                 
-                                # FIXED: Checking `pos` rather than the old `white_king_pos`
                                 if (white and not is_in_check(pos)) or (not white and not is_in_check(pos)):
                                         _moves.append(pos)
                                         
@@ -451,7 +429,6 @@ func get_king_moves(piece_position: Vector2):
 
 # ------------------------------- TAMERLANE PIECES --------------------
 
-# ELEPHANT (Pil) - Leaps exactly 2 squares diagonally
 func get_elephant_moves(piece_position: Vector2):
         var _moves = []
         var directions = [Vector2(2,2), Vector2(2,-2), Vector2(-2,2), Vector2(-2,-2)]
@@ -469,7 +446,6 @@ func get_elephant_moves(piece_position: Vector2):
                                 board[pos.x][pos.y] = temp
         return _moves
 
-# CAMEL (Jamal) - Leaps 3 squares orthogonally, 1 square perpendicularly (Long Knight)
 func get_camel_moves(piece_position: Vector2):
         var _moves = []
         var directions = [
@@ -490,7 +466,6 @@ func get_camel_moves(piece_position: Vector2):
                                 board[pos.x][pos.y] = temp
         return _moves
 
-# WAR ENGINE (Dabbaba) - Leaps exactly 2 squares orthogonally
 func get_war_engine_moves(piece_position: Vector2):
         var _moves = []
         var directions = [Vector2(2,0), Vector2(-2,0), Vector2(0,2), Vector2(0,-2)]
@@ -508,7 +483,6 @@ func get_war_engine_moves(piece_position: Vector2):
                                 board[pos.x][pos.y] = temp
         return _moves
 
-# PICKET (Talia) - Slides diagonally like a bishop, but must move AT LEAST 2 squares
 func get_picket_moves(piece_position: Vector2):
         var _moves = []
         var directions = [Vector2(1,1), Vector2(1,-1), Vector2(-1,1), Vector2(-1,-1)]
@@ -544,7 +518,6 @@ func get_picket_moves(piece_position: Vector2):
                         step += 1
         return _moves
 
-# GIRAFFE (Zurafa) - Moves 1 square diagonally, then SLIDES a minimum of 3 squares orthogonally
 func get_giraffe_moves(piece_position: Vector2):
         var _moves = []
         var arms = [
@@ -586,7 +559,7 @@ func get_giraffe_moves(piece_position: Vector2):
                                 step += 1
         return _moves
 
-# GENERAL (Fers) - Moves exactly 1 square diagonally
+
 func get_general_moves(piece_position: Vector2):
         var _moves = []
         var directions = [Vector2(1,1), Vector2(1,-1), Vector2(-1,1), Vector2(-1,-1)]
@@ -604,7 +577,6 @@ func get_general_moves(piece_position: Vector2):
                                 board[pos.x][pos.y] = temp
         return _moves
 
-# VIZIER (Wazir) - Moves exactly 1 square orthogonally
 func get_vizier_moves(piece_position: Vector2):
         var _moves = []
         var directions = [Vector2(1,0), Vector2(-1,0), Vector2(0,1), Vector2(0,-1)]
@@ -623,7 +595,7 @@ func get_vizier_moves(piece_position: Vector2):
         return _moves
 
 
-# ------------------------------- HELPER FUNCTIONS --------------------
+# ------------------------------- FULLY IMPLEMENTED HELPER FUNCTIONS --------------------
 
 func is_valid_position(pos: Vector2) -> bool:
         return pos.x >= 0 and pos.x < BOARD_LENGTH and pos.y >= 0 and pos.y < BOARD_WIDTH
@@ -635,22 +607,119 @@ func is_enemy(pos: Vector2) -> bool:
         var piece = board[pos.x][pos.y]
         if piece == 0:
                 return false
-        # If it's white's turn, an enemy is negative. If black's turn, enemy is positive.
         return (white and piece < 0) or (not white and piece > 0)
 
-func is_in_check(king_pos: Vector2) -> bool:
-        # NOTE: Needs actual logic to iterate through enemy pieces and check their attack lines against the king
+# Scans the board to see if the king's square is under threat
+func is_in_check(target_pos: Vector2) -> bool:
+        var opponent_is_white = not white
+        
+        for i in range(BOARD_LENGTH):
+                for j in range(BOARD_WIDTH):
+                        var p = board[i][j]
+                        if p != 0:
+                                var is_p_white = p > 0
+                                if is_p_white == opponent_is_white:
+                                        if can_attack(Vector2(i, j), target_pos, p):
+                                                return true
         return false
 
-func threefold_position(current_board: Array):
-        pass # Add your threefold repetition tracking here
+# Evaluates mathematically if a specific piece can hit a target square (without infinite loops)
+func can_attack(from: Vector2, to: Vector2, piece_val: int) -> bool:
+        var dx = to.x - from.x
+        var dy = to.y - from.y
+        var abs_dx = abs(dx)
+        var abs_dy = abs(dy)
+        var type = abs(piece_val)
+        
+        match type:
+                1: # Pawn
+                        var dir_x = 1 if piece_val > 0 else -1
+                        return dx == dir_x and abs_dy == 1
+                2: # Knight
+                        return (abs_dx == 2 and abs_dy == 1) or (abs_dx == 1 and abs_dy == 2)
+                3: # Bishop
+                        if abs_dx == abs_dy: return is_path_clear(from, to, Vector2(sign(dx), sign(dy)))
+                        return false
+                4: # Rook
+                        if dx == 0 or dy == 0: return is_path_clear(from, to, Vector2(sign(dx), sign(dy)))
+                        return false
+                5: # Queen
+                        if abs_dx == abs_dy or dx == 0 or dy == 0: return is_path_clear(from, to, Vector2(sign(dx), sign(dy)))
+                        return false
+                6: # King
+                        return max(abs_dx, abs_dy) == 1
+                7: # Elephant
+                        return abs_dx == 2 and abs_dy == 2
+                8: # Camel
+                        return (abs_dx == 3 and abs_dy == 1) or (abs_dx == 1 and abs_dy == 3)
+                9: # War Engine
+                        return (abs_dx == 2 and dy == 0) or (dx == 0 and abs_dy == 2)
+                10: # Picket
+                        if abs_dx == abs_dy and abs_dx >= 2:
+                                var dir = Vector2(sign(dx), sign(dy))
+                                if not is_empty(from + dir): return false 
+                                return is_path_clear(from + dir, to, dir)
+                        return false
+                11: # Giraffe
+                        if abs_dx == 1 and abs_dy >= 4:
+                                var diag_step = from + Vector2(sign(dx), sign(dy))
+                                if is_empty(diag_step): return is_path_clear(diag_step, to, Vector2(0, sign(dy)))
+                        elif abs_dy == 1 and abs_dx >= 4:
+                                var diag_step = from + Vector2(sign(dx), sign(dy))
+                                if is_empty(diag_step): return is_path_clear(diag_step, to, Vector2(sign(dx), 0))
+                        return false
+                12: # General
+                        return abs_dx == 1 and abs_dy == 1
+                13: # Vizier
+                        return (abs_dx == 1 and dy == 0) or (dx == 0 and abs_dy == 1)
+        return false
 
+# Helper for sliding pieces to ensure they don't clip through other pieces
+func is_path_clear(from: Vector2, to: Vector2, dir: Vector2) -> bool:
+        var curr = from + dir
+        while curr != to:
+                if not is_valid_position(curr): return false
+                if not is_empty(curr): return false
+                curr += dir
+        return true
+
+# Validates standard stalemate rules
 func is_stalemate() -> bool:
-        # Needs logic to iterate over all current player pieces and see if get_moves returns > 0 moves
-        return false
+        for i in range(BOARD_LENGTH):
+                for j in range(BOARD_WIDTH):
+                        var piece = board[i][j]
+                        if (white and piece > 0) or (not white and piece < 0):
+                                var available_moves = get_moves(Vector2(i, j))
+                                if available_moves.size() > 0:
+                                        return false
+        return true
 
+# Tracks threefold repetition rules
+func threefold_position(current_board: Array):
+        var board_state_str = str(current_board)
+        var idx = unique_board_moves.find(board_state_str)
+        if idx != -1:
+                amount_of_same[idx] += 1
+                if amount_of_same[idx] >= 3:
+                        print("DRAW: Threefold Repetition")
+        else:
+                unique_board_moves.append(board_state_str)
+                amount_of_same.append(1)
+
+# Checks for dead games (Kings only)
 func insufficient_material() -> bool:
-        return false
+        var pieces_left = 0
+        for i in range(BOARD_LENGTH):
+                for j in range(BOARD_WIDTH):
+                        var piece = board[i][j]
+                        if piece != 0 and abs(piece) != 6:
+                                pieces_left += 1
+        return pieces_left == 0
 
+# Tamerlane Pawn Promotion 
 func _on_button_pressed(button):
-        pass
+        if promotion_square != null:
+                var color_multiplier = 1 if white else -1
+                board[promotion_square.x][promotion_square.y] = 5 * color_multiplier # Defaults to Queen promotion for now
+                promotion_square = null
+                display_board()
